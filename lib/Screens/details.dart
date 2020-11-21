@@ -6,6 +6,7 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      ////////////////////////////////////////////////////////////
         decoration: new BoxDecoration(
           image:  DecorationImage(
               image: NetworkImage(url),
