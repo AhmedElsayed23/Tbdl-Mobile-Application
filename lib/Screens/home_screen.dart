@@ -1,8 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/widgets/product_Item.dart';
+import '../widgets/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const String route = "Home";
   List urls = [
     'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ',
     'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
@@ -15,7 +19,8 @@ class HomeScreen extends StatelessWidget {
   ];
 
   List categories = [
-    "الكل",
+    "اخري",
+    "خدمات",
     "عربيات و قطع غيار",
     "موبايلات و إكسسورات",
     "كتب",
@@ -24,54 +29,55 @@ class HomeScreen extends StatelessWidget {
     "حيوانات و مستلزماتها",
     "أثاث منزل",
     "ملابس و أحذية",
-    "خدمات",
-    "اخري"
+    "الكل",
   ];
 
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: categories.length - 1,
       length: categories.length,
       child: Scaffold(
-          drawer: Drawer(),
-          appBar: AppBar(
-            bottom: PreferredSize(
-              preferredSize: Size(0, 10),
-              child: Container(
-                child: TabBar(
-                    isScrollable: true,
-                    tabs: categories.map((e) => Text(e)).toList()),
-              ),
+        endDrawer: DrawerItem(),
+        appBar: AppBar(
+          leading: IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          bottom: PreferredSize(
+            preferredSize: Size(0, 10),
+            child: Container(
+              child: TabBar(
+                  isScrollable: true,
+                  tabs: categories.map((e) => Text(e)).toList()),
             ),
-            actions: <Widget>[
-              IconButton(icon: Icon(Icons.search), onPressed: () {}),
-              //IconButton(icon: Icon(Icons.sort), onPressed: () {}),
-            ],
           ),
-          body: TabBarView(
-            children: [
-              StaggeredGridView.countBuilder(
-                crossAxisCount: 4,
-                itemCount: urls.length,
-                itemBuilder: (BuildContext context, int index) => ProductItem(
+        ),
+        body: TabBarView(
+          children: [
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_transit),
+            StaggeredGridView.countBuilder(
+              crossAxisCount: 4,
+              itemCount: urls.length,
+              itemBuilder: (BuildContext context, int index) => InkWell(
+                onTap: () =>Navigator.pushNamed(context, Details.route, arguments: urls[index]),
+                child: ProductItem(
                   index: index,
                   listOfUrl: urls,
                 ),
-                staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
               ),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_transit),
-            ],
-          )),
+              staggeredTileBuilder: (int index) => StaggeredTile.count(2, 3.4),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

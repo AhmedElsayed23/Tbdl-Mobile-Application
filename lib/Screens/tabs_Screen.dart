@@ -10,14 +10,14 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   List<Map<String, Object>> pages;
-  int pageIndex = 0;
+  int pageIndex = 2;
 
   @override
   void initState() {
     pages = [
-      {'page': HomeScreen(), 'name': 'home'},
+      {'page': MessagesScreen(), 'name': 'messages'},
       {'page': AddProductScreen(), 'name': 'add'},
-      {'page': MessagesScreen(), 'name': 'messages'}
+      {'page': HomeScreen(), 'name': 'home'},
     ];
     super.initState();
   }
@@ -41,11 +41,17 @@ class _TabsScreenState extends State<TabsScreen> {
             onTap: select,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text("الصفحة الرئيسية")),
+                icon: Icon(Icons.chat),
+                title: Text("مراسلاتي"),
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.add), title: Text("أضف منتج")),
+                icon: Icon(Icons.add),
+                title: Text("أضف منتج"),
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.chat), title: Text("مراسلاتي")),
+                icon: Icon(Icons.home),
+                title: Text("الصفحة الرئيسية"),
+              ),
             ]),
       ),
       body: pages[pageIndex]['page'],
