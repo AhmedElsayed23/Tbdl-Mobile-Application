@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                   listOfUrl: urls,
                 ),
               ),
-              staggeredTileBuilder: (int index) => StaggeredTile.count(2, 3.4),
+              staggeredTileBuilder: (int index) => StaggeredTile.count(2, MediaQuery.of(context).size.aspectRatio * 7.5),
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
             ),

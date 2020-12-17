@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Screens/addProduct_screen.dart';
+import 'package:gp_version_01/Screens/chooseCategory_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
 import 'package:gp_version_01/Screens/messages_screen.dart';
 
@@ -16,7 +16,7 @@ class _TabsScreenState extends State<TabsScreen> {
   void initState() {
     pages = [
       {'page': MessagesScreen(), 'name': 'messages'},
-      {'page': AddProductScreen(), 'name': 'add'},
+      {'page': ChooseCategoryScreen(), 'name': 'add'},
       {'page': HomeScreen(), 'name': 'home'},
     ];
     super.initState();
