@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Screens/Category%20form%20Screens/formSkeleton_screen.dart';
+import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 
 class ChooseCategoryScreen extends StatelessWidget {
   final List<String> _categories = <String>[

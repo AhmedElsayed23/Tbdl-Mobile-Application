@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Screens/Category%20form%20Screens/formSkeleton_screen.dart';
+import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
+import 'package:gp_version_01/Screens/image_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.route: (context) => HomeScreen(),
         Details.route: (context) => Details(),
         AddItemScreen.route: (context) => AddItemScreen(),
+        ImageScreen.route: (context) => ImageScreen(),
       },
     );
   }

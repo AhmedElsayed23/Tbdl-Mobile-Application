@@ -9,22 +9,22 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      shape: RoundedRectangleBorder(
+      /*shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
-      ),
+      ),*/
       child: Container(
-        decoration: BoxDecoration(
+        /*decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-        ),
+        ),*/
         child: Column(
           children: <Widget>[
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                 /* borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
-                  ),
+                  ),*/
                   child: Image.network(
                     listOfUrl[index],
                     fit: BoxFit.cover,

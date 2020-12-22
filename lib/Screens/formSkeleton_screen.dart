@@ -36,7 +36,6 @@ class AddItemScreen extends StatelessWidget {
 
   Widget _buildTitle() {
     return TextFormField(
-      textAlign: TextAlign.end,
       decoration: InputDecoration(
         labelText: 'اسم المنتج',
       ),
@@ -55,7 +54,6 @@ class AddItemScreen extends StatelessWidget {
 
   Widget _buildDescription() {
     return TextFormField(
-      textAlign: TextAlign.end,
       decoration: InputDecoration(labelText: 'وصف'),
       validator: (String value) {
         if (value.isEmpty) {
@@ -72,7 +70,6 @@ class AddItemScreen extends StatelessWidget {
   Widget _buildOwnerName() {
     return TextFormField(
       maxLength: 30,
-      textAlign: TextAlign.end,
       decoration: InputDecoration(labelText: 'اسم مالك المنتج'),
       validator: (String value) {
         if (value.isEmpty) {
@@ -92,7 +89,6 @@ class AddItemScreen extends StatelessWidget {
       textForFields.add(
         TextFormField(
           maxLength: 30,
-          textAlign: TextAlign.end,
           decoration: InputDecoration(labelText: property),
           validator: (String value) {
             if (value.isEmpty) {
@@ -110,9 +106,7 @@ class AddItemScreen extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    return ImageInput((File img) {
-      imageFile = img;
-    });
+    return ImageMultiple();
   }
 
   List<String> getProperties(String category) {
