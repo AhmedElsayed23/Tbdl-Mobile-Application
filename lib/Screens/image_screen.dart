@@ -17,7 +17,7 @@ class ImageScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.black,
             title: Text(
-              "سماعة بلوتوث سامسونج اصلية ربنا يعني علي المهلبية اللي  في دماغي ديه ههه هاي قهلج ",
+              "سماعة بلوتوث سامسونج اصلية ",
               maxLines: 2,
               textAlign: TextAlign.end,
             ),

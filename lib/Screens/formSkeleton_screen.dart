@@ -1,6 +1,10 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/animalsProvider.dart';
+import 'package:gp_version_01/models/Categories/animals.dart';
+import 'package:gp_version_01/models/items.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
 
 class AddItemScreen extends StatelessWidget {
@@ -11,6 +15,7 @@ class AddItemScreen extends StatelessWidget {
   String productOwner;
   File imageFile;
 
+  List<File> imagesFiles = List<File>();
   List<String> servicesProperties = ["نوع الخدمة"];
   List<String> carsProperties = [
     "الناقل الحركى",
@@ -27,7 +32,7 @@ class AddItemScreen extends StatelessWidget {
   List<String> bookProperties = ["نوع الكتاب"];
   List<String> gamesProperties = ["النوع"];
   List<String> electricDevicesProperties = ["الماركة"];
-  List<String> animalsProperties = ["نوع الحيوان"];
+  List<String> animalsProperties = ["نوع الحيوان", "السن"];
   List<String> homeProperties = ["نوع الاثاث"];
   List<String> clothesProperties = ["نوع الملبس"];
   List<String> othersProperties = ["النوع"];
@@ -106,7 +111,7 @@ class AddItemScreen extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    return ImageMultiple();
+    return ImageMultiple(imagesFiles);
   }
 
   List<String> getProperties(String category) {
@@ -137,6 +142,7 @@ class AddItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     String category = ModalRoute.of(context).settings.arguments;
     List<String> listOfAddedProperties = getProperties(category);
 
@@ -164,6 +170,16 @@ class AddItemScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.blue, fontSize: 16),
                   ),
                   onPressed: () {
+                    Items item = new Animals(
+                      age: 9,
+                      animalType: "horse",
+                      descreption: "cdsfdhgfd",
+                      itemOwner: "lol",
+                      title: "cat lol",
+                      date: DateTime.now(),
+                      imageFiles: imagesFiles,
+                    );
+                    AnimalsProvider().createRecord(item);
                     if (!_formKey.currentState.validate()) {
                       return;
                     }

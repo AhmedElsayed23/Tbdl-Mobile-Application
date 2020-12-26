@@ -6,6 +6,6 @@ class MessagesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ImageMultiple();
+    return null;
   }
 }

@@ -9,22 +9,22 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      /*shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),*/
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       child: Container(
-        /*decoration: BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-        ),*/
+        ),
         child: Column(
           children: <Widget>[
             Stack(
               children: [
                 ClipRRect(
-                 /* borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),*/
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
                   child: Image.network(
                     listOfUrl[index],
                     fit: BoxFit.cover,
@@ -47,7 +47,7 @@ class ProductItem extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "سماعه بلوتوث شقيه جدا",
+                    "سماعه بلوتوث",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20.0,
