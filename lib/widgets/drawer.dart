@@ -12,7 +12,7 @@ class DrawerItem extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         // Set the transparency here
-        canvasColor: Colors.white.withOpacity(0.5), //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+        canvasColor: Colors.white.withOpacity(0.3), //or any other color you want. e.g Colors.blue.withOpacity(0.5)
       ),
       child: Drawer(
         child: Stack(
@@ -25,7 +25,7 @@ class DrawerItem extends StatelessWidget {
                         5.0), //this is dependent on the import statment above
                 child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.4)),),),
+                        color: Colors.white.withOpacity(1)),),),
             Container(
               margin: EdgeInsets.only(top: 80),
               child: Column(
@@ -34,8 +34,7 @@ class DrawerItem extends StatelessWidget {
                     height: 20,
                   ),
                   CircleAvatar(
-                    backgroundColor: Colors.black,
-                    radius: 85,
+                    radius: 40,
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(
                           'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ'),
@@ -53,7 +52,7 @@ class DrawerItem extends StatelessWidget {
                     ),
                     title: Text(
                       "اقترحلي",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
+                      // style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.right,
                     ),
                     onTap: () {
@@ -75,7 +74,7 @@ class DrawerItem extends StatelessWidget {
                     ),
                     title: Text(
                       "مفضلتي",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
+                      // style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.right,
                     ),
                     onTap: () {},
@@ -95,7 +94,7 @@ class DrawerItem extends StatelessWidget {
                     ),
                     title: Text(
                       "الضبط",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
+                      // style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.right,
                     ),
                     onTap: () {},
@@ -115,10 +114,10 @@ class DrawerItem extends StatelessWidget {
                     ),
                     title: Text(
                       "تسجيل خروج",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
+                      // style: TextStyle(
+                      //   color: Colors.black,
+                      //   fontSize: 20,
+                      // ),
                       textAlign: TextAlign.right,
                     ),
                     onTap: () {},

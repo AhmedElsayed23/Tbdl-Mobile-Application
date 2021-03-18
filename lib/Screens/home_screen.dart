@@ -1,9 +1,12 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
+import 'package:gp_version_01/Screens/favorites_screen.dart';
+import 'package:gp_version_01/Screens/myProducts_screen.dart';
+import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/widgets/product_Item.dart';
 import '../widgets/drawer.dart';
+import 'chooseCategory_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String route = "Home";
@@ -39,6 +42,10 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         endDrawer: DrawerItem(),
         appBar: AppBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          toolbarHeight: 100,
           leading: IconButton(icon: Icon(Icons.search), onPressed: () {}),
           bottom: PreferredSize(
             preferredSize: Size(0, 10),
@@ -61,19 +68,84 @@ class HomeScreen extends StatelessWidget {
             Icon(Icons.directions_bike),
             Icon(Icons.directions_transit),
             Icon(Icons.directions_transit),
-            StaggeredGridView.countBuilder(
-              crossAxisCount: 4,
-              itemCount: urls.length,
-              itemBuilder: (BuildContext context, int index) => InkWell(
-                onTap: () =>Navigator.pushNamed(context, Details.route, arguments: urls[index]),
-                child: ProductItem(
-                  index: index,
-                  listOfUrl: urls,
+            Column(
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, ChooseCategoryScreen.route);
+                            },
+                            child: Icon(
+                              Icons.add_box_outlined,
+                            )),
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, Favorites.route);
+                            },
+                            child: Icon(
+                              Icons.favorite,
+                            )),
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, Recommend.route);
+                            },
+                            child: Icon(
+                              Icons.recommend,
+                            )),
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, MyProducts.route);
+                            },
+                            child: Icon(
+                              Icons.my_library_add,
+                            )),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          'جميع الفئات',
+                        ),
+                        Text(
+                          'مفضلتى',
+                        ),
+                        Text(
+                          'مقترح لك',
+                        ),
+                        Text(
+                          'منتجاتى',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              staggeredTileBuilder: (int index) => StaggeredTile.count(2, MediaQuery.of(context).size.aspectRatio * 7.5),
-              //mainAxisSpacing: 5,
-              //crossAxisSpacing: 5,
+                Expanded(
+                  child: StaggeredGridView.countBuilder(
+                    crossAxisCount: 4,
+                    itemCount: urls.length,
+
+                    itemBuilder: (BuildContext context, int index) => InkWell(
+                      onTap: () => Navigator.pushNamed(context, Details.route,
+                          arguments: urls[index]),
+                      child: ProductItem(
+                        index: index,
+                        listOfUrl: urls,
+                      ),
+                    ),
+
+                    staggeredTileBuilder: (int index) => StaggeredTile.count(
+                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
+                    //mainAxisSpacing: 5,
+                    //crossAxisSpacing: 5,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

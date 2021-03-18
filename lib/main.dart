@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
+import 'package:gp_version_01/Screens/make_offer.dart';
+import 'package:gp_version_01/Screens/myProducts_screen.dart';
+import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+
+import 'Screens/ChatDetailPage.dart';
+import 'Screens/chooseCategory_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,8 +23,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        accentColor: Colors.cyan[600],
+        primaryColor: Colors.white,
+        accentColor: Colors.purple,
 
         // Define the default font family.
         fontFamily: 'Georgia',
@@ -36,6 +43,12 @@ class MyApp extends StatelessWidget {
         Details.route: (context) => Details(),
         AddItemScreen.route: (context) => AddItemScreen(),
         ImageScreen.route: (context) => ImageScreen(),
+        ChooseCategoryScreen.route: (context) => ChooseCategoryScreen(),
+        Favorites.route: (context) => Favorites(),
+        Recommend.route: (context) => Recommend(),
+        MyProducts.route: (context) => MyProducts(),
+        MakeOffer.route: (context) => MakeOffer(),
+        ChatDetailPage.route: (context) => ChatDetailPage(),
       },
     );
   }

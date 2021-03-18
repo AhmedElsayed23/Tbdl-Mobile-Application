@@ -1,9 +1,76 @@
 import 'package:flutter/material.dart';
 
-class ProductItem extends StatelessWidget {
+class MyProducts_items extends StatelessWidget {
   final int index;
   final listOfUrl;
-  ProductItem({this.index, this.listOfUrl});
+  MyProducts_items({this.index, this.listOfUrl});
+
+  void _showSheet(BuildContext context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        ),
+        context: context,
+        //isScrollControlled: true,
+        builder: (_) {
+          return SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.expand_more,
+                  color: Theme.of(context).accentColor,
+                ),
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FlatButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.delete,
+                              )),
+                          FlatButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.update,
+                              )),
+                          FlatButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.local_offer,
+                              )),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            ' حذف',
+                          ),
+                          Text(
+                            'تعديل',
+                          ),
+                          Text(
+                            'العروض',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -35,8 +102,10 @@ class ProductItem extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: IconButton(
-                    icon: Icon(Icons.star_border, color: Colors.white),
-                    onPressed: () {},
+                    icon: Icon(Icons.menu, color: Colors.white),
+                    onPressed: () {
+                      _showSheet(context);
+                    },
                   ),
                 )
               ],

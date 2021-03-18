@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gp_version_01/Screens/ChatDetailPage.dart';
+import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+import 'package:gp_version_01/widgets/myProducts.dart';
 
 class Details extends StatefulWidget {
   static const String route = "/details";
@@ -14,6 +18,17 @@ class _DetailsState extends State<Details> {
         'يمكن للطاقة أن تأخذ أشكالًا متنوعة منها طاقة حرارية، كيميائية، كهربائية، إشعاعية، نووية، طاقة كهرومغناطيسية، وطاقة حركية. هذه الأنواع من الطاقة يمكن تصنيفها بكونها طاقة حركية أو طاقة كامنة، في حين أن بعضها يمكن أن يكون مزيجًا من الطاقتين الكامنة والحركية معًا، وهذا يدرس في الديناميكا الحرارية.',
     'مكان': 'زهراء السلام'
   };
+  List urls = [
+    'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ',
+    'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
+    'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&w=1000&q=80&fbclid=IwAR3VTlMP89trSaXlkUt_Yu7VNQi4QrnjpUaAsbIEf7ypZLijJJZmRH_BOk8',
+    'https://creativepro.com/wp-content/uploads/2019/05/imagetext01.jpg?fbclid=IwAR2qxe1wN3zDmStGv0GJdQZ6y0cda7R0DRjjXM-rMDvfgp5jMIJXE5_lKJA',
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg?fbclid=IwAR3gUBIwQLcxRUdR94YSUOKft-Ms4BKfulq2BrtbmvjxvRcFf1Zx9jIbfwo',
+    'https://i.pinimg.com/originals/82/c2/8a/82c28a10da93fae1360986a3823fdf11.jpg?fbclid=IwAR0YL6lWpuhxl8u5hxhL-Alz52dpAH7eCoAs8VPv78VD_OnWnkgnEKAU5kk',
+    'https://cdn.pocket-lint.com/r/s/1200x/assets/images/151442-cameras-feature-stunning-photos-from-the-national-sony-world-photography-awards-2020-image1-evuxphd3mr.jpg',
+    'https://images.unsplash.com/photo-1535463731090-e34f4b5098c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR0d_7wLBsYR1ADCQKvhthAQBYwhXn8GM2Akl9b4wpa3bOX94TMQN3z-igs',
+  ];
+
   @override
   Widget build(BuildContext context) {
     String url = ModalRoute.of(context).settings.arguments;
@@ -23,7 +38,7 @@ class _DetailsState extends State<Details> {
       'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
     ];
     return Scaffold(
-        backgroundColor: Colors.amber[50],
+        backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -66,10 +81,10 @@ class _DetailsState extends State<Details> {
                           padding: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
                             ),
-                            color: Colors.black54,
+                            color: Colors.purple[100],
                           ),
                           width: double.infinity,
                           child: Text(
@@ -77,7 +92,8 @@ class _DetailsState extends State<Details> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.purple),
                             softWrap: true,
                           ),
                         ),
@@ -99,6 +115,9 @@ class _DetailsState extends State<Details> {
                       children: <Widget>[
                         Card(
                           margin: EdgeInsets.all(7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           elevation: 3,
                           child: Padding(
                             padding: EdgeInsets.all(10),
@@ -118,6 +137,9 @@ class _DetailsState extends State<Details> {
                         Divider(color: Colors.black45),
                         Card(
                           margin: EdgeInsets.all(7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           elevation: 1,
                           child: Padding(
                             padding: EdgeInsets.all(10),
@@ -150,24 +172,38 @@ class _DetailsState extends State<Details> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 heroTag: "left",
-                backgroundColor: Colors.amber[900],
-                onPressed: () {},
+                backgroundColor: Colors.purple,
+                onPressed: () {
+                  Navigator.pushNamed(context, MakeOffer.route);
+                },
                 label: Text("قدم عرض"),
               ),
               FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 heroTag: "middle",
-                backgroundColor: Colors.green[500],
+                backgroundColor: Colors.purple[100],
                 onPressed: null,
                 child: Icon(
                   Icons.phone,
+                  color: Colors.purple,
                 ),
               ),
               FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 heroTag: 'right',
-                backgroundColor: Colors.amber[900],
-                onPressed: () {},
-                label: Text("تكلم معه"),
+                backgroundColor: Colors.purple,
+                onPressed: () {
+                  Navigator.pushNamed(context, ChatDetailPage.route);
+                },
+                label: Text("راسله"),
               ),
             ])
 

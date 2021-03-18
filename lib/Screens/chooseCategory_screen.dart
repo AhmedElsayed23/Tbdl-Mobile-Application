@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 
 class ChooseCategoryScreen extends StatelessWidget {
+  static const String route = "allCategory";
   final List<String> _categories = <String>[
     "خدمات",
     "عربيات و قطع غيار",
@@ -18,7 +19,9 @@ class ChooseCategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("جميع الفئات"),
+      ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: _categories.length,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Screens/chooseCategory_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
-import 'package:gp_version_01/Screens/messages_screen.dart';
+import 'chat_screen.dart';
+import 'formSkeleton_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -15,8 +16,8 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     pages = [
-      {'page': MessagesScreen(), 'name': 'messages'},
-      {'page': ChooseCategoryScreen(), 'name': 'add'},
+      {'page': ChatPage(), 'name': 'messages'},
+      {'page': AddItemScreen(), 'name': 'add'},
       {'page': HomeScreen(), 'name': 'home'},
     ];
     super.initState();
@@ -35,22 +36,22 @@ class _TabsScreenState extends State<TabsScreen> {
         height: 65,
         child: BottomNavigationBar(
             backgroundColor: Theme.of(context).primaryColor,
-            selectedItemColor: Colors.amber,
-            unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.purple,
+            unselectedItemColor: Colors.black,
             currentIndex: pageIndex,
             onTap: select,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.chat),
-                title: Text("مراسلاتي"),
+                label: "مراسلاتي",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                title: Text("أضف منتج"),
+                icon: Icon(Icons.add_box_rounded),
+                label: "أضف منتج",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                title: Text("الصفحة الرئيسية"),
+                label: "الصفحة الرئيسية",
               ),
             ]),
       ),

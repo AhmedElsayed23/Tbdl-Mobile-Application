@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ProductItem extends StatelessWidget {
+class MyOffers extends StatelessWidget {
   final int index;
   final listOfUrl;
-  ProductItem({this.index, this.listOfUrl});
+  MyOffers({this.index, this.listOfUrl});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,14 +31,6 @@ class ProductItem extends StatelessWidget {
                     width: double.infinity,
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: IconButton(
-                    icon: Icon(Icons.star_border, color: Colors.white),
-                    onPressed: () {},
-                  ),
-                )
               ],
             ),
             Container(
