@@ -11,6 +11,8 @@ import 'package:gp_version_01/Screens/image_screen.dart';
 
 import 'Screens/ChatDetailPage.dart';
 import 'Screens/chooseCategory_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -21,21 +23,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        // Define the default brightness and colors.
+        tabBarTheme: TabBarTheme(labelStyle: GoogleFonts.cairo()),
+        buttonColor: Colors.orange[900],
         brightness: Brightness.light,
+
         primaryColor: Colors.white,
-        accentColor: Colors.purple,
+        accentColor: Colors.orange[900],
+        textTheme: GoogleFonts.cairoTextTheme(),
 
-        // Define the default font family.
-        fontFamily: 'Georgia',
-
-        // Define the default TextTheme. Use this to specify the default
-        // text styling for headlines, titles, bodies of text, and more.
-        textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        ),
       ),
       routes: {
         "/": (context) => TabsScreen(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
             child: Container(
               child: TabBar(
                   isScrollable: true,
-                  tabs: categories.map((e) => Text(e)).toList()),
+                  tabs: categories.map((e) => Text(e, style: GoogleFonts.cairo(),)).toList()),
             ),
           ),
         ),
@@ -81,14 +82,18 @@ class HomeScreen extends StatelessWidget {
                                   context, ChooseCategoryScreen.route);
                             },
                             child: Icon(
-                              Icons.add_box_outlined,
+                              Icons.category_outlined,
+                              color: Colors.orange[900],
+                              size: 40,
                             )),
                         FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(context, Favorites.route);
                             },
                             child: Icon(
-                              Icons.favorite,
+                              Icons.favorite_border_outlined,
+                              color: Colors.orange[900],
+                              size: 40,
                             )),
                         FlatButton(
                             onPressed: () {
@@ -96,13 +101,17 @@ class HomeScreen extends StatelessWidget {
                             },
                             child: Icon(
                               Icons.recommend,
+                              color: Colors.orange[900],
+                              size: 40,
                             )),
                         FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(context, MyProducts.route);
                             },
                             child: Icon(
-                              Icons.my_library_add,
+                              Icons.business_center_outlined,
+                              color: Colors.orange[900],
+                              size: 40,
                             )),
                       ],
                     ),
@@ -110,16 +119,16 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(
-                          'جميع الفئات',
+                          'جميع الفئات ',
                         ),
                         Text(
-                          'مفضلتى',
+                          'مفضلتى    ',
                         ),
                         Text(
                           'مقترح لك',
                         ),
                         Text(
-                          'منتجاتى',
+                          'منتجاتى     ',
                         ),
                       ],
                     ),

@@ -45,7 +45,7 @@ class _DetailsState extends State<Details> {
               actions: <Widget>[
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.report_problem, color: Colors.amber[200]),
+                  icon: Icon(Icons.report_problem, color: Colors.red),
                 ),
                 IconButton(
                   onPressed: () {},
@@ -84,7 +84,7 @@ class _DetailsState extends State<Details> {
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
                             ),
-                            color: Colors.purple[100],
+                            color: Colors.orange[100],
                           ),
                           width: double.infinity,
                           child: Text(
@@ -93,7 +93,7 @@ class _DetailsState extends State<Details> {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style:
-                                TextStyle(fontSize: 18, color: Colors.purple),
+                                TextStyle(fontSize: 18, color: Colors.orange[900]),
                             softWrap: true,
                           ),
                         ),
@@ -168,44 +168,64 @@ class _DetailsState extends State<Details> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FloatingActionButton.extended(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+        floatingActionButton: Container(
+          color: Colors.white,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: FloatingActionButton.extended(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      heroTag: "left",
+                      backgroundColor: Colors.orange[900],
+                      onPressed: () {
+                        Navigator.pushNamed(context, MakeOffer.route);
+                      },
+                      label: Text("قدم عرض"),
+                    ),
+                  ),
                 ),
-                heroTag: "left",
-                backgroundColor: Colors.purple,
-                onPressed: () {
-                  Navigator.pushNamed(context, MakeOffer.route);
-                },
-                label: Text("قدم عرض"),
-              ),
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                SizedBox(
+                  height: 40,
+                  child: FloatingActionButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    heroTag: "middle",
+                    backgroundColor: Colors.orange[100],
+                    onPressed: null,
+                    child: Icon(
+                      Icons.phone,
+                      color: Colors.orange[900],
+                    ),
+                  ),
                 ),
-                heroTag: "middle",
-                backgroundColor: Colors.purple[100],
-                onPressed: null,
-                child: Icon(
-                  Icons.phone,
-                  color: Colors.purple,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: FloatingActionButton.extended(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      heroTag: 'right',
+                      backgroundColor: Colors.orange[900],
+                      onPressed: () {
+                        Navigator.pushNamed(context, ChatDetailPage.route);
+                      },
+                      label: Text("راسله"),
+                    ),
+                  ),
                 ),
-              ),
-              FloatingActionButton.extended(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                heroTag: 'right',
-                backgroundColor: Colors.purple,
-                onPressed: () {
-                  Navigator.pushNamed(context, ChatDetailPage.route);
-                },
-                label: Text("راسله"),
-              ),
-            ])
+              ]),
+        )
 
         /*bottomNavigationBar: Container(
         child: Row(

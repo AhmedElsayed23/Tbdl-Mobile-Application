@@ -102,7 +102,7 @@ class MyProducts_items extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: IconButton(
-                    icon: Icon(Icons.menu, color: Colors.white),
+                    icon: Icon(Icons.more_vert, color: Colors.white),
                     onPressed: () {
                       _showSheet(context);
                     },
