@@ -5,8 +5,8 @@ class ChooseCategoryScreen extends StatelessWidget {
   static const String route = "allCategory";
   final List<String> _categories = <String>[
     "خدمات",
-    "عربيات و قطع غيار",
-    "موبايلات و إكسسورات",
+    "سيارات",
+    "موبايلات",
     "كتب",
     "ألعاب إلكترونية",
     "أجهزة كهربائية",
@@ -27,7 +27,7 @@ class ChooseCategoryScreen extends StatelessWidget {
         itemCount: _categories.length,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () =>Navigator.pushNamed(context, (AddItemScreen.route), arguments: _categories[index]),
+            onTap: () => Navigator.pushNamed(context, (AddItemScreen.route), arguments: _categories[index]),
             child: Container(
               height: 100,
               child: Card(
