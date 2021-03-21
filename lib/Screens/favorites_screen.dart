@@ -20,7 +20,7 @@ class Favorites extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("المفضلة"),
+        title: Text("المفضلة", style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 4,

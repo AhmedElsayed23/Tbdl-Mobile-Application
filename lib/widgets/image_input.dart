@@ -13,22 +13,23 @@ class ImageMultiple extends StatefulWidget {
 
 class _ImageMultipleState extends State<ImageMultiple> {
   List<Asset> images = List<Asset>();
-  
+
   @override
   void initState() {
     super.initState();
   }
 
   Future getImageFileFromAssets() async {
-    for(int i = 0; i < images.length; i++){
-       final byteData = await images[i].getByteData();
-    final tempFile =File("${(await getTemporaryDirectory()).path}/${images[i].name}");
-    final file = await tempFile.writeAsBytes(
-      byteData.buffer
-          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
-    );
-    widget.files.add(file);
-    print(file);
+    for (int i = 0; i < images.length; i++) {
+      final byteData = await images[i].getByteData();
+      final tempFile =
+          File("${(await getTemporaryDirectory()).path}/${images[i].name}");
+      final file = await tempFile.writeAsBytes(
+        byteData.buffer
+            .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
+      );
+      widget.files.add(file);
+      print(file);
     }
   }
 
@@ -56,41 +57,51 @@ class _ImageMultipleState extends State<ImageMultiple> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          height: 100,
-          child: images.length != 0
-              ? GridView.count(
-                  scrollDirection: Axis.horizontal,
-                  crossAxisCount: 1,
-                  children: List.generate(
-                    images.length,
-                    (index) {
-                      Asset asset = images[index];
-                      return AssetThumb(
-                        asset: asset,
-                        width: 300,
-                        height: 300,
-                      );
-                    },
-                  ),
-                )
-              : Image.asset("assets/no-image-icon-6.png"),
-        ),
-        RaisedButton.icon(
-          onPressed: pickImages,
-          icon: Icon(
-            Icons.camera_alt_outlined,
-            size: 40,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 100,
+            child: images.length != 0
+                ? GridView.count(
+                    scrollDirection: Axis.horizontal,
+                    crossAxisCount: 1,
+                    children: List.generate(
+                      images.length,
+                      (index) {
+                        Asset asset = images[index];
+                        return AssetThumb(
+                          asset: asset,
+                          width: 300,
+                          height: 300,
+                        );
+                      },
+                    ),
+                  )
+                : Image.asset("assets/no-image-icon-6.png"),
           ),
-          label: Text(
-            'اختر الصوره',
-            textAlign: TextAlign.center,
+          SizedBox(
+            height: 40,
+            width: 150,
+            child: RaisedButton.icon(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              onPressed: pickImages,
+              icon: Icon(
+                Icons.camera_alt_outlined,
+                size: 40,
+              ),
+              label: Text(
+                'اختر الصوره',
+                textAlign: TextAlign.center,
+              ),
+              textColor: Theme.of(context).primaryColor,
+            ),
           ),
-          textColor: Theme.of(context).primaryColor,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

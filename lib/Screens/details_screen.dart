@@ -84,7 +84,7 @@ class _DetailsState extends State<Details> {
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
                             ),
-                            color: Colors.orange[100],
+                            color: Colors.blue[100],
                           ),
                           width: double.infinity,
                           child: Text(
@@ -92,8 +92,8 @@ class _DetailsState extends State<Details> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.orange[900]),
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.blue[400]),
                             softWrap: true,
                           ),
                         ),
@@ -183,11 +183,11 @@ class _DetailsState extends State<Details> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       heroTag: "left",
-                      backgroundColor: Colors.orange[900],
+                      backgroundColor: Colors.blue[400],
                       onPressed: () {
                         Navigator.pushNamed(context, MakeOffer.route);
                       },
-                      label: Text("قدم عرض"),
+                      label: Text("قدم عرض", style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ),
@@ -198,11 +198,11 @@ class _DetailsState extends State<Details> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     heroTag: "middle",
-                    backgroundColor: Colors.orange[100],
+                    backgroundColor: Colors.blue[100],
                     onPressed: null,
                     child: Icon(
                       Icons.phone,
-                      color: Colors.orange[900],
+                      color: Colors.blue[400],
                     ),
                   ),
                 ),
@@ -216,11 +216,14 @@ class _DetailsState extends State<Details> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       heroTag: 'right',
-                      backgroundColor: Colors.orange[900],
+                      backgroundColor: Colors.blue[400],
                       onPressed: () {
                         Navigator.pushNamed(context, ChatDetailPage.route);
                       },
-                      label: Text("راسله"),
+                      label: Text(
+                        "راسله",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),

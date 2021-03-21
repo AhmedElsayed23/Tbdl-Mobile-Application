@@ -20,47 +20,68 @@ class AddItemScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitle() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextFormField(
-        textAlign: TextAlign.right,
-        decoration: InputDecoration(
-          labelText: 'اسم المنتج',
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: TextFormField(
+          textAlign: TextAlign.right,
+          decoration: InputDecoration(
+            labelText: 'اسم المنتج',
+            labelStyle: TextStyle(color: Colors.black54),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue[400]),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue[400]),
+            ),
+          ),
+          maxLength: 30,
+          validator: (String value) {
+            if (value.isEmpty) {
+              return 'اسم المنتج مطلوب';
+            }
+            return null;
+          },
+          onSaved: (String value) {
+            title = value;
+          },
         ),
-        maxLength: 30,
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'اسم المنتج مطلوب';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-          title = value;
-        },
       ),
     );
   }
 
   Widget _buildDescription() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: TextFormField(
-        maxLines: 3,
-        textAlign: TextAlign.right,
-        decoration: InputDecoration(labelText: 'وصف'),
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'وصف المنتج مطلوب';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-          description = value;
-        },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: TextFormField(
+          maxLines: 3,
+          textAlign: TextAlign.right,
+          decoration: InputDecoration(
+            labelText: 'الوصف',
+            labelStyle: TextStyle(color: Colors.black54),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue[400]),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue[400]),
+            ),
+          ),
+          validator: (String value) {
+            if (value.isEmpty) {
+              return 'وصف المنتج مطلوب';
+            }
+            return null;
+          },
+          onSaved: (String value) {
+            description = value;
+          },
+        ),
       ),
     );
   }
-
 
   Widget _buildImage() {
     return ImageMultiple(imagesFiles);
@@ -70,7 +91,7 @@ class AddItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     return Scaffold(
-      appBar: AppBar(title: Text("Form Demo")),
+      appBar: AppBar(title: Text("اضف منتج", style: TextStyle(fontWeight: FontWeight.bold),)),
       body: Container(
         margin: EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -83,28 +104,36 @@ class AddItemScreen extends StatelessWidget {
                 _buildTitle(),
                 _buildDescription(),
                 DropListCategories(),
-                SizedBox(height: 100),
-                RaisedButton(
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
+
+                SizedBox(height: 50),
+                SizedBox(
+                  height: 40,
+                  width: 150,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    child: Text(
+                      'قدم',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    onPressed: () {
+                      Items item = new Animals(
+                        age: 9,
+                        animalType: "horse",
+                        descreption: "cdsfdhgfd",
+                        itemOwner: "lol",
+                        title: "cat lol",
+                        date: DateTime.now(),
+                        imageFiles: imagesFiles,
+                      );
+                      AnimalsProvider().createRecord(item);
+                      if (!_formKey.currentState.validate()) {
+                        return;
+                      }
+                      _formKey.currentState.save();
+                    },
                   ),
-                  onPressed: () {
-                    Items item = new Animals(
-                      age: 9,
-                      animalType: "horse",
-                      descreption: "cdsfdhgfd",
-                      itemOwner: "lol",
-                      title: "cat lol",
-                      date: DateTime.now(),
-                      imageFiles: imagesFiles,
-                    );
-                    AnimalsProvider().createRecord(item);
-                    if (!_formKey.currentState.validate()) {
-                      return;
-                    }
-                    _formKey.currentState.save();
-                  },
                 )
               ],
             ),

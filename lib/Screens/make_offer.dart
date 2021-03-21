@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gp_version_01/widgets/myProducts.dart';
 import 'package:gp_version_01/widgets/my_offer.dart';
 
-import 'details_screen.dart';
 
 class MakeOffer extends StatelessWidget {
   static const String route = "MakeOffer";

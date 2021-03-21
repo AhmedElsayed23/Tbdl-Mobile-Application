@@ -48,7 +48,7 @@ class ProductItem extends StatelessWidget {
                   Text(
                     "سماعه بلوتوث",
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w200,
                       fontSize: 20.0,
                     ),
                     textDirection: TextDirection.rtl,

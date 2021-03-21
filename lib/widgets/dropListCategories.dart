@@ -32,20 +32,32 @@ class _DropListCategoriesState extends State<DropListCategories> {
     List<Widget> textForFields = [];
     for (String property in properties) {
       textForFields.add(
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: TextFormField(
-            maxLength: 30,
-            decoration: InputDecoration(labelText: property),
-            validator: (String value) {
-              if (value.isEmpty) {
-                return 'مطلوب';
-              }
-              return null;
-            },
-            onSaved: (String value) {
-              property = value;
-            },
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: TextFormField(
+              maxLength: 30,
+              decoration: InputDecoration(
+                labelText: property,
+                labelStyle: TextStyle(color: Colors.black54),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue[400]),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue[400]),
+                ),
+              ),
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'مطلوب';
+                }
+                return null;
+              },
+              onSaved: (String value) {
+                property = value;
+              },
+            ),
           ),
         ),
       );
@@ -84,40 +96,43 @@ class _DropListCategoriesState extends State<DropListCategories> {
     List<String> listOfAddedProperties = getProperties(category);
     return Column(
       children: [
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: category,
-            style: TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: category,
+              style: TextStyle(color: Colors.black54),
+              underline: Container(
+                height: 1,
+                color: Colors.blue[400],
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  category = newValue;
+                  listOfAddedProperties = getProperties(category);
+                });
+              },
+              items: <String>[
+                "اخري",
+                "خدمات",
+                "عربيات و قطع غيار",
+                "موبايلات و إكسسورات",
+                "كتب",
+                "ألعاب إلكترونية",
+                "أجهزة كهربائية",
+                "حيوانات و مستلزماتها",
+                "أثاث منزل",
+                "ملابس و أحذية",
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Container(
+                      alignment: Alignment.centerRight, child: Text(value)),
+                );
+              }).toList(),
             ),
-            onChanged: (String newValue) {
-              setState(() {
-                category = newValue;
-                listOfAddedProperties = getProperties(category);
-              });
-            },
-            items: <String>[
-              "اخري",
-              "خدمات",
-              "عربيات و قطع غيار",
-              "موبايلات و إكسسورات",
-              "كتب",
-              "ألعاب إلكترونية",
-              "أجهزة كهربائية",
-              "حيوانات و مستلزماتها",
-              "أثاث منزل",
-              "ملابس و أحذية",
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Container(
-                    alignment: Alignment.centerRight, child: Text(value)),
-              );
-            }).toList(),
           ),
         ),
         Column(

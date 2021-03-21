@@ -13,8 +13,12 @@ import 'Screens/ChatDetailPage.dart';
 import 'Screens/chooseCategory_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
 }
 
@@ -24,13 +28,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         tabBarTheme: TabBarTheme(labelStyle: GoogleFonts.cairo()),
-        buttonColor: Colors.orange[900],
+        appBarTheme: AppBarTheme(textTheme: GoogleFonts.cairoTextTheme()),
+        bottomAppBarColor: Colors.blue[400],
+
+        buttonColor: Colors.blue[400],
         brightness: Brightness.light,
-
         primaryColor: Colors.white,
-        accentColor: Colors.orange[900],
+        accentColor: Colors.blue[400],
         textTheme: GoogleFonts.cairoTextTheme(),
-
       ),
       routes: {
         "/": (context) => TabsScreen(),

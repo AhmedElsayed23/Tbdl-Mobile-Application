@@ -21,7 +21,7 @@ class MyProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("منتجاتى"),
+        title: Text("منتجاتى", style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 4,
