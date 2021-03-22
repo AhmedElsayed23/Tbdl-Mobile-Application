@@ -35,7 +35,6 @@ class _TabsScreenState extends State<TabsScreen> {
       bottomNavigationBar: SizedBox(
         height: 65,
         child: BottomNavigationBar(
-            backgroundColor: Theme.of(context).primaryColor,
             selectedItemColor: Colors.blue[400],
             currentIndex: pageIndex,
             onTap: select,

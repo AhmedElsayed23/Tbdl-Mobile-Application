@@ -7,20 +7,23 @@ class Recommend extends StatelessWidget {
   static const String route = "Recommend";
 
   List urls = [
-    'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ',
-    'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
-    'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&w=1000&q=80&fbclid=IwAR3VTlMP89trSaXlkUt_Yu7VNQi4QrnjpUaAsbIEf7ypZLijJJZmRH_BOk8',
-    'https://creativepro.com/wp-content/uploads/2019/05/imagetext01.jpg?fbclid=IwAR2qxe1wN3zDmStGv0GJdQZ6y0cda7R0DRjjXM-rMDvfgp5jMIJXE5_lKJA',
-    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg?fbclid=IwAR3gUBIwQLcxRUdR94YSUOKft-Ms4BKfulq2BrtbmvjxvRcFf1Zx9jIbfwo',
-    'https://i.pinimg.com/originals/82/c2/8a/82c28a10da93fae1360986a3823fdf11.jpg?fbclid=IwAR0YL6lWpuhxl8u5hxhL-Alz52dpAH7eCoAs8VPv78VD_OnWnkgnEKAU5kk',
-    'https://cdn.pocket-lint.com/r/s/1200x/assets/images/151442-cameras-feature-stunning-photos-from-the-national-sony-world-photography-awards-2020-image1-evuxphd3mr.jpg',
-    'https://images.unsplash.com/photo-1535463731090-e34f4b5098c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR0d_7wLBsYR1ADCQKvhthAQBYwhXn8GM2Akl9b4wpa3bOX94TMQN3z-igs',
+       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw1cmBNAvLSVIG9WgLtoqnMJypzgJdigLCqrHWYZw3MpD43Yz3UYUdV4zbX-sYg0Pyp735SA&usqp=CAc',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXOot-fOsgB1F-SbN9cmo6FycyyMBaGU2EDpo9adXChrysAroKiAizrNgxb2H-glY08Td0OBR_&usqp=CAc',
+    'https://www.thebalancesmb.com/thmb/0NefRBrg_lU-vxqzclEne4RU3R8=/640x360/smart/filters:no_upscale()/dressshoes1-f5db6a43f1714b609c772f6c0c1814df.jpg',
+    'https://cdn.pixabay.com/photo/2020/01/16/20/48/renault-4771773__340.png',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuK2hFNkWSyawRdEVauV8fUccTeFOvgCAvsA&usqp=CAU',
+    'https://cdn11.bigcommerce.com/s-vwd6a/images/stencil/2048x2048/products/604/3563/parrotlet_blue__41318.1571248358.jpg?c=2',
+    'https://img1.ouedkniss.com/photos_annonces/25706131/Photo1.jpg',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2T7JSYjV9a6M61g2aI0Bqr0aN5Tm-Q51UcbryfilNFAIcpHnYSyVhZQamDBg&usqp=CAc',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXBQHXqPjdssAJ_xwurZN3WhJNa18FQq8Q9g&usqp=CAU',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQebbQSHmkjeAZi6TfnG5FCjaaaXE-dmzyoA&usqp=CAU',
+    'https://www.inverness-courier.co.uk/_media/img/750x0/HQU1244SU1XHLL8RMMEB.jpg',
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("مقترح لك", style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text("مقترح لك", style:  TextStyle(fontWeight: FontWeight.w300, fontSize: 20),),
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 4,
@@ -32,6 +35,7 @@ class Recommend extends StatelessWidget {
           child: ProductItem(
             index: index,
             listOfUrl: urls,
+            isFavorite: false,
           ),
         ),
 

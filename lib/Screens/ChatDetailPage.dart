@@ -9,12 +9,12 @@ class ChatDetailPage extends StatefulWidget {
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
   List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
+    ChatMessage(messageContent: "مرحبا, على", messageType: "receiver"),
+    ChatMessage(messageContent: "كيف االحال", messageType: "receiver"),
     ChatMessage(messageContent: "السلام عليكم", messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
+    ChatMessage(messageContent: "كويس.", messageType: "receiver"),
     ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
+        messageContent: "هل هناك مشكلة?", messageType: "sender"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "Kriss Benwat",
+                          "حسن محمد",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                         ),

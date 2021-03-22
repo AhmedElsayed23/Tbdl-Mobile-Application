@@ -101,11 +101,17 @@ class MyProducts_items extends StatelessWidget {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: IconButton(
-                    icon: Icon(Icons.more_vert, color: Colors.white),
-                    onPressed: () {
-                      _showSheet(context);
-                    },
+                  child: Card(
+                    color: Colors.black26,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.more_vert, color: Colors.white),
+                      onPressed: () {
+                        _showSheet(context);
+                      },
+                    ),
                   ),
                 )
               ],

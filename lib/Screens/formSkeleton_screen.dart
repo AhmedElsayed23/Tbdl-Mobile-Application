@@ -7,6 +7,8 @@ import 'package:gp_version_01/models/Categories/animals.dart';
 import 'package:gp_version_01/models/items.dart';
 import 'package:gp_version_01/widgets/dropListCategories.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:path/path.dart';
 
 class AddItemScreen extends StatelessWidget {
   static const String route = '/addItemScreen';
@@ -87,11 +89,67 @@ class AddItemScreen extends StatelessWidget {
     return ImageMultiple(imagesFiles);
   }
 
+  Widget _buildCondition(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "المزيد",
+              style: TextStyle(color: Colors.black54),
+            ),
+          ),
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: RadioButtonGroup(
+                    labels: <String>[
+                      "جديد",
+                      "مستعمل",
+                    ],
+                    onSelected: (String selected) => print(selected),
+                    labelStyle: TextStyle(color: Colors.black54),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: VerticalDivider(
+                    thickness: 1,
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: RadioButtonGroup(
+                    labels: <String>[
+                      "بمقابل",
+                      "دون مقابل",
+                    ],
+                    onSelected: (String selected) => print(selected),
+                    labelStyle: TextStyle(color: Colors.black54),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     return Scaffold(
-      appBar: AppBar(title: Text("اضف منتج", style: TextStyle(fontWeight: FontWeight.bold),)),
+      appBar: AppBar(
+          title: Text(
+        "اضف منتج",
+        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+      )),
       body: Container(
         margin: EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -104,15 +162,15 @@ class AddItemScreen extends StatelessWidget {
                 _buildTitle(),
                 _buildDescription(),
                 DropListCategories(),
-
+                _buildCondition(context),
                 SizedBox(height: 50),
                 SizedBox(
                   height: 40,
                   width: 150,
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     child: Text(
                       'قدم',
                       style: TextStyle(color: Colors.white, fontSize: 16),

@@ -19,6 +19,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      
   runApp(MyApp());
 }
 
@@ -26,10 +27,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         tabBarTheme: TabBarTheme(labelStyle: GoogleFonts.cairo()),
-        appBarTheme: AppBarTheme(textTheme: GoogleFonts.cairoTextTheme()),
-        bottomAppBarColor: Colors.blue[400],
+        appBarTheme: AppBarTheme(textTheme: GoogleFonts.cairoTextTheme(), color: Colors.white),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
 
         buttonColor: Colors.blue[400],
         brightness: Brightness.light,

@@ -10,49 +10,49 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   List<ChatUsers> chatUsers = [
     ChatUsers(
-      time: "الان",
+      time: "now",
       imageURL:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
       messageText: "السلام عليكم",
-      name: "Jane Russel",
+      name: "احمد رمضان",
     ),
     ChatUsers(
-        time: "امس",
+        time: "yesterday",
         imageURL:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "That's Great",
-        name: "Glady's Murphy"),
+        messageText: "هذا رائع",
+        name: "اسلام عادل"),
     ChatUsers(
       time: "31 Mar",
       imageURL:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-      messageText: "Hey where are you?",
-      name: "Jorge Henry",
+      messageText: "شكرا لك",
+      name: "حاتم سيد",
     ),
     ChatUsers(
         time: "28 Mar",
         imageURL:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "Busy! Call me in 20 mins",
-        name: "Philip Fox"),
+        messageText: "تمام فى الميعاد",
+        name: "عبد الرحمن احمد"),
     ChatUsers(
         time: "23 Mar",
         imageURL:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "Thankyou, It's awesome",
-        name: "Debra Hawkins"),
+        messageText: "زى ما اتفقنا",
+        name: "Ahmed"),
     ChatUsers(
         time: "17 Mar",
         imageURL:
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
         messageText: "will update you in evening",
-        name: "Jacob Pena"),
+        name: "Hassan"),
     ChatUsers(
       time: "24 Feb",
       imageURL:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
       messageText: "Can you please share the file?",
-      name: "Andrey Jones",
+      name: "Adel",
     ),
     ChatUsers(
       time: "18 Feb",
@@ -81,18 +81,33 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 Directionality(
                   textDirection: TextDirection.rtl,
-                  child: Row(
+                  child: Column(
                     children: [
-                      SizedBox(
-                        width: 15,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FlatButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.delete,
+                              )),
+                          FlatButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.report,
+                              )),
+                        ],
                       ),
-                      Expanded(child: Text("حذف")),
-                      Icon(
-                        Icons.delete,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(
-                        width: 15,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            'حذف',
+                          ),
+                          Text(
+                            'بلغ',
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -121,7 +136,7 @@ class _ChatPageState extends State<ChatPage> {
                   padding: EdgeInsets.only(left: 16, right: 16, top: 10),
                   child: Text(
                     "المحدثات",
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
                   ),
                 ),
               ),

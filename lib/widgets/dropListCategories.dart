@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DropListCategories extends StatefulWidget {
   @override
@@ -69,9 +70,9 @@ class _DropListCategoriesState extends State<DropListCategories> {
     List<String> listOfAddedProperties = [];
     if (category == "خدمات") {
       listOfAddedProperties = servicesProperties;
-    } else if (category == "عربيات و قطع غيار") {
+    } else if (category == "عربيات") {
       listOfAddedProperties = carsProperties;
-    } else if (category == "موبايلات و إكسسورات") {
+    } else if (category == "موبايلات") {
       listOfAddedProperties = mobileProperties;
     } else if (category == "كتب") {
       listOfAddedProperties = bookProperties;
@@ -79,11 +80,11 @@ class _DropListCategoriesState extends State<DropListCategories> {
       listOfAddedProperties = gamesProperties;
     } else if (category == "أجهزة كهربائية") {
       listOfAddedProperties = electricDevicesProperties;
-    } else if (category == "حيوانات و مستلزماتها") {
+    } else if (category == "حيوانات") {
       listOfAddedProperties = animalsProperties;
     } else if (category == "أثاث منزل") {
       listOfAddedProperties = homeProperties;
-    } else if (category == "ملابس و أحذية") {
+    } else if (category == "ملابس") {
       listOfAddedProperties = clothesProperties;
     } else {
       listOfAddedProperties = othersProperties;
@@ -103,7 +104,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
             child: DropdownButton<String>(
               isExpanded: true,
               value: category,
-              style: TextStyle(color: Colors.black54),
+              style: GoogleFonts.cairo(color: Colors.black54),
               underline: Container(
                 height: 1,
                 color: Colors.blue[400],
@@ -117,14 +118,14 @@ class _DropListCategoriesState extends State<DropListCategories> {
               items: <String>[
                 "اخري",
                 "خدمات",
-                "عربيات و قطع غيار",
-                "موبايلات و إكسسورات",
+                "عربيات",
+                "موبايلات",
                 "كتب",
                 "ألعاب إلكترونية",
                 "أجهزة كهربائية",
-                "حيوانات و مستلزماتها",
+                "حيوانات",
                 "أثاث منزل",
-                "ملابس و أحذية",
+                "ملابس",
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,

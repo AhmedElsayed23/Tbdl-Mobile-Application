@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 class ProductItem extends StatelessWidget {
   final int index;
   final listOfUrl;
-  ProductItem({this.index, this.listOfUrl});
+  final bool isFavorite;
+  ProductItem({this.index, this.listOfUrl, this.isFavorite});
+
+  Icon check(bool isFavorite) {
+    if (isFavorite) {
+      return Icon(Icons.favorite, color: Colors.red);
+    } else {
+      return Icon(Icons.favorite_border, color: Colors.white);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -34,9 +44,15 @@ class ProductItem extends StatelessWidget {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: IconButton(
-                    icon: Icon(Icons.star_border, color: Colors.white),
-                    onPressed: () {},
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    color: Colors.black26,
+                    child: IconButton(
+                      icon: check(isFavorite),
+                      onPressed: () {},
+                    ),
                   ),
                 )
               ],

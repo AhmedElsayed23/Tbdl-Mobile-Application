@@ -253,15 +253,14 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: StaggeredGridView.countBuilder(
                     crossAxisCount: 4,
-
-                    itemCount: urlsServices.length,
-
+                    itemCount: urlsOthers.length,
                     itemBuilder: (BuildContext context, int index) => InkWell(
                       onTap: () => Navigator.pushNamed(context, Details.route,
                           arguments: urls[index]),
                       child: ProductItem(
                         index: index,
-                        listOfUrl: urlsServices,
+                        listOfUrl: urlsOthers,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -288,6 +287,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsServices,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -312,6 +312,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsFree,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -335,6 +336,7 @@ class HomeScreen extends StatelessWidget {
                           arguments: urls[index]),
                       child: ProductItem(
                         index: index,
+                        isFavorite: false,
                         listOfUrl: urlsCars,
                       ),
                     ),
@@ -360,6 +362,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsMobiles,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -384,6 +387,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsBooks,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -408,6 +412,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsgames,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -432,6 +437,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsElectricDevices,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -456,6 +462,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsAnimals,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -479,6 +486,7 @@ class HomeScreen extends StatelessWidget {
                           arguments: urls[index]),
                       child: ProductItem(
                         index: index,
+                        isFavorite: false,
                         listOfUrl: urlsAsas,
                       ),
                     ),
@@ -503,6 +511,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urlsClothes,
+                        isFavorite: false,
                       ),
                     ),
 
@@ -597,6 +606,7 @@ class HomeScreen extends StatelessWidget {
                       child: ProductItem(
                         index: index,
                         listOfUrl: urls,
+                        isFavorite: false,
                       ),
                     ),
 

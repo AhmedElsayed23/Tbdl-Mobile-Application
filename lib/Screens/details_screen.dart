@@ -42,14 +42,28 @@ class _DetailsState extends State<Details> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
+              iconTheme: IconThemeData(color: Colors.white,),
               actions: <Widget>[
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.report_problem, color: Colors.red),
+                Card(
+                  color: Colors.black26,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0),
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.report_problem, color: Colors.white),
+                  ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite_border),
+                Card(
+                  elevation: 10,
+                  color: Colors.black26,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0),
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.favorite_border, color: Colors.white),
+                  ),
                 ),
               ],
               expandedHeight: 300,
@@ -187,7 +201,10 @@ class _DetailsState extends State<Details> {
                       onPressed: () {
                         Navigator.pushNamed(context, MakeOffer.route);
                       },
-                      label: Text("قدم عرض", style: TextStyle(color: Colors.white),),
+                      label: Text(
+                        "قدم عرض",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
