@@ -9,6 +9,7 @@ import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 
+import 'Screens/AllCategories_screen.dart';
 import 'Screens/ChatDetailPage.dart';
 import 'Screens/chooseCategory_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-      
+
   runApp(MyApp());
 }
 
@@ -30,9 +31,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         tabBarTheme: TabBarTheme(labelStyle: GoogleFonts.cairo()),
-        appBarTheme: AppBarTheme(textTheme: GoogleFonts.cairoTextTheme(), color: Colors.white),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
-
+        appBarTheme: AppBarTheme(
+            textTheme: GoogleFonts.cairoTextTheme(), color: Colors.white),
+        bottomNavigationBarTheme:
+            BottomNavigationBarThemeData(backgroundColor: Colors.white),
         buttonColor: Colors.blue[400],
         brightness: Brightness.light,
         primaryColor: Colors.white,
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
         MyProducts.route: (context) => MyProducts(),
         MakeOffer.route: (context) => MakeOffer(),
         ChatDetailPage.route: (context) => ChatDetailPage(),
+        AllCategories.route: (context) => AllCategories(),
       },
     );
   }

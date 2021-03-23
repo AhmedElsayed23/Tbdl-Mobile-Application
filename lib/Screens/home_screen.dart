@@ -5,6 +5,7 @@ import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
+import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:gp_version_01/widgets/product_Item.dart';
 import '../widgets/drawer.dart';
 import 'chooseCategory_screen.dart';
@@ -246,379 +247,186 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: TabBarView(
-          children: [
-            Column(
-              children: [
+        body: Container(
+          child: TabBarView(
+            children: [
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(urls: urlsOthers),
+                  ),
+                ],
+              ),
+              Column(children: [
                 Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsOthers.length,
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsOthers,
-                        isFavorite: false,
-                      ),
+                  child: Grid(
+                    urls: urlsServices,
+                  ),
+                )
+              ]),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsFree,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-
-                    //mainAxisSpacing: 5,
-
-                    //crossAxisSpacing: 5,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsServices.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsServices,
-                        isFavorite: false,
-                      ),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsCars,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsFree.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsFree,
-                        isFavorite: false,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsMobiles,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsCars.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        isFavorite: false,
-                        listOfUrl: urlsCars,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsBooks,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsMobiles.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsMobiles,
-                        isFavorite: false,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsgames,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsBooks.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsBooks,
-                        isFavorite: false,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsElectricDevices,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsgames.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsgames,
-                        isFavorite: false,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsAnimals,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsElectricDevices.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsElectricDevices,
-                        isFavorite: false,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsAsas,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsAnimals.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsAnimals,
-                        isFavorite: false,
-                      ),
+                ],
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: Grid(
+                      urls: urlsClothes,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsAsas.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        isFavorite: false,
-                        listOfUrl: urlsAsas,
-                      ),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, ChooseCategoryScreen.route);
+                                },
+                                child: Icon(
+                                  Icons.category_outlined,
+                                  color: Colors.blue[400],
+                                  size: 40,
+                                )),
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, Favorites.route);
+                                },
+                                child: Icon(
+                                  Icons.favorite_border_outlined,
+                                  color: Colors.blue[400],
+                                  size: 40,
+                                )),
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, Recommend.route);
+                                },
+                                child: Icon(
+                                  Icons.recommend,
+                                  color: Colors.blue[400],
+                                  size: 40,
+                                )),
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, MyProducts.route);
+                                },
+                                child: Icon(
+                                  Icons.business_center_outlined,
+                                  color: Colors.blue[400],
+                                  size: 40,
+                                )),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Text(
+                              'الفئات',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'المفضلة',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'مقترح',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'منتجاتى',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urlsClothes.length,
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urlsClothes,
-                        isFavorite: false,
-                      ),
+                  Expanded(
+                    child: Grid(
+                      urls: urls,
                     ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, ChooseCategoryScreen.route);
-                              },
-                              child: Icon(
-                                Icons.category_outlined,
-                                color: Colors.blue[400],
-                                size: 40,
-                              )),
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, Favorites.route);
-                              },
-                              child: Icon(
-                                Icons.favorite_border_outlined,
-                                color: Colors.blue[400],
-                                size: 40,
-                              )),
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, Recommend.route);
-                              },
-                              child: Icon(
-                                Icons.recommend,
-                                color: Colors.blue[400],
-                                size: 40,
-                              )),
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, MyProducts.route);
-                              },
-                              child: Icon(
-                                Icons.business_center_outlined,
-                                color: Colors.blue[400],
-                                size: 40,
-                              )),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                            'الفئات',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'المفضلة',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'مقترح',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'منتجاتى',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 4,
-                    itemCount: urls.length,
-
-                    itemBuilder: (BuildContext context, int index) => InkWell(
-                      onTap: () => Navigator.pushNamed(context, Details.route,
-                          arguments: urls[index]),
-                      child: ProductItem(
-                        index: index,
-                        listOfUrl: urls,
-                        isFavorite: false,
-                      ),
-                    ),
-
-                    staggeredTileBuilder: (int index) => StaggeredTile.count(
-                        2, MediaQuery.of(context).size.aspectRatio * 7.5),
-                    //mainAxisSpacing: 5,
-                    //crossAxisSpacing: 5,
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

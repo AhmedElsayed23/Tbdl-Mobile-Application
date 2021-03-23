@@ -13,11 +13,7 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  Map detailsMap = {
-    'موديل':
-        'يمكن للطاقة أن تأخذ أشكالًا متنوعة منها طاقة حرارية، كيميائية، كهربائية، إشعاعية، نووية، طاقة كهرومغناطيسية، وطاقة حركية. هذه الأنواع من الطاقة يمكن تصنيفها بكونها طاقة حركية أو طاقة كامنة، في حين أن بعضها يمكن أن يكون مزيجًا من الطاقتين الكامنة والحركية معًا، وهذا يدرس في الديناميكا الحرارية.',
-    'مكان': 'زهراء السلام'
-  };
+  Map detailsMap = {'موديل': '2020', 'مكان': 'الشيخ زايد'};
   List urls = [
     'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ',
     'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
@@ -42,7 +38,9 @@ class _DetailsState extends State<Details> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              iconTheme: IconThemeData(color: Colors.white,),
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
               actions: <Widget>[
                 Card(
                   color: Colors.black26,
@@ -102,7 +100,7 @@ class _DetailsState extends State<Details> {
                           ),
                           width: double.infinity,
                           child: Text(
-                            "سماعة بلوتوث سامسونج اصلية",
+                            "عربية ",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -143,7 +141,7 @@ class _DetailsState extends State<Details> {
                                   color: Colors.red,
                                 ),
                                 Spacer(),
-                                Text('زهراء السلام'),
+                                Text('الشيخ زايد'),
                               ],
                             ),
                           ),
@@ -160,7 +158,7 @@ class _DetailsState extends State<Details> {
                             child: Container(
                               width: double.infinity,
                               child: Text(
-                                "يمكن للطاقة أن تأخذ أشكالًا متنوعة منها طاقة حرارية، كيميائية، كهربائية، إشعاعية، نووية، طاقة كهرومغناطيسية، وطاقة حركية. هذه الأنواع من الطاقة يمكن تصنيفها بكونها طاقة حركية أو طاقة كامنة، في حين أن بعضها يمكن أن يكون مزيجًا من الطاقتين الكامنة والحركية معًا، وهذا يدرس في الديناميكا الحرارية.",
+                                "زودت سيارات إم جي 5 موديل 2020 بالعديد من المواصفات القياسية ووسائل الأمن والسلامة، منها “عدد 6 وسائد هوائية، ونظام الفرامل المانعة للانغلاق ، وتوزيع إلكتروني للفرامل",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(fontSize: 15),
                               ),

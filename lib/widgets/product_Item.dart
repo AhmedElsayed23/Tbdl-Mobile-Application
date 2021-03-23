@@ -62,7 +62,7 @@ class ProductItem extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "سماعه بلوتوث",
+                    "اسم المنتج",
                     style: TextStyle(
                       fontWeight: FontWeight.w200,
                       fontSize: 20.0,
@@ -72,7 +72,7 @@ class ProductItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "يمكن للطاقة أن تأخذ أشكالًا متنوعة منها طاقة حرارية، كيميائية، كهربائية، إشعاعية، نووية، طاقة كهرومغناطيسية، وطاقة حركية. هذه الأنواع من الطاقة يمكن تصنيفها بكونها طاقة حركية أو طاقة كامنة، في حين أن بعضها يمكن أن يكون مزيجًا من الطاقتين الكامنة والحركية معًا، وهذا يدرس في الديناميكا الحرارية.",
+                    "هنا يدخل المستخدم شرح مفصل عن المنتج المراد نشره",
                     style: TextStyle(fontWeight: FontWeight.w300),
                     textDirection: TextDirection.rtl,
                     maxLines: 2,
@@ -86,7 +86,7 @@ class ProductItem extends StatelessWidget {
                         color: Colors.red,
                       ),
                       Text(
-                        "زهراء المعادي",
+                        "العنوان",
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
