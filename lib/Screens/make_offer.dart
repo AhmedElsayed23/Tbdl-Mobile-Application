@@ -25,7 +25,7 @@ class MakeOffer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("عروضى", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),),
+        title: Text("منتجاتى", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),),
       ),
       body: StaggeredGridView.countBuilder(
         crossAxisCount: 4,

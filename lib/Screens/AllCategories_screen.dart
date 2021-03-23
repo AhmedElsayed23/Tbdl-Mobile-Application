@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 
-import '../widgets/product_Item.dart';
-import 'details_screen.dart';
+
 
 class AllCategories extends StatelessWidget {
   static const String route = "category";

@@ -171,22 +171,6 @@ class HomeScreen extends StatelessWidget {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwJvn3EPBheBSQuw1v0KbDsgN9jsxgSGa5mw&usqp=CAU',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXBQHXqPjdssAJ_xwurZN3WhJNa18FQq8Q9g&usqp=CAU',
   ];
-
-  List urlsFree = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcfFO6vElcocqEW4GgdL8_rmDF8q8YGjItX6Z0j2NjSE-39f-LfdjXKqjzTt8Mei1brkgL-cN5&usqp=CAc',
-    'https://i.pinimg.com/originals/ed/51/a2/ed51a299eba6ec3a295cb63799a0417e.jpg',
-    'https://img.over-blog-kiwi.com/5/06/69/39/20200701/ob_e36298_african-grey-parrots-for-sale.jpg',
-    'https://cdn.pixabay.com/photo/2021/01/01/16/38/land-rover-5879202__340.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJv0OPAFUHLzaJ9kgr010WlwSl39vQHaDMw&usqp=CAU',
-    'https://apollo-ireland.akamaized.net/v1/files/pckatvt000ev1-EG/image;s=644x461;olx-st/_5_.jpg',
-    'https://opensooq-images.os-cdn.com/previews/300x0/8d/07/8d07c97e76fb2ac64cdf5630a6ca2fe06acc0f47a2d97469b987e85d459d56cb.jpg.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOr5JPeTgu_vM6sMBIrvh4ho6WcVSWdaQi_w&usqp=CAU',
-    'https://www.almaal.org/wp-content/uploads/2020/09/%D9%85%D9%88%D9%82%D8%B9-%D8%A8%D9%8A%D8%B9-%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D9%81%D9%8A-%D8%A7%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D8%B1%D8%AE%D9%8A%D8%B5-1130x580.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgB-3Q9Sb4asyHlCSD1DRqxXL6GSrpvn3hgA&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOX0DFTxmq8R2mX6BmecgDJdBe3ZMvYGFPhA&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR3Gn2tIlpRL7hrO2shrO34YKERjiShiRJ7w&usqp=CAU',
-  ];
-
   List urlsServices = [
     'https://services-maintenance-uae.com/wp-content/uploads/2020/05/%D9%86%D8%AC%D8%A7%D8%A7.jpg',
     'https://super1number.com/wp-content/uploads/2020/08/%D8%A7%D9%81%D8%B6%D9%84-%D9%86%D8%AC%D8%A7%D8%B1-%D8%A7%D8%A8%D9%88%D8%B8%D8%A8%D9%8A.jpg',
@@ -209,7 +193,6 @@ class HomeScreen extends StatelessWidget {
   List categories = [
     "اخري",
     "خدمات",
-    "عناصر مجانية",
     "عربيات",
     "موبايلات",
     "كتب",
@@ -264,15 +247,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 )
               ]),
-              Column(
-                children: [
-                  Expanded(
-                    child: Grid(
-                      urls: urlsFree,
-                    ),
-                  )
-                ],
-              ),
               Column(
                 children: [
                   Expanded(

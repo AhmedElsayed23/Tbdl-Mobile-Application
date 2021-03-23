@@ -13,7 +13,17 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  Map detailsMap = {'موديل': '2020', 'مكان': 'الشيخ زايد'};
+  Map detailsMap = {
+    'الماركه': 'مرسيدس',
+    'السنة': '2020',
+    'الناقل الحركى': 'ديناميكى',
+    'كيلومترات': '15000 ',
+    'الهيكل': 'معدنى',
+    'اللون': 'احمر',
+    'المحرك': 'ثنائى الاشواط',
+    'الحالة': 'مستعمل',
+    'الموديل': 'الكابريو',
+  };
   List urls = [
     'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ',
     'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
@@ -38,8 +48,17 @@ class _DetailsState extends State<Details> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              iconTheme: IconThemeData(
-                color: Colors.white,
+              leading: Card(
+                color: Colors.black26,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(35.0),
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                ),
               ),
               actions: <Widget>[
                 Card(
@@ -49,7 +68,7 @@ class _DetailsState extends State<Details> {
                   ),
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.report_problem, color: Colors.white),
+                    icon: Icon(Icons.report_outlined, color: Colors.white),
                   ),
                 ),
                 Card(
@@ -155,19 +174,20 @@ class _DetailsState extends State<Details> {
                           elevation: 1,
                           child: Padding(
                             padding: EdgeInsets.all(10),
-                            child: Container(
-                              width: double.infinity,
-                              child: Text(
-                                "زودت سيارات إم جي 5 موديل 2020 بالعديد من المواصفات القياسية ووسائل الأمن والسلامة، منها “عدد 6 وسائد هوائية، ونظام الفرامل المانعة للانغلاق ، وتوزيع إلكتروني للفرامل",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontSize: 15),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Container(
+                                width: double.infinity,
+                                child: Text(
+                                  "زودت سيارات إم جي 5 موديل 2020 بالعديد من المواصفات القياسية ووسائل الأمن والسلامة، منها “عدد 6 وسائد هوائية، ونظام الفرامل المانعة للانغلاق ، وتوزيع إلكتروني للفرامل",
+                                  style: TextStyle(fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
                         ),
                         Divider(color: Colors.black45),
                         DescriptionItem(detailsMap),
-                        Divider(color: Colors.black45),
                         SizedBox(
                           height: 60,
                         )

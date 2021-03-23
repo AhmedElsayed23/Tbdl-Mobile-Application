@@ -172,7 +172,7 @@ class AddItemScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Text(
-                      'قدم',
+                      'اضف',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     onPressed: () {
