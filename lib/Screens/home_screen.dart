@@ -321,76 +321,73 @@ class HomeScreen extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, ChooseCategoryScreen.route);
-                                },
-                                child: Icon(
-                                  Icons.category_outlined,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, Favorites.route);
-                                },
-                                child: Icon(
-                                  Icons.favorite_border_outlined,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, Recommend.route);
-                                },
-                                child: Icon(
-                                  Icons.recommend,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, MyProducts.route);
-                                },
-                                child: Icon(
-                                  Icons.business_center_outlined,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Text(
-                              'الفئات',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'المفضلة',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'مقترح',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'منتجاتى',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, ChooseCategoryScreen.route);
+                              },
+                              child: Icon(
+                                Icons.category_outlined,
+                                color: Colors.blue[400],
+                                size: 40,
+                              )),
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, Favorites.route);
+                              },
+                              child: Icon(
+                                Icons.favorite_border_outlined,
+                                color: Colors.blue[400],
+                                size: 40,
+                              )),
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, Recommend.route);
+                              },
+                              child: Icon(
+                                Icons.recommend,
+                                color: Colors.blue[400],
+                                size: 40,
+                              )),
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, MyProducts.route);
+                              },
+                              child: Icon(
+                                Icons.business_center_outlined,
+                                color: Colors.blue[400],
+                                size: 40,
+                              )),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            'الفئات',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'المفضلة',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'مقترح',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'منتجاتى',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   Expanded(
                     child: Grid(

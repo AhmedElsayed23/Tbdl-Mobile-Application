@@ -104,6 +104,7 @@ class AddItemScreen extends StatelessWidget {
           ),
           IntrinsicHeight(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -117,7 +118,7 @@ class AddItemScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: VerticalDivider(
                     thickness: 1,
                   ),

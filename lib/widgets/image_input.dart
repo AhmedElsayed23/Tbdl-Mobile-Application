@@ -81,10 +81,8 @@ class _ImageMultipleState extends State<ImageMultiple> {
                   )
                 : Image.asset("assets/no-image-icon-6.png"),
           ),
-          SizedBox(
-            height: 40,
-            width: 150,
-            child: RaisedButton.icon(
+         
+            RaisedButton.icon(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -99,7 +97,7 @@ class _ImageMultipleState extends State<ImageMultiple> {
               ),
               textColor: Theme.of(context).primaryColor,
             ),
-          ),
+        
         ],
       ),
     );
