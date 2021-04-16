@@ -5,6 +5,7 @@ import 'chat_screen.dart';
 import 'formSkeleton_screen.dart';
 
 class TabsScreen extends StatefulWidget {
+  static const String route = "tabs"; 
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }

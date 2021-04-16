@@ -1,13 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
+import 'package:gp_version_01/Screens/login_screen.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+import 'package:gp_version_01/Screens/welcome_screen.dart';
 
 import 'Screens/AllCategories_screen.dart';
 import 'Screens/ChatDetailPage.dart';
@@ -15,6 +18,8 @@ import 'Screens/chooseCategory_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/services.dart';
+
+import 'Screens/registration_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +32,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -42,7 +49,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.cairoTextTheme(),
       ),
       routes: {
-        "/": (context) => TabsScreen(),
+        "/": (context) => WelcomeScreen(),
         HomeScreen.route: (context) => HomeScreen(),
         Details.route: (context) => Details(),
         AddItemScreen.route: (context) => AddItemScreen(),
@@ -54,6 +61,10 @@ class MyApp extends StatelessWidget {
         MakeOffer.route: (context) => MakeOffer(),
         ChatDetailPage.route: (context) => ChatDetailPage(),
         AllCategories.route: (context) => AllCategories(),
+        LoginScreen.route: (context) => LoginScreen(),
+        RegistrationScreen.route: (context) => RegistrationScreen(),
+        TabsScreen.route: (context) => TabsScreen(),
+
       },
     );
   }
