@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
   String email;
@@ -47,69 +48,87 @@ class _LoginScreenState extends State<LoginScreen> {
         inAsyncCall: showSpinner,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'ادخل الحساب'),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'ادخل كلمة المرور'),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              RoundedButton(
-                title: 'تسجيل دخول',
-                colour: Colors.lightBlueAccent,
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (user != null) {
-                      Navigator.pushNamed(context, TabsScreen.route);
+          child: Form(
+            key: formKey,
+                      child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(
+                  height: 48.0,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل الحساب';
                     }
+                    return null;
+                  },
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'ادخل الحساب'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل كلمة المرور';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'ادخل كلمة المرور'),
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                RoundedButton(
+                  title: 'تسجيل دخول',
+                  colour: Colors.lightBlueAccent,
+                  onPressed: () async {
+                    final isValid = formKey.currentState.validate();
+                    if (!isValid) return;
+                    setState(() {
+                      showSpinner = true;
+                    });
+                    formKey.currentState.save();
+                    try {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (user != null) {
+                        Navigator.pushNamed(context, TabsScreen.route);
+                      }
 
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    } catch (e) {
+                      if (e.code == 'invalid-email') {
+                        showErrorMessage('الحساب غير صحيح');
+                      } else if (e.code == 'user-not-found') {
+                        showErrorMessage('المستخدم غير موجود');
+                      } else if (e.code == 'wrong-password') {
+                        showErrorMessage('كلمة المرور غير صحيح');
+                      }
+                    }
                     setState(() {
                       showSpinner = false;
                     });
-                  } catch (e) {
-                    if (e.code == 'invalid-email') {
-                      showErrorMessage('الحساب غير صحيح');
-                    } else if (e.code == 'user-not-found') {
-                      showErrorMessage('المستخدم غير موجود');
-                    } else if (e.code == 'wrong-password') {
-                      showErrorMessage('كلمة المرور غير صحيح');
-                    }
-                  }
-                  setState(() {
-                    showSpinner = false;
-                  });
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

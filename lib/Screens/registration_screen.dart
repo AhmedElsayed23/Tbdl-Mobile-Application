@@ -16,7 +16,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   final _firebaseObject = FirebaseFirestore.instance;
-
+  final formKey = GlobalKey<FormState>();
   bool showSpinner = false;
   String email;
   String password;
@@ -24,7 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String phone;
   String city;
 
-    void showErrorMessage(String message) {
+  void showErrorMessage(String message) {
     showDialog(
       context: context,
       builder: (ctx) {
@@ -51,106 +51,142 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         inAsyncCall: showSpinner,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'ادخل البريد'),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  name = value;
-                },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'ادخل الاسم'),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'ادخل الرقم السرى'),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  phone = value;
-                },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'ادخل رقم الهاتف'),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  city = value;
-                },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'ادخل المدينة'),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              RoundedButton(
-                title: 'إنشاء حساب',
-                colour: Colors.blueAccent,
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newUser != null) {
-                      _firebaseObject
-                          .collection("User")
-                          .doc(_auth.currentUser.uid)
-                          .set({
-                        "name": name,
-                        "city": city,
-                        "phone": phone,
-                        "banScore": 0,
-                        "isBanned": false,
-                      }).then((_) {
-                        Navigator.pushNamed(context, TabsScreen.route);
-                      });
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(
+                  height: 48.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل الحساب';
                     }
-
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'ادخل الحساب'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل الاسم';
+                    }
+                    return null;
+                  },
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    name = value;
+                  },
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'ادخل الاسم'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل كلمة المرور';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'ادخل كلمة المرور'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل رقم الهاتف';
+                    }
+                    return null;
+                  },
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    phone = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'ادخل رقم الهاتف'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'من فضلك ادخل المدينة';
+                    }
+                    return null;
+                  },
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    city = value;
+                  },
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'ادخل المدينة'),
+                ),
+                SizedBox(
+                  height: 24.0,
+                ),
+                RoundedButton(
+                  title: 'إنشاء حساب',
+                  colour: Colors.blueAccent,
+                  onPressed: () async {
+                    final isValid = formKey.currentState.validate();
+                    if (!isValid) return;
                     setState(() {
-                      showSpinner = false;
+                      showSpinner = true;
                     });
-                  }catch (e) {
-                    if (e.code == 'email-already-in-use') {
-                     showErrorMessage('المستخدم غير موجود');
+                    formKey.currentState.save();
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                      if (newUser != null) {
+                        _firebaseObject
+                            .collection("User")
+                            .doc(_auth.currentUser.uid)
+                            .set({
+                          "name": name,
+                          "city": city,
+                          "phone": phone,
+                          "banScore": 0,
+                          "isBanned": false,
+                        }).then((_) {
+                          Navigator.pushNamed(context, TabsScreen.route);
+                        });
+                      }
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    } catch (e) {
+                      if (e.code == 'email-already-in-use') {
+                        showErrorMessage('المستخدم غير موجود');
+                      }
                     }
-                  }
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

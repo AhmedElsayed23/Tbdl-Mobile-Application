@@ -61,7 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48.0,
             ),
             RoundedButton(
-              title: 'تسجيل',
+              title: 'تسجيل الدخول',
               colour: Colors.lightBlueAccent,
               onPressed: () {
                 Navigator.pushNamed(context, LoginScreen.route);
