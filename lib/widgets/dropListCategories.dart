@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DropListCategories extends StatefulWidget {
+  Function fun ;
+  Map prop = new Map<String, String>();
+  DropListCategories(this.fun, this.prop);
   @override
   _DropListCategoriesState createState() => _DropListCategoriesState();
 }
@@ -56,7 +59,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
                 return null;
               },
               onSaved: (String value) {
-                property = value;
+                widget.prop.putIfAbsent(property, () => value);
               },
             ),
           ),
@@ -89,6 +92,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
     } else {
       listOfAddedProperties = othersProperties;
     }
+    widget.fun(category);
     return listOfAddedProperties;
   }
 

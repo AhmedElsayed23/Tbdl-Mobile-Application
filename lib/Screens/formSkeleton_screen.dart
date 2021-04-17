@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/animalsProvider.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/models/Categories/animals.dart';
+import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/items.dart';
 import 'package:gp_version_01/widgets/dropListCategories.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
@@ -16,11 +19,17 @@ class AddItemScreen extends StatelessWidget {
   String title;
   String description;
   File imageFile;
+  bool condition;
+  bool isfree;
+  String categoryType = 'كتب';
+  Map properties=new Map<String,String>();
 
   List<File> imagesFiles = List<File>();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  Function fun(String catTemp){
+    categoryType=catTemp;
+  }
   Widget _buildTitle() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -113,7 +122,7 @@ class AddItemScreen extends StatelessWidget {
                       "جديد",
                       "مستعمل",
                     ],
-                    onSelected: (String selected) => print(selected),
+                    onSelected: (String selected) => (selected=='مستعمل')?condition=false:condition=true,
                     labelStyle: TextStyle(color: Colors.black54),
                   ),
                 ),
@@ -130,7 +139,7 @@ class AddItemScreen extends StatelessWidget {
                       "بمقابل",
                       "دون مقابل",
                     ],
-                    onSelected: (String selected) => print(selected),
+                    onSelected: (String selected) =>(selected=='بمقابل')?isfree=false:isfree=true,
                     labelStyle: TextStyle(color: Colors.black54),
                   ),
                 ),
@@ -162,7 +171,7 @@ class AddItemScreen extends StatelessWidget {
                 _buildImage(),
                 _buildTitle(),
                 _buildDescription(),
-                DropListCategories(),
+                DropListCategories(fun,properties),
                 _buildCondition(context),
                 SizedBox(height: 50),
                 SizedBox(
@@ -177,20 +186,26 @@ class AddItemScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     onPressed: () {
-                      Items item = new Animals(
-                        age: 9,
-                        animalType: "horse",
-                        descreption: "cdsfdhgfd",
-                        itemOwner: "lol",
-                        title: "cat lol",
-                        date: DateTime.now(),
-                        imageFiles: imagesFiles,
-                      );
-                      AnimalsProvider().createRecord(item);
                       if (!_formKey.currentState.validate()) {
                         return;
                       }
                       _formKey.currentState.save();
+                      print(title);
+                      Item item = new Item(
+                        categoryType: categoryType,
+                        descreption: description,
+                        itemOwner: FirebaseAuth.instance.currentUser.uid,
+                        title: title,
+                        date: DateTime.now(),
+                        //imageFiles: imagesFiles,
+                        condition: condition,
+                        isfree: isfree,
+                        properties: properties,
+                      );
+                      ItemController().addItem(item);
+                      properties.clear();
+                      //AnimalsProvider().createRecord(item);
+                  
                     },
                   ),
                 )
