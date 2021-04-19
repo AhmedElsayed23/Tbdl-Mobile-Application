@@ -3,33 +3,68 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Controller/animalsProvider.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
-import 'package:gp_version_01/models/Categories/animals.dart';
+import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
-import 'package:gp_version_01/models/items.dart';
 import 'package:gp_version_01/widgets/dropListCategories.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
-import 'package:path/path.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:toast/toast.dart';
 
-class AddItemScreen extends StatelessWidget {
+class AddItemScreen extends StatefulWidget {
   static const String route = '/addItemScreen';
+
+  @override
+  _AddItemScreenState createState() => _AddItemScreenState();
+}
+
+class _AddItemScreenState extends State<AddItemScreen> {
   Widget funs;
+
   String title;
+
   String description;
+
   File imageFile;
+
   bool condition;
+
   bool isfree;
+
   String categoryType = 'كتب';
-  Map properties=new Map<String,String>();
+
+  Map properties = new Map<String, String>();
 
   List<File> imagesFiles = List<File>();
 
+  bool showSpinner = false;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Function fun(String catTemp){
-    categoryType=catTemp;
+
+  void showErrorMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            content: Text("يجب ان يكون هناك صورة واحده للمنتج على الاقل"),
+            title: Text('خطأ'),
+            actions: [
+              FlatButton(
+                  onPressed: () => Navigator.of(ctx).pop(), child: Text('تخطى'))
+            ],
+          ),
+        );
+      },
+    );
   }
+
+  Function fun(String catTemp) {
+    categoryType = catTemp;
+  }
+
   Widget _buildTitle() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -122,7 +157,9 @@ class AddItemScreen extends StatelessWidget {
                       "جديد",
                       "مستعمل",
                     ],
-                    onSelected: (String selected) => (selected=='مستعمل')?condition=false:condition=true,
+                    onSelected: (String selected) => (selected == 'مستعمل')
+                        ? condition = false
+                        : condition = true,
                     labelStyle: TextStyle(color: Colors.black54),
                   ),
                 ),
@@ -139,7 +176,8 @@ class AddItemScreen extends StatelessWidget {
                       "بمقابل",
                       "دون مقابل",
                     ],
-                    onSelected: (String selected) =>(selected=='بمقابل')?isfree=false:isfree=true,
+                    onSelected: (String selected) =>
+                        (selected == 'بمقابل') ? isfree = false : isfree = true,
                     labelStyle: TextStyle(color: Colors.black54),
                   ),
                 ),
@@ -160,59 +198,76 @@ class AddItemScreen extends StatelessWidget {
         "اضف منتج",
         style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
       )),
-      body: Container(
-        margin: EdgeInsets.all(24),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildImage(),
-                _buildTitle(),
-                _buildDescription(),
-                DropListCategories(fun,properties),
-                _buildCondition(context),
-                SizedBox(height: 50),
-                SizedBox(
-                  height: 40,
-                  width: 150,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Container(
+                margin: EdgeInsets.all(24),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _buildImage(),
+                        _buildTitle(),
+                        _buildDescription(),
+                        DropListCategories(fun, properties),
+                        _buildCondition(context),
+                        SizedBox(height: 50),
+                        SizedBox(
+                          height: 40,
+                          width: 150,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Text(
+                              'اضف',
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                            onPressed: () async {
+                              if (!_formKey.currentState.validate()) {
+                                return;
+                              }
+                              _formKey.currentState.save();
+                              if (imagesFiles.length == 0) {
+                                showErrorMessage(context);
+                              } else {
+                                setState(() {
+                                  showSpinner = true;
+                                });
+                                Item item = new Item(
+                                  categoryType: categoryType,
+                                  descreption: description,
+                                  itemOwner:
+                                      FirebaseAuth.instance.currentUser.uid,
+                                  title: title,
+                                  date: DateTime.now(),
+                                  imageFiles: imagesFiles,
+                                  condition: condition,
+                                  isfree: isfree,
+                                  properties: properties,
+                                );
+
+                                await ItemController().addItem(item);
+                                properties.clear();
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                                FocusManager.instance.primaryFocus.unfocus();
+                                Toast.show("تم الاضافة بنجاح", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                                 Navigator.of(context).pushReplacementNamed(MyProducts.route);
+                              }
+
+                              //AnimalsProvider().createRecord(item);
+                            },
+                          ),
+                        )
+                      ],
                     ),
-                    child: Text(
-                      'اضف',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    onPressed: () {
-                      if (!_formKey.currentState.validate()) {
-                        return;
-                      }
-                      _formKey.currentState.save();
-                      print(title);
-                      Item item = new Item(
-                        categoryType: categoryType,
-                        descreption: description,
-                        itemOwner: FirebaseAuth.instance.currentUser.uid,
-                        title: title,
-                        date: DateTime.now(),
-                        //imageFiles: imagesFiles,
-                        condition: condition,
-                        isfree: isfree,
-                        properties: properties,
-                      );
-                      ItemController().addItem(item);
-                      properties.clear();
-                      //AnimalsProvider().createRecord(item);
-                  
-                    },
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
+                ),
+              ),
       ),
     );
   }
