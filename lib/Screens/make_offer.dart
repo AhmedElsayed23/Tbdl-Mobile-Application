@@ -6,7 +6,7 @@ import 'package:gp_version_01/widgets/my_offer.dart';
 class MakeOffer extends StatelessWidget {
   static const String route = "MakeOffer";
 
-  List urls = [
+  final List urls = [
       'https://content.avito.ma/images/10/10018192643.jpg',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPaf6EZvTG7jJ4BamjuO7di8sHCdLz2WEBMviDFlUigovetZ8iAjTnmPUDVA&usqp=CAc',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMY7yXRnDhd153tj6lRBv6YXDb91cKeKdqWA&usqp=CAU',

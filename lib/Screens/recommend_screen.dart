@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
-import 'package:gp_version_01/widgets/product_Item.dart';
 
 class Recommend extends StatelessWidget {
   static const String route = "Recommend";
 
-  List urls = [
+  final List urls = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw1cmBNAvLSVIG9WgLtoqnMJypzgJdigLCqrHWYZw3MpD43Yz3UYUdV4zbX-sYg0Pyp735SA&usqp=CAc',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXOot-fOsgB1F-SbN9cmo6FycyyMBaGU2EDpo9adXChrysAroKiAizrNgxb2H-glY08Td0OBR_&usqp=CAc',
     'https://www.thebalancesmb.com/thmb/0NefRBrg_lU-vxqzclEne4RU3R8=/640x360/smart/filters:no_upscale()/dressshoes1-f5db6a43f1714b609c772f6c0c1814df.jpg',

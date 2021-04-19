@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
-import 'package:gp_version_01/Screens/home_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';

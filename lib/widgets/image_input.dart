@@ -81,23 +81,21 @@ class _ImageMultipleState extends State<ImageMultiple> {
                   )
                 : Image.asset("assets/no-image-icon-6.png"),
           ),
-         
-            RaisedButton.icon(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              onPressed: pickImages,
-              icon: Icon(
-                Icons.camera_alt_outlined,
-                size: 40,
-              ),
-              label: Text(
-                'اختر الصوره',
-                textAlign: TextAlign.center,
-              ),
-              textColor: Theme.of(context).primaryColor,
+          RaisedButton.icon(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
-        
+            onPressed: pickImages,
+            icon: Icon(
+              Icons.camera_alt_outlined,
+              size: 40,
+            ),
+            label: Text(
+              'اختر الصوره',
+              textAlign: TextAlign.center,
+            ),
+            textColor: Theme.of(context).primaryColor,
+          ),
         ],
       ),
     );

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
-import 'package:gp_version_01/widgets/myProducts.dart';
 
 class Details extends StatefulWidget {
   static const String route = "/details";

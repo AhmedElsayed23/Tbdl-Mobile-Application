@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DescriptionItem extends StatelessWidget {
-  Map detail;
+  final Map detail;
   DescriptionItem(this.detail);
   @override
   Widget build(BuildContext context) {

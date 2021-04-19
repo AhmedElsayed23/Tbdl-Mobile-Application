@@ -6,7 +6,7 @@ import 'package:gp_version_01/widgets/product_Item.dart';
 class Favorites extends StatelessWidget {
   static const String route = "Favorites";
 
-  List urls = [
+  final List urls = [
    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7-IV3YpRnewzrc0TcCZkbkMkihZP6DjPXKA&usqp=CAU',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR3Gn2tIlpRL7hrO2shrO34YKERjiShiRJ7w&usqp=CAU',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6LzgrlxDmE4G24tJjkiL2vgDQuwqezpN_QA&usqp=CAU',

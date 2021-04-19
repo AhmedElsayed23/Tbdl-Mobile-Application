@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 
 class ConversationList extends StatefulWidget{
-  String name;
-  String messageText;
-  String imageUrl;
-  String time;
-  bool isMessageRead;
+  final String name;
+  final String messageText;
+  final String imageUrl;
+  final String time;
+  final bool isMessageRead;
   ConversationList({@required this.name,@required this.messageText,@required this.imageUrl,@required this.time,@required this.isMessageRead});
   @override
   _ConversationListState createState() => _ConversationListState();

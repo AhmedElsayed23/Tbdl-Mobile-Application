@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gp_version_01/models/Categories/animals.dart';
+import 'package:path/path.dart';
 
 class AnimalsProvider with ChangeNotifier {
   final databaseReference = FirebaseFirestore.instance;
@@ -28,6 +29,25 @@ class AnimalsProvider with ChangeNotifier {
     }
 
     return imageURLs;
+  }
+
+  Future uploadImageToFirebase(List<File> images) async {
+    List<String> imageURLs = new List<String>();
+    String fileName;
+    StorageReference firebaseStorageRef;
+    StorageUploadTask uploadTask;
+    StorageTaskSnapshot taskSnapshot;
+    for (int i = 0; i < images.length; i++) {
+      fileName = basename(images[i].path);
+      firebaseStorageRef =
+          FirebaseStorage.instance.ref().child('uploads/$fileName');
+      uploadTask = firebaseStorageRef.putFile(images[i]);
+      taskSnapshot = await uploadTask.onComplete;
+      taskSnapshot.ref.getDownloadURL().then((value) {
+        imageURLs.add(value);
+        print(value);
+      });
+    }
   }
 
   void createRecord(Animals animal) async {
@@ -55,7 +75,7 @@ class AnimalsProvider with ChangeNotifier {
 
   void deleteData() {
     try {
-      databaseReference.collection('books').document('1').delete();
+      databaseReference.collection('books').doc('1').delete();
     } catch (e) {
       print(e.toString());
     }

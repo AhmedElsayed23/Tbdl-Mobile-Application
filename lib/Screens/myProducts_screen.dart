@@ -7,7 +7,7 @@ import 'details_screen.dart';
 class MyProducts extends StatelessWidget {
   static const String route = "MyProducts";
 
-  List urls = [
+  final List urls = [
     'https://content.avito.ma/images/10/10018192643.jpg',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPaf6EZvTG7jJ4BamjuO7di8sHCdLz2WEBMviDFlUigovetZ8iAjTnmPUDVA&usqp=CAc',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMY7yXRnDhd153tj6lRBv6YXDb91cKeKdqWA&usqp=CAU',
@@ -35,7 +35,7 @@ class MyProducts extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) => InkWell(
           onTap: () => Navigator.pushNamed(context, Details.route,
               arguments: urls[index]),
-          child: MyProducts_items(
+          child: MyProductItems(
             index: index,
             listOfUrl: urls,
           ),

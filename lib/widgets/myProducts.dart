@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MyProducts_items extends StatelessWidget {
+class MyProductItems extends StatelessWidget {
   final int index;
   final listOfUrl;
-  MyProducts_items({this.index, this.listOfUrl});
+  MyProductItems({this.index, this.listOfUrl});
 
   void _showSheet(BuildContext context) {
     showModalBottomSheet(

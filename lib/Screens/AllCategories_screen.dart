@@ -10,7 +10,7 @@ class AllCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    ;
+
     final title = args['title'];
     final urls = args['urls'];
 

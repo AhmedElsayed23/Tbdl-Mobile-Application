@@ -6,7 +6,7 @@ final controller = PageController();
 
 class ImageScreen extends StatelessWidget {
   static const route = 'image-screen';
-  TransformationController _controller = TransformationController();
+  final TransformationController _controller = TransformationController();
   @override
   Widget build(BuildContext context) {
     List _images = ModalRoute.of(context).settings.arguments;
