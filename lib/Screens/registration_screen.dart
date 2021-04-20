@@ -171,7 +171,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           "banScore": 0,
                           "isBanned": false,
                         }).then((_) {
-                          Navigator.pushNamed(context, TabsScreen.route);
+                          Navigator.pushReplacementNamed(context, TabsScreen.route);
                         });
                       }
                       setState(() {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/models/item.dart';
 
 class ProductItem extends StatelessWidget {
-  final int index;
-  final listOfUrl;
-  final bool isFavorite;
-  ProductItem({this.index, this.listOfUrl, this.isFavorite});
+  Item item=new Item();
+  bool isFavorite=false;
+  ProductItem({this.item});
 
   Icon check(bool isFavorite) {
     if (isFavorite) {
@@ -35,7 +35,7 @@ class ProductItem extends StatelessWidget {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    listOfUrl[index],
+                    item.images[0],
                     fit: BoxFit.cover,
                     height: 225,
                     width: double.infinity,
@@ -62,7 +62,7 @@ class ProductItem extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "اسم المنتج",
+                    item.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w200,
                       fontSize: 20.0,
@@ -72,7 +72,7 @@ class ProductItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "هنا يدخل المستخدم شرح مفصل عن المنتج المراد نشره",
+                    item.description,
                     style: TextStyle(fontWeight: FontWeight.w300),
                     textDirection: TextDirection.rtl,
                     maxLines: 2,
@@ -86,7 +86,7 @@ class ProductItem extends StatelessWidget {
                         color: Colors.red,
                       ),
                       Text(
-                        "العنوان",
+                        "item.location",
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

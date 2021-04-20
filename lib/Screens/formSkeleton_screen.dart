@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
@@ -10,7 +12,7 @@ import 'package:gp_version_01/widgets/dropListCategories.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:toast/toast.dart';
+//import 'package:toast/toast.dart';
 
 class AddItemScreen extends StatefulWidget {
   static const String route = '/addItemScreen';
@@ -39,8 +41,49 @@ class _AddItemScreenState extends State<AddItemScreen> {
   List<File> imagesFiles = List<File>();
 
   bool showSpinner = false;
+  bool isLeave = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget continueButton = FlatButton(
+      child: Text("لا"),
+      onPressed: () {
+        isLeave = false;
+        Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("نعم"),
+      onPressed: () {
+        isLeave = true;
+        Navigator.of(context).pop();
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      },
+    );
+
+    // set up the AlertDialog
+    Directionality alert = Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          title: Text("تنبيه"),
+          content: Text("هل انت متأكد انك تريد الخروج من البرنامج؟"),
+          actions: [
+            cancelButton,
+            continueButton,
+          ],
+        ));
+
+    // show the dialog
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   void showErrorMessage(BuildContext context) {
     showDialog(
@@ -192,82 +235,88 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) {
     Firebase.initializeApp();
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(
-        "اضف منتج",
-        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
-      )),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: Container(
-                margin: EdgeInsets.all(24),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        _buildImage(),
-                        _buildTitle(),
-                        _buildDescription(),
-                        DropListCategories(fun, properties),
-                        _buildCondition(context),
-                        SizedBox(height: 50),
-                        SizedBox(
-                          height: 40,
-                          width: 150,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Text(
-                              'اضف',
-                              style: TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                            onPressed: () async {
-                              if (!_formKey.currentState.validate()) {
-                                return;
-                              }
-                              _formKey.currentState.save();
-                              if (imagesFiles.length == 0) {
-                                showErrorMessage(context);
-                              } else {
-                                setState(() {
-                                  showSpinner = true;
-                                });
-                                Item item = new Item(
-                                  categoryType: categoryType,
-                                  descreption: description,
-                                  itemOwner:
-                                      FirebaseAuth.instance.currentUser.uid,
-                                  title: title,
-                                  date: DateTime.now(),
-                                  imageFiles: imagesFiles,
-                                  condition: condition,
-                                  isfree: isfree,
-                                  properties: properties,
-                                );
-
-                                await ItemController().addItem(item);
-                                properties.clear();
-                                setState(() {
-                                  showSpinner = false;
-                                });
+    return WillPopScope(
+      onWillPop: () async {
+          showAlertDialog(context);
+          return isLeave;
+        },
+          child: Scaffold(
+        appBar: AppBar(
+            title: Text(
+          "اضف منتج",
+          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+        )),
+        body: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: Container(
+                  margin: EdgeInsets.all(24),
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _buildImage(),
+                          _buildTitle(),
+                          _buildDescription(),
+                          DropListCategories(fun, properties),
+                          _buildCondition(context),
+                          SizedBox(height: 50),
+                          SizedBox(
+                            height: 40,
+                            width: 150,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Text(
+                                'اضف',
+                                style: TextStyle(color: Colors.white, fontSize: 16),
+                              ),
+                              onPressed: () async {
+                                if (!_formKey.currentState.validate()) {
+                                  return;
+                                }
+                                _formKey.currentState.save();
                                 FocusManager.instance.primaryFocus.unfocus();
-                                Toast.show("تم الاضافة بنجاح", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-                                 Navigator.of(context).pushReplacementNamed(MyProducts.route);
-                              }
+                                if (imagesFiles.length == 0) {
+                                  showErrorMessage(context);
+                                } else {
+                                  setState(() {
+                                    showSpinner = true;
+                                  });
+                                  Item item = new Item(
+                                    categoryType: categoryType,
+                                    description: description,
+                                    itemOwner:
+                                        FirebaseAuth.instance.currentUser.uid,
+                                    title: title,
+                                    date: Timestamp.now(),
+                                    imageFiles: imagesFiles,
+                                    condition: condition,
+                                    isfree: isfree,
+                                    properties: properties,
+                                  );
 
-                              //AnimalsProvider().createRecord(item);
-                            },
-                          ),
-                        )
-                      ],
+                                  await ItemController().addItem(item);
+                                  properties.clear();
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                  //Toast.show("تم الاضافة بنجاح", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                                  Navigator.of(context).pushNamed(MyProducts.route);
+                                }
+
+                                //AnimalsProvider().createRecord(item);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+        ),
       ),
     );
   }

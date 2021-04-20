@@ -26,7 +26,7 @@ class Favorites extends StatelessWidget {
       appBar: AppBar(
         title: Text("المفضلة", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),),
       ),
-      body: StaggeredGridView.countBuilder(
+      /*body: StaggeredGridView.countBuilder(
         crossAxisCount: 4,
         itemCount: urls.length,
 
@@ -44,7 +44,7 @@ class Favorites extends StatelessWidget {
             2, MediaQuery.of(context).size.aspectRatio * 7.5),
         //mainAxisSpacing: 5,
         //crossAxisSpacing: 5,
-      ),
+      ),*/
     );
   }
 }

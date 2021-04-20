@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
+import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 
@@ -11,36 +12,9 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  Map detailsMap = {
-    'الماركه': 'مرسيدس',
-    'السنة': '2020',
-    'الناقل الحركى': 'ديناميكى',
-    'كيلومترات': '15000 ',
-    'الهيكل': 'معدنى',
-    'اللون': 'احمر',
-    'المحرك': 'ثنائى الاشواط',
-    'الحالة': 'مستعمل',
-    'الموديل': 'الكابريو',
-  };
-  List urls = [
-    'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ',
-    'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
-    'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&w=1000&q=80&fbclid=IwAR3VTlMP89trSaXlkUt_Yu7VNQi4QrnjpUaAsbIEf7ypZLijJJZmRH_BOk8',
-    'https://creativepro.com/wp-content/uploads/2019/05/imagetext01.jpg?fbclid=IwAR2qxe1wN3zDmStGv0GJdQZ6y0cda7R0DRjjXM-rMDvfgp5jMIJXE5_lKJA',
-    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg?fbclid=IwAR3gUBIwQLcxRUdR94YSUOKft-Ms4BKfulq2BrtbmvjxvRcFf1Zx9jIbfwo',
-    'https://i.pinimg.com/originals/82/c2/8a/82c28a10da93fae1360986a3823fdf11.jpg?fbclid=IwAR0YL6lWpuhxl8u5hxhL-Alz52dpAH7eCoAs8VPv78VD_OnWnkgnEKAU5kk',
-    'https://cdn.pocket-lint.com/r/s/1200x/assets/images/151442-cameras-feature-stunning-photos-from-the-national-sony-world-photography-awards-2020-image1-evuxphd3mr.jpg',
-    'https://images.unsplash.com/photo-1535463731090-e34f4b5098c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR0d_7wLBsYR1ADCQKvhthAQBYwhXn8GM2Akl9b4wpa3bOX94TMQN3z-igs',
-  ];
-
   @override
   Widget build(BuildContext context) {
-    String url = ModalRoute.of(context).settings.arguments;
-    List listOfImages = [
-      url,
-      'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&w=1000&q=80&fbclid=IwAR3VTlMP89trSaXlkUt_Yu7VNQi4QrnjpUaAsbIEf7ypZLijJJZmRH_BOk8',
-      'https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80&fbclid=IwAR3PDJqyLYiy0TFN2a-fuu0Q7Qqp2DTU9M5lyaXx4n0aVufjUnaA-zGzWDc',
-    ];
+    Item item = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -92,12 +66,12 @@ class _DetailsState extends State<Details> {
                         onTap: () => Navigator.pushNamed(
                           context,
                           ImageScreen.route,
-                          arguments: listOfImages,
+                          arguments:item,
                         ),
                         child: Container(
                             height: 325,
                             child: Image.network(
-                              url,
+                              item.images[0],
                               fit: BoxFit.fill,
                               width: double.infinity,
                             )),
@@ -117,7 +91,7 @@ class _DetailsState extends State<Details> {
                           ),
                           width: double.infinity,
                           child: Text(
-                            "عربية ",
+                            item.title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -158,7 +132,7 @@ class _DetailsState extends State<Details> {
                                   color: Colors.red,
                                 ),
                                 Spacer(),
-                                Text('الشيخ زايد'),
+                                Text('item.location'),
                               ],
                             ),
                           ),
@@ -177,7 +151,7 @@ class _DetailsState extends State<Details> {
                               child: Container(
                                 width: double.infinity,
                                 child: Text(
-                                  "زودت سيارات إم جي 5 موديل 2020 بالعديد من المواصفات القياسية ووسائل الأمن والسلامة، منها “عدد 6 وسائد هوائية، ونظام الفرامل المانعة للانغلاق ، وتوزيع إلكتروني للفرامل",
+                                  item.description,
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ),
@@ -185,7 +159,7 @@ class _DetailsState extends State<Details> {
                           ),
                         ),
                         Divider(color: Colors.black45),
-                        DescriptionItem(detailsMap),
+                        DescriptionItem(item.properties),
                         SizedBox(
                           height: 60,
                         )
@@ -206,7 +180,7 @@ class _DetailsState extends State<Details> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 150,
+                    width: 120,
                     height: 40,
                     child: FloatingActionButton.extended(
                       shape: RoundedRectangleBorder(
@@ -242,7 +216,7 @@ class _DetailsState extends State<Details> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 150,
+                    width: 120,
                     height: 40,
                     child: FloatingActionButton.extended(
                       shape: RoundedRectangleBorder(
@@ -261,43 +235,6 @@ class _DetailsState extends State<Details> {
                   ),
                 ),
               ]),
-        )
-
-        /*bottomNavigationBar: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              child: RaisedButton.icon(
-                icon: Icon(Icons.add,
-                    color: Theme.of(context).scaffoldBackgroundColor),
-                onPressed: null,
-                label: Text(
-                  'Add Place !',
-                  style: TextStyle(
-                      color: Theme.of(context).scaffoldBackgroundColor),
-                ),
-                elevation: 0,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            Expanded(
-              child: RaisedButton.icon(
-                icon: Icon(Icons.add,
-                    color: Theme.of(context).scaffoldBackgroundColor),
-                onPressed: null,
-                label: Text(
-                  'Add Place !',
-                  style: TextStyle(
-                      color: Theme.of(context).scaffoldBackgroundColor),
-                ),
-                elevation: 0,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            )
-          ],
-        ),
-      ),*/
-        );
+        ));
   }
 }

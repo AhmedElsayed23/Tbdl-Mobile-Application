@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:gp_version_01/models/item.dart';
+import 'package:photo_view/photo_view.dart';
 
 final controller = PageController();
 
@@ -9,15 +11,19 @@ class ImageScreen extends StatelessWidget {
   final TransformationController _controller = TransformationController();
   @override
   Widget build(BuildContext context) {
-    List _images = ModalRoute.of(context).settings.arguments;
-
+    Item item = ModalRoute.of(context).settings.arguments;
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
             backgroundColor: Colors.black,
             title: Text(
-              "سماعة بلوتوث سامسونج اصلية ",
+              item.title,
+              style: TextStyle(color: Colors.white),
               maxLines: 2,
               textAlign: TextAlign.end,
             ),
@@ -26,19 +32,8 @@ class ImageScreen extends StatelessWidget {
             color: Colors.black,
             child: Center(
               child: CarouselSlider(
-                items: _images
-                    .map((item) => InteractiveViewer(
-                          transformationController: _controller,
-                          minScale: 0.5,
-                          maxScale: 3.0,
-                          onInteractionEnd: (details) {
-                            _controller.value = Matrix4.identity();
-                          },
-                          child: Image.network(
-                            item,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ))
+                items: item.images
+                    .map((it) => PhotoView(imageProvider: NetworkImage(it) ))
                     .toList(),
                 options: CarouselOptions(
                   scrollPhysics: ScrollPhysics(parent: BouncingScrollPhysics()),
@@ -50,30 +45,7 @@ class ImageScreen extends StatelessWidget {
                 ),
               ),
             ),
-          )
-          // Container(
-          //   color: Colors.black,
-          //   child: PageView.builder(
-          //     controller: controller,
-          //     scrollDirection: Axis.horizontal,
-          //     itemCount: _images.length,
-          //     itemBuilder: (context, index) {
-          //       return Container(
-          //         margin: EdgeInsets.symmetric(vertical: 20, horizontal: 1),
-          //         child: InteractiveViewer(
-          //           minScale: 0.5,
-          //           maxScale: 5,
-          //           child: Image.network(
-          //             _images[index],
-          //             height: 100,
-          //             fit: BoxFit.contain,
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-          ),
+          )),
     );
   }
 }

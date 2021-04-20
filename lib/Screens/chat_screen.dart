@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
 
@@ -62,6 +63,7 @@ class _ChatPageState extends State<ChatPage> {
       name: "John Wick",
     ),
   ];
+  bool isLeave = false;
 
   void _showSheet() {
     showModalBottomSheet(
@@ -121,64 +123,112 @@ class _ChatPageState extends State<ChatPage> {
         });
   }
 
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget continueButton = FlatButton(
+      child: Text("لا"),
+      onPressed: () {
+        isLeave = false;
+        Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("نعم"),
+      onPressed: () {
+        isLeave = true;
+        Navigator.of(context).pop();
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      },
+    );
+
+    // set up the AlertDialog
+    Directionality alert = Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          title: Text("تنبيه"),
+          content: Text("هل انت متأكد انك تريد الخروج من البرنامج؟"),
+          actions: [
+            cancelButton,
+            continueButton,
+          ],
+        ));
+
+    // show the dialog
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                  child: Text(
-                    "المحدثات",
-                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+    return WillPopScope(
+      onWillPop: () async {
+        showAlertDialog(context);
+        return isLeave;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                    child: Text(
+                      "المحدثات",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "ابحث...",
-                    hintStyle: TextStyle(color: Colors.grey.shade600),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey.shade600,
-                      size: 20,
+                Padding(
+                  padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "ابحث...",
+                      hintStyle: TextStyle(color: Colors.grey.shade600),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey.shade600,
+                        size: 20,
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      contentPadding: EdgeInsets.all(8),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.grey.shade100)),
                     ),
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    contentPadding: EdgeInsets.all(8),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.grey.shade100)),
                   ),
                 ),
-              ),
-              ListView.builder(
-                itemCount: chatUsers.length,
-                shrinkWrap: true,
-                padding: EdgeInsets.only(top: 16),
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onLongPress: _showSheet,
-                    child: ConversationList(
-                      name: chatUsers[index].name,
-                      messageText: chatUsers[index].messageText,
-                      imageUrl: chatUsers[index].imageURL,
-                      time: chatUsers[index].time,
-                      isMessageRead: (index == 0 || index == 3) ? true : false,
-                    ),
-                  );
-                },
-              ),
-            ],
+                ListView.builder(
+                  itemCount: chatUsers.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(top: 16),
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onLongPress: _showSheet,
+                      child: ConversationList(
+                        name: chatUsers[index].name,
+                        messageText: chatUsers[index].messageText,
+                        imageUrl: chatUsers[index].imageURL,
+                        time: chatUsers[index].time,
+                        isMessageRead:
+                            (index == 0 || index == 3) ? true : false,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

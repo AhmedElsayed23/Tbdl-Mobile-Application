@@ -26,6 +26,7 @@ class Recommend extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
           ),
         ),
-        body: Grid(urls: urls));
+        //body: //Grid(urls: urls)
+        );
   }
 }

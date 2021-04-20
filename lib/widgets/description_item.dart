@@ -19,7 +19,7 @@ class DescriptionItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Container(
-                          width: 250,
+                          width: 230,
                           child: Text(
                             e.value,
                             textAlign: TextAlign.right,

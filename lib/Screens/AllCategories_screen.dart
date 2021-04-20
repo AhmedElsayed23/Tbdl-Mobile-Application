@@ -19,7 +19,7 @@ class AllCategories extends StatelessWidget {
         title: Text(title),
         centerTitle: true,
       ),
-      body: Grid(urls: urls),
+      //body: Grid(urls: urls),
     );
   }
 }

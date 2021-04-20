@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:provider/provider.dart';
 
 import '../Screens/details_screen.dart';
 import 'product_Item.dart';
 
 class Grid extends StatelessWidget {
-  const Grid({
-    Key key,
-    @required this.urls,
-  }) : super(key: key);
-
-  final urls;
 
   @override
   Widget build(BuildContext context) {
+    final items = Provider.of<ItemController>(context).items;
     return StaggeredGridView.countBuilder(
       crossAxisCount: 4,
-      itemCount: urls.length,
-
+      itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => InkWell(
         onTap: () =>
-            Navigator.pushNamed(context, Details.route, arguments: urls[index]),
+            Navigator.pushNamed(context, Details.route, arguments: items[index]),
         child: ProductItem(
-          index: index,
-          listOfUrl: urls,
-          isFavorite: false,
+          item:items[index]
         ),
       ),
 
