@@ -11,6 +11,7 @@ import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
 import 'package:gp_version_01/Screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -39,10 +40,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => ItemController(),
-          ),
+          create: (context) => ItemController(),
+        ),
       ],
-          child: MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           tabBarTheme: TabBarTheme(labelStyle: GoogleFonts.cairo()),
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
           LoginScreen.route: (context) => LoginScreen(),
           RegistrationScreen.route: (context) => RegistrationScreen(),
           TabsScreen.route: (context) => TabsScreen(),
-
+          UserProductDetailsScreen.route:  (context) => UserProductDetailsScreen(),
         },
       ),
     );

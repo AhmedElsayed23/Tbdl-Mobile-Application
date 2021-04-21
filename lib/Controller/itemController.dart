@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gp_version_01/models/item.dart';
@@ -8,27 +9,31 @@ import 'package:path/path.dart';
 
 class ItemController with ChangeNotifier {
   final firestoreInstance = FirebaseFirestore.instance;
+  final firebaseUser = FirebaseAuth.instance.currentUser;
+
   List<Item> items = [];
+  List<Item> favoItems = [];
+  List<Item> userItems = [];
+
   ItemController();
 
   Future<void> getItems() async {
-    QuerySnapshot snapshot=await firestoreInstance.collection('Items').get();
+    QuerySnapshot snapshot = await firestoreInstance.collection('Items').get();
     List<Item> tempItems = [];
     snapshot.docs.forEach((element) {
       tempItems.add(new Item(
-        categoryType: element['categoryType'],
-        condition: element['condition'],
-        date: element['date'],
-        description: element['description'],
-        images: List<String>.from(element['images']),
-        isfree: element['isfree'],
-        itemOwner: element['itemOwner'],
-        properties: element['properties'],
-        title: element['title'],
-        id: element.reference.id
-      ));
+          categoryType: element['categoryType'],
+          condition: element['condition'],
+          date: element['date'],
+          description: element['description'],
+          images: List<String>.from(element['images']),
+          isfree: element['isfree'],
+          itemOwner: element['itemOwner'],
+          properties: element['properties'],
+          title: element['title'],
+          id: element.reference.id));
     });
-    for(Item temp in tempItems){
+    for (Item temp in tempItems) {
       print(temp.categoryType);
       print(temp.condition);
       print(temp.date);
@@ -40,7 +45,7 @@ class ItemController with ChangeNotifier {
       print(temp.properties);
       print(temp.title);
     }
-    items=tempItems;
+    items = tempItems;
   }
 
   Future<List<String>> uploadImageToFirebase(List<File> images) async {
@@ -70,16 +75,34 @@ class ItemController with ChangeNotifier {
     print("------------");
     item.images = await ItemController().uploadImageToFirebase(item.imageFiles);
     firestoreInstance.collection("Items").doc().set({
-        'title': item.title,
-        'description': item.description,
-        'itemOwner': item.itemOwner,
-        'categoryType': item.categoryType,
-        'date': item.date,
-        'images': item.images,
-        'properties': item.properties,
-        'isfree':item.isfree,
-        'condition':item.condition,
-      }, SetOptions(merge: true));
+      'title': item.title,
+      'description': item.description,
+      'itemOwner': item.itemOwner,
+      'categoryType': item.categoryType,
+      'date': item.date,
+      'images': item.images,
+      'properties': item.properties,
+      'isfree': item.isfree,
+      'condition': item.condition,
+    }, SetOptions(merge: true));
     print(item.title);
+  }
+
+  void getUserItems(){
+    List<Item> tempItems = [];
+    for (var item in items) {
+      if(item.itemOwner == firebaseUser.uid){
+        tempItems.add(item);
+      }
+    }
+    userItems = tempItems;
+  }
+
+  Future<void> getUserFavoriteItems() async {}
+
+  Future<void> deleteItem(String itemId) async {
+    firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
+    print("success!");
+  });
   }
 }

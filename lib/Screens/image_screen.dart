@@ -8,7 +8,6 @@ final controller = PageController();
 
 class ImageScreen extends StatelessWidget {
   static const route = 'image-screen';
-  final TransformationController _controller = TransformationController();
   @override
   Widget build(BuildContext context) {
     Item item = ModalRoute.of(context).settings.arguments;

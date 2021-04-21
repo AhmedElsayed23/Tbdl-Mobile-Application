@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/models/item.dart';
+import 'package:provider/provider.dart';
 
 class MyProductItems extends StatelessWidget {
-  final int index;
-  final listOfUrl;
-  MyProductItems({this.index, this.listOfUrl});
+  final Item myItem;
+  MyProductItems({this.myItem});
 
   void _showSheet(BuildContext context) {
     showModalBottomSheet(
@@ -29,7 +31,9 @@ class MyProductItems extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                 Provider.of<ItemController>(context, listen: false).deleteItem(myItem.id);
+                              },
                               child: Icon(
                                 Icons.delete,
                               )),
@@ -92,7 +96,7 @@ class MyProductItems extends StatelessWidget {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    listOfUrl[index],
+                    myItem.images[0],
                     fit: BoxFit.cover,
                     height: 225,
                     width: double.infinity,
@@ -121,7 +125,7 @@ class MyProductItems extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "اسم المنتج",
+                    myItem.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20.0,
@@ -131,7 +135,7 @@ class MyProductItems extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "هنا يدخل المستخدم شرح مفصل عن المنتج المراد نشره",
+                    myItem.description,
                     style: TextStyle(fontWeight: FontWeight.w300),
                     textDirection: TextDirection.rtl,
                     maxLines: 2,
