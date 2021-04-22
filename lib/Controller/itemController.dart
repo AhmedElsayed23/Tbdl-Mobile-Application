@@ -35,6 +35,7 @@ class ItemController with ChangeNotifier {
           favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
           id: element.reference.id));
     });
+    notifyListeners();
     for (Item temp in tempItems) {
       print(temp.categoryType);
       print(temp.condition);
@@ -76,6 +77,7 @@ class ItemController with ChangeNotifier {
   Future<void> addItem(Item item) async {
     print("------------");
     item.images = await ItemController().uploadImageToFirebase(item.imageFiles);
+    item.favoritesUserIDs=[];
     firestoreInstance.collection("Items").doc().set({
       'title': item.title,
       'description': item.description,
@@ -86,8 +88,10 @@ class ItemController with ChangeNotifier {
       'properties': item.properties,
       'isfree': item.isfree,
       'condition': item.condition,
-      'favoritesUserIDs': []
-    }, SetOptions(merge: true)).then((value) => notifyListeners());
+      'favoritesUserIDs': item.favoritesUserIDs
+    }, SetOptions(merge: true)).then((value) { 
+      items.add(item);
+      notifyListeners();});
   }
 
   void getUserItems() {
@@ -116,6 +120,7 @@ class ItemController with ChangeNotifier {
     try {
       firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
         int index = items.indexWhere((element) => element.id == itemId);
+        userItems.remove(items[index]);
         items.removeAt(index);
         notifyListeners();
       });
