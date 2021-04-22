@@ -14,6 +14,7 @@ class ItemController with ChangeNotifier {
   List<Item> items = [];
   List<Item> favoItems = [];
   List<Item> userItems = [];
+  List<Item> userHomeItems = [];
 
   ItemController();
 
@@ -31,6 +32,7 @@ class ItemController with ChangeNotifier {
           itemOwner: element['itemOwner'],
           properties: element['properties'],
           title: element['title'],
+          favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
           id: element.reference.id));
     });
     for (Item temp in tempItems) {
@@ -84,25 +86,59 @@ class ItemController with ChangeNotifier {
       'properties': item.properties,
       'isfree': item.isfree,
       'condition': item.condition,
-    }, SetOptions(merge: true));
-    print(item.title);
+      'favoritesUserIDs': []
+    }, SetOptions(merge: true)).then((value) => notifyListeners());
   }
 
-  void getUserItems(){
+  void getUserItems() {
     List<Item> tempItems = [];
     for (var item in items) {
-      if(item.itemOwner == firebaseUser.uid){
+      if (item.itemOwner == firebaseUser.uid) {
         tempItems.add(item);
       }
     }
     userItems = tempItems;
   }
 
+  void getUserHomeItems() {
+    List<Item> tempItems = [];
+    for (var item in items) {
+      if (item.itemOwner != firebaseUser.uid) {
+        tempItems.add(item);
+      }
+    }
+    userHomeItems = tempItems;
+  }
+
   Future<void> getUserFavoriteItems() async {}
 
   Future<void> deleteItem(String itemId) async {
-    firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
-    print("success!");
-  });
+    try {
+      firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
+        int index = items.indexWhere((element) => element.id == itemId);
+        items.removeAt(index);
+        notifyListeners();
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> modifyFavorite(String id, bool isFavorite) async {
+    int index = items.indexWhere((element) => element.id == id);
+    if (isFavorite) {
+      items[index].favoritesUserIDs.add(firebaseUser.uid);
+      favoItems.add(items[index]);
+    } else {
+      items[index].favoritesUserIDs.remove(firebaseUser.uid);
+      favoItems.remove(items[index]);
+    }
+    try {
+      await firestoreInstance.collection("Items").doc(id).update(
+        {'favoritesUserIDs': items[index].favoritesUserIDs},
+      ).then((value) => notifyListeners());
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

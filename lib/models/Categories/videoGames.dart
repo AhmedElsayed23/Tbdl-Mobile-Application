@@ -1,6 +1,6 @@
-import 'package:gp_version_01/models/items.dart';
+import 'package:gp_version_01/models/item.dart';
 
-class VideoGames extends Items{
+class VideoGames extends Item{
   final String type;
 
   VideoGames({this.type});

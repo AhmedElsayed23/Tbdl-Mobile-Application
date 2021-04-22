@@ -10,12 +10,13 @@ class Item{
   final String itemOwner;
   String location="المعادي";
   List<String> images;
+  List<String> favoritesUserIDs;
   bool condition;
   bool isfree;
   final List<File> imageFiles;
   Map properties=new Map<String,String>();
   String categoryType;
   String id;
-  Item({this.description, this.images,this.location, this.title, this.itemOwner, this.imageFiles, this.date,this.properties,this.id,this.categoryType,this.condition,this.isfree});
+  Item({this.description, this.favoritesUserIDs, this.images,this.location, this.title, this.itemOwner, this.imageFiles, this.date,this.properties,this.id,this.categoryType,this.condition,this.isfree});
 
 }

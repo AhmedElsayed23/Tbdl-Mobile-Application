@@ -1,6 +1,6 @@
-import 'package:gp_version_01/models/items.dart';
+import 'package:gp_version_01/models/item.dart';
 
-class Services extends Items{
+class Services extends Item{
   final String serviceType;
 
   Services({this.serviceType});

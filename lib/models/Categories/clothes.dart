@@ -1,7 +1,7 @@
-import '../items.dart';
+import '../item.dart';
 
-class Clothes extends Items{
-  final String condition;
+class Clothes extends Item{
+  final bool condition;
   final String clotheType;
 
   Clothes({this.condition, this.clotheType});

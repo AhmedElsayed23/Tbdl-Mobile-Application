@@ -1,7 +1,7 @@
-import 'package:gp_version_01/models/items.dart';
+import 'package:gp_version_01/models/item.dart';
 
-class Others extends Items{
-  final String condition;
+class Others extends Item{
+  final bool condition;
   final String type;
 
   Others({this.condition, this.type});

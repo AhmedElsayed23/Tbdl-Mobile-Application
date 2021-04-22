@@ -1,8 +1,8 @@
-import 'package:gp_version_01/models/items.dart';
+import 'package:gp_version_01/models/item.dart';
 
-class Books extends Items{
+class Books extends Item{
   final String bookType;
-  final String condition;
+  final bool condition;
 
   Books({this.bookType, this.condition});
 

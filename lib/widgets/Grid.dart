@@ -10,7 +10,8 @@ class Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = Provider.of<ItemController>(context).items;
+     Provider.of<ItemController>(context).getUserHomeItems();
+    final items = Provider.of<ItemController>(context).userHomeItems;
     return StaggeredGridView.countBuilder(
       crossAxisCount: 4,
       itemCount: items.length,

@@ -1,6 +1,6 @@
-import 'package:gp_version_01/models/items.dart';
+import 'package:gp_version_01/models/item.dart';
 
-class Cars extends Items {
+class Cars extends Item {
   final String year;
   final double km;
   final String transmission;
@@ -8,7 +8,7 @@ class Cars extends Items {
   final String color;
   final String engine;
   final String model;
-  final String condition;
+  final bool condition;
   final String type;
 
   Cars({this.year, this.km, this.transmission, this.structure, this.color, this.engine, this.model, this.condition, this.type});

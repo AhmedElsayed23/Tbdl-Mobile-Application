@@ -1,16 +1,30 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/models/item.dart';
+import 'package:provider/provider.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends StatefulWidget {
   Item item=new Item();
-  bool isFavorite=false;
+
   ProductItem({this.item});
 
-  Icon check(bool isFavorite) {
-    if (isFavorite) {
-      return Icon(Icons.favorite, color: Colors.red);
-    } else {
+  @override
+  _ProductItemState createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  bool isFavorite=false;
+
+  Icon check() {
+    String id=FirebaseAuth.instance.currentUser.uid;
+    List<String> temp= widget.item.favoritesUserIDs.where((element) => element==id).toList();
+    if (temp.isEmpty) {
+      isFavorite=true;
       return Icon(Icons.favorite_border, color: Colors.white);
+    } else {
+      isFavorite=false;
+      return Icon(Icons.favorite, color: Colors.red);
     }
   }
 
@@ -35,7 +49,7 @@ class ProductItem extends StatelessWidget {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    item.images[0],
+                    widget.item.images[0],
                     fit: BoxFit.cover,
                     height: 225,
                     width: double.infinity,
@@ -50,8 +64,10 @@ class ProductItem extends StatelessWidget {
                     ),
                     color: Colors.black26,
                     child: IconButton(
-                      icon: check(isFavorite),
-                      onPressed: () {},
+                      icon: check(),
+                      onPressed: ()async {
+                       await Provider.of<ItemController>(context,listen: false).modifyFavorite(widget.item.id,isFavorite);
+                      },
                     ),
                   ),
                 )
@@ -62,7 +78,7 @@ class ProductItem extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    item.title,
+                    widget.item.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w200,
                       fontSize: 20.0,
@@ -72,7 +88,7 @@ class ProductItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    item.description,
+                    widget.item.description,
                     style: TextStyle(fontWeight: FontWeight.w300),
                     textDirection: TextDirection.rtl,
                     maxLines: 2,

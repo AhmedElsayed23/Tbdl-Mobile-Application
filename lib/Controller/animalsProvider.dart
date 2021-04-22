@@ -51,14 +51,14 @@ class AnimalsProvider with ChangeNotifier {
   }
 
   void createRecord(Animals animal) async {
-    animal.image = await uploadFile(animal.imageFiles);
+    animal.images = await uploadFile(animal.imageFiles);
     await databaseReference.collection("Animals").doc().set({
       'title': animal.title,
-      'description': animal.descreption,
+      'description': animal.description,
       'itemOwner': animal.itemOwner,
       'animalType': animal.animalType,
       'age': animal.age,
-      'images': animal.image
+      'images': animal.images
     }, SetOptions(merge: true));
   }
 

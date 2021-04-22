@@ -1,7 +1,7 @@
-import '../items.dart';
+import '../item.dart';
 
-class Furniture extends Items{
-  final String condition;
+class Furniture extends Item{
+  final bool condition;
   final String furnitureType;
 
   Furniture({this.condition, this.furnitureType});
