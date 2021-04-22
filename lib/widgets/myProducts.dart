@@ -32,7 +32,11 @@ class MyProductItems extends StatelessWidget {
                         children: [
                           FlatButton(
                               onPressed: () {
-                                 Provider.of<ItemController>(context, listen: false).deleteItem(myItem.id);
+                                try {
+                                  Provider.of<ItemController>(context,listen: false)
+                                      .deleteItem(myItem.id);
+                                  Navigator.pop(context);
+                                } catch (e) {}
                               },
                               child: Icon(
                                 Icons.delete,
