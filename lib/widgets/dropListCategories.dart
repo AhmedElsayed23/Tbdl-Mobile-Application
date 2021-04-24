@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DropListCategories extends StatefulWidget {
-  Function fun ;
+  Function fun;
   Map prop = new Map<String, String>();
-  DropListCategories(this.fun, this.prop);
+  Map initial = new Map<String, String>();
+  String initCategory;
+  bool updateOrAdd;
+  DropListCategories(
+      this.fun, this.prop, this.initial, this.updateOrAdd, this.initCategory);
   @override
   _DropListCategoriesState createState() => _DropListCategoriesState();
 }
 
 class _DropListCategoriesState extends State<DropListCategories> {
   String category = 'كتب';
+  bool isChanged=true;
+  bool firstTime=true;
+  List<String> listOfAddedProperties = [];
   List<String> servicesProperties = ["نوع الخدمة"];
   List<String> carsProperties = [
     "الناقل الحركى",
@@ -32,7 +39,11 @@ class _DropListCategoriesState extends State<DropListCategories> {
   List<String> clothesProperties = ["نوع الملبس"];
   List<String> othersProperties = ["النوع"];
 
+
   List<Widget> _buildproperties(List<String> properties) {
+    print("wwwwwwwwwwwwwwwwwwwwwwwww");
+    print(widget.initial);
+    widget.prop.clear();
     List<Widget> textForFields = [];
     for (String property in properties) {
       textForFields.add(
@@ -41,6 +52,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: TextFormField(
+              initialValue: widget.updateOrAdd &&isChanged ? widget.initial[property] : '',
               maxLength: 30,
               decoration: InputDecoration(
                 labelText: property,
@@ -60,17 +72,19 @@ class _DropListCategoriesState extends State<DropListCategories> {
               },
               onSaved: (String value) {
                 widget.prop.putIfAbsent(property, () => value);
+                print("ooooooooooooooooooooooooooooooooooooooooooooooo");
+                print(widget.prop);
               },
             ),
           ),
         ),
+
       );
     }
     return textForFields;
   }
 
   List<String> getProperties(String category) {
-    List<String> listOfAddedProperties = [];
     if (category == "خدمات") {
       listOfAddedProperties = servicesProperties;
     } else if (category == "عربيات") {
@@ -95,10 +109,18 @@ class _DropListCategoriesState extends State<DropListCategories> {
     widget.fun(category);
     return listOfAddedProperties;
   }
+  @override
+  void didChangeDependencies(){
+    if(firstTime){
+    if(widget.updateOrAdd) category = widget.initCategory;
+    listOfAddedProperties = getProperties(category);
+    }
+     firstTime= false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> listOfAddedProperties = getProperties(category);
     return Column(
       children: [
         Padding(
@@ -115,8 +137,13 @@ class _DropListCategoriesState extends State<DropListCategories> {
               ),
               onChanged: (String newValue) {
                 setState(() {
+                  print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
                   category = newValue;
+                  widget.initial.clear();
+                  print(widget.initial);
+                  isChanged=false;
                   listOfAddedProperties = getProperties(category);
+                  widget.updateOrAdd = false;
                 });
               },
               items: <String>[

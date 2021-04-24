@@ -6,7 +6,9 @@ import 'package:path_provider/path_provider.dart';
 
 class ImageMultiple extends StatefulWidget {
   List<File> files = List<File>();
-  ImageMultiple(this.files);
+  List<String> initial;
+  bool updateOrAdd;
+  ImageMultiple(this.files, this.initial, this.updateOrAdd);
   @override
   _ImageMultipleState createState() => new _ImageMultipleState();
 }
@@ -79,7 +81,19 @@ class _ImageMultipleState extends State<ImageMultiple> {
                       },
                     ),
                   )
-                : Image.asset("assets/no-image-icon-6.png"),
+                : widget.updateOrAdd
+                    ? ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                        itemCount: widget.initial.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          print(widget.initial.length);
+                          return Container(
+                            height: 100,
+                            child:FadeInImage.assetNetwork(placeholder: "assets/no-image-icon-6.png", image:widget.initial[index],fit:BoxFit.fill,)
+                          );
+                        },
+                      )
+                    : Image.asset("assets/no-image-icon-6.png"),
           ),
           RaisedButton.icon(
             shape: RoundedRectangleBorder(

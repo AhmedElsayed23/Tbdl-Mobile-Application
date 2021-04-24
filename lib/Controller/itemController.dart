@@ -18,6 +18,14 @@ class ItemController with ChangeNotifier {
 
   ItemController();
 
+  Item findByID(String id) {
+    return items.firstWhere((element) => element.id == id);
+  }
+
+  int getIndex(Item item) {
+    return items.indexOf(item);
+  }
+
   Future<void> getItems() async {
     QuerySnapshot snapshot = await firestoreInstance.collection('Items').get();
     List<Item> tempItems = [];
@@ -28,7 +36,8 @@ class ItemController with ChangeNotifier {
           date: element['date'],
           description: element['description'],
           images: List<String>.from(element['images']),
-          isfree: element['isfree'],
+          location: List<String>.from(element['location']),
+          isFree: element['isfree'],
           itemOwner: element['itemOwner'],
           properties: element['properties'],
           title: element['title'],
@@ -43,7 +52,7 @@ class ItemController with ChangeNotifier {
       print(temp.description);
       print(temp.id);
       print(temp.images);
-      print(temp.isfree);
+      print(temp.isFree);
       print(temp.itemOwner);
       print(temp.properties);
       print(temp.title);
@@ -74,10 +83,21 @@ class ItemController with ChangeNotifier {
     return imageURLs;
   }
 
+  Future<void> deleteImageFromFirebase(List<String> images) async {
+    try {
+      for (int i = 0; i < images.length; i++) {
+       FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+        StorageReference storageReference = await firebaseStorage.getReferenceFromUrl(images[i]) ;
+        storageReference.delete();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> addItem(Item item) async {
-    print("------------");
     item.images = await ItemController().uploadImageToFirebase(item.imageFiles);
-    item.favoritesUserIDs=[];
+    item.favoritesUserIDs = [];
     firestoreInstance.collection("Items").doc().set({
       'title': item.title,
       'description': item.description,
@@ -86,12 +106,14 @@ class ItemController with ChangeNotifier {
       'date': item.date,
       'images': item.images,
       'properties': item.properties,
-      'isfree': item.isfree,
+      'isfree': item.isFree,
       'condition': item.condition,
+      'location': item.location,
       'favoritesUserIDs': item.favoritesUserIDs
-    }, SetOptions(merge: true)).then((value) { 
+    }, SetOptions(merge: true)).then((value) {
       items.add(item);
-      notifyListeners();});
+      notifyListeners();
+    });
   }
 
   void getUserItems() {
@@ -118,8 +140,9 @@ class ItemController with ChangeNotifier {
 
   Future<void> deleteItem(String itemId) async {
     try {
-      firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
+      await firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
         int index = items.indexWhere((element) => element.id == itemId);
+        ItemController().deleteImageFromFirebase(items[index].images);
         userItems.remove(items[index]);
         items.removeAt(index);
         notifyListeners();
@@ -127,6 +150,34 @@ class ItemController with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  
+  Future<void> updateItem(Item item, int index) async {
+    if (item.imageFiles.length != 0) {
+      await ItemController().deleteImageFromFirebase(item.images);
+      item.images =
+          await ItemController().uploadImageToFirebase(item.imageFiles);
+    }
+    print("////////////////////////////////////////////////////////////");
+    print(item.properties);
+    firestoreInstance.collection("Items").doc(item.id).update({
+      'title': item.title,
+      'description': item.description,
+      'itemOwner': item.itemOwner,
+      'categoryType': item.categoryType,
+      'date': item.date,
+      'images': item.images,
+      'properties': item.properties,
+      'isfree': item.isFree,
+      'condition': item.condition,
+      'location': item.location,
+      'favoritesUserIDs': item.favoritesUserIDs
+    },).then((value) {
+      items.removeAt(index);
+      items.add(item);
+      notifyListeners();
+    });
   }
 
   Future<void> modifyFavorite(String id, bool isFavorite) async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,9 @@ class MyProductItems extends StatelessWidget {
                                 Icons.delete,
                               )),
                           FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(AddItemScreen.route,arguments: myItem.id);
+                              },
                               child: Icon(
                                 Icons.update,
                               )),
