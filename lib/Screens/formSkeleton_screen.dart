@@ -50,6 +50,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'properties': {},
     'favoritesUserIDs': [''],
     'location': [''],
+    'directory': 0,
   };
 
   String category = 'كتب';
@@ -278,6 +279,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         initialValues['id'] = item.id;
         initialValues['favoritesUserIDs'] = item.favoritesUserIDs;
         initialValues['location'] = item.location;
+        initialValues['directory'] = item.directory;
         category = initialValues['categoryType'];
         listOfAddedProperties = getProperties(category);
       }
@@ -474,6 +476,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           isFree: isFree,
           location: locat,
           properties: properties,
+          directory: initialValues['directory'],
           favoritesUserIDs: initialValues['favoritesUserIDs'],
           images: initialValues['images'],
           id: initialValues['id']);
