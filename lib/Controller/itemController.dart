@@ -98,7 +98,7 @@ class ItemController with ChangeNotifier {
   Future<void> addItem(Item item) async {
     item.images = await ItemController().uploadImageToFirebase(item.imageFiles);
     item.favoritesUserIDs = [];
-    firestoreInstance.collection("Items").doc().set({
+    firestoreInstance.collection("Items").add({
       'title': item.title,
       'description': item.description,
       'itemOwner': item.itemOwner,
@@ -110,7 +110,8 @@ class ItemController with ChangeNotifier {
       'condition': item.condition,
       'location': item.location,
       'favoritesUserIDs': item.favoritesUserIDs
-    }, SetOptions(merge: true)).then((value) {
+    },).then((value) {
+      item.id=value.id;
       items.add(item);
       notifyListeners();
     });
@@ -151,6 +152,16 @@ class ItemController with ChangeNotifier {
       print(e.toString());
     }
   }
+
+/*Future<void> deleteFolderFromFirebase(String id) async {
+    try {
+       FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+        StorageReference storageReference = await firebaseStorage.getReferenceFromUrl('uploads/$id') ;
+        storageReference.delete();
+    } catch (e) {
+      print(e);
+    }
+  }*/
 
   
   Future<void> updateItem(Item item, int index) async {

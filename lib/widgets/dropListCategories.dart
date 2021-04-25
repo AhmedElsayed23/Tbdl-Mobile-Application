@@ -52,7 +52,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: TextFormField(
-              initialValue: widget.updateOrAdd &&isChanged ? widget.initial[property] : '',
+              initialValue: widget.updateOrAdd  ? widget.initial[property] : null,
               maxLength: 30,
               decoration: InputDecoration(
                 labelText: property,
@@ -71,6 +71,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
                 return null;
               },
               onSaved: (String value) {
+                widget.initial.clear();
                 widget.prop.putIfAbsent(property, () => value);
                 print("ooooooooooooooooooooooooooooooooooooooooooooooo");
                 print(widget.prop);
@@ -135,6 +136,11 @@ class _DropListCategoriesState extends State<DropListCategories> {
                 height: 1,
                 color: Colors.blue[400],
               ),
+              onTap: (){
+                setState(() {
+                  widget.initial.clear();
+                });
+              },
               onChanged: (String newValue) {
                 setState(() {
                   print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");

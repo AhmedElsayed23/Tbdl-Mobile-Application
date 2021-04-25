@@ -9,7 +9,7 @@ import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
-import 'package:gp_version_01/widgets/dropListCategories.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -25,8 +25,10 @@ class AddItemScreen extends StatefulWidget {
 
 class _AddItemScreenState extends State<AddItemScreen> {
   Widget funs;
+  TextEditingController c;
   int index;
   bool updateOrAdd = false;
+  bool categoriesFlag = false;
   bool isUpdate = true;
   String title;
   String description;
@@ -49,6 +51,165 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'favoritesUserIDs': [''],
     'location': [''],
   };
+
+  String category = 'كتب';
+  List<String> listOfAddedProperties = [];
+  List<String> servicesProperties = ["نوع الخدمة"];
+  List<String> carsProperties = [
+    "الناقل الحركى",
+    "السنة",
+    "كيلومترات",
+    "هيكل ",
+    "اللون",
+    "المحرك",
+    "الحالة",
+    "الموديل",
+    "النوع"
+  ];
+  List<String> mobileProperties = ["الماركة"];
+  List<String> bookProperties = ["نوع الكتاب"];
+  List<String> gamesProperties = ["النوع"];
+  List<String> electricDevicesProperties = ["الماركة"];
+  List<String> animalsProperties = ["نوع الحيوان", "السن"];
+  List<String> homeProperties = ["نوع الاثاث"];
+  List<String> clothesProperties = ["نوع الملبس"];
+  List<String> othersProperties = ["النوع"];
+
+  List<Widget> _buildproperties(List<String> propertiess) {
+    print("wwwwwwwwwwwwwwwwwwwwwwwww");
+    print(initialValues['properties']);
+    Map initial = new Map<String, String>();
+    initial = initialValues['properties'];
+    print(categoriesFlag);
+    List<Widget> textForFields = [];
+    for (String property in propertiess) {
+      textForFields.add(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: TextFormField(
+              controller: categoriesFlag
+                  ? c = TextEditingController(text: initial[property])
+                  : c = TextEditingController(text: ''),
+              maxLength: 30,
+              decoration: InputDecoration(
+                labelText: property,
+                labelStyle: TextStyle(color: Colors.black54),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue[400]),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue[400]),
+                ),
+              ),
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'مطلوب';
+                }
+                return null;
+              },
+              onSaved: (String value) {
+                initialValues['properties'] = {};
+                properties.putIfAbsent(property, () => value);
+                print("ooooooooooooooooooooooooooooooooooooooooooooooo");
+                print(properties);
+              },
+            ),
+          ),
+        ),
+      );
+    }
+    return textForFields;
+  }
+
+  List<String> getProperties(String category) {
+    if (category == "خدمات") {
+      listOfAddedProperties = servicesProperties;
+    } else if (category == "عربيات") {
+      listOfAddedProperties = carsProperties;
+    } else if (category == "موبايلات") {
+      listOfAddedProperties = mobileProperties;
+    } else if (category == "كتب") {
+      listOfAddedProperties = bookProperties;
+    } else if (category == "ألعاب إلكترونية") {
+      listOfAddedProperties = gamesProperties;
+    } else if (category == "أجهزة كهربائية") {
+      listOfAddedProperties = electricDevicesProperties;
+    } else if (category == "حيوانات") {
+      listOfAddedProperties = animalsProperties;
+    } else if (category == "أثاث منزل") {
+      listOfAddedProperties = homeProperties;
+    } else if (category == "ملابس") {
+      listOfAddedProperties = clothesProperties;
+    } else {
+      listOfAddedProperties = othersProperties;
+    }
+    fun(category);
+    return listOfAddedProperties;
+  }
+
+  Widget _dropList() {
+    listOfAddedProperties = getProperties(category);
+    /*return DropListCategories(
+      fun,
+      properties,
+      initialValues['properties'],
+      updateOrAdd,
+      initialValues['categoryType'],
+    );*/
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: category,
+              style: GoogleFonts.cairo(color: Colors.black54),
+              underline: Container(
+                height: 1,
+                color: Colors.blue[400],
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+                  category = newValue;
+                  initialValues['properties'] = {};
+                  if (updateOrAdd) c.clear();
+                  print(initialValues['properties']);
+                  listOfAddedProperties = getProperties(category);
+                  categoriesFlag = false;
+                });
+              },
+              items: <String>[
+                "اخري",
+                "خدمات",
+                "عربيات",
+                "موبايلات",
+                "كتب",
+                "ألعاب إلكترونية",
+                "أجهزة كهربائية",
+                "حيوانات",
+                "أثاث منزل",
+                "ملابس",
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Container(
+                      alignment: Alignment.centerRight, child: Text(value)),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+        Column(
+          children: _buildproperties(listOfAddedProperties),
+        ),
+      ],
+    );
+  }
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
@@ -105,6 +266,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       String id = ModalRoute.of(context).settings.arguments as String;
       if (id != null) {
         updateOrAdd = true;
+        categoriesFlag = true;
         item = Provider.of<ItemController>(context, listen: false).findByID(id);
         index =
             Provider.of<ItemController>(context, listen: false).getIndex(item);
@@ -116,6 +278,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         initialValues['id'] = item.id;
         initialValues['favoritesUserIDs'] = item.favoritesUserIDs;
         initialValues['location'] = item.location;
+        category = initialValues['categoryType'];
+        listOfAddedProperties = getProperties(category);
       }
       print("------------------------------------------");
       print(item.properties);
@@ -213,16 +377,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  Widget _dropList() {
-    return DropListCategories(
-      fun,
-      properties,
-      initialValues['properties'],
-      updateOrAdd,
-      initialValues['categoryType'],
-    );
-  }
-
   Widget _buildForm() {
     return Form(
       key: _formKey,
@@ -298,7 +452,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   void save() async {
-    
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -324,8 +477,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           favoritesUserIDs: initialValues['favoritesUserIDs'],
           images: initialValues['images'],
           id: initialValues['id']);
-          print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-          print(item.properties);
+      print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+      print(item.properties);
       if (updateOrAdd) {
         await Provider.of<ItemController>(context, listen: false)
             .updateItem(item, index);
