@@ -477,8 +477,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           favoritesUserIDs: initialValues['favoritesUserIDs'],
           images: initialValues['images'],
           id: initialValues['id']);
-      print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-      print(item.properties);
+      //print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+      //print(item.properties);
       if (updateOrAdd) {
         await Provider.of<ItemController>(context, listen: false)
             .updateItem(item, index);

@@ -16,6 +16,8 @@ class Item {
   Map properties = new Map<String, String>();
   String categoryType;
   String id;
+  static int nameOfDirStorage=0;
+  int directory;
   Item(
       {this.description,
       this.favoritesUserIDs,
@@ -29,5 +31,6 @@ class Item {
       this.id,
       this.categoryType,
       this.condition,
+      this.directory,
       this.isFree});
 }
