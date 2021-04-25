@@ -41,6 +41,7 @@ class ItemController with ChangeNotifier {
           itemOwner: element['itemOwner'],
           properties: element['properties'],
           title: element['title'],
+          directory: element['directory'],
           favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
           id: element.reference.id));
     });
@@ -60,15 +61,18 @@ class ItemController with ChangeNotifier {
     items = tempItems;
   }
 
-  Future<List<String>> uploadImageToFirebase(List<File> images) async {
+  Future<List<String>> uploadImageToFirebase(
+      List<File> images, int dir) async {
+        print("@@@@@@@@@"+images.length.toString());
     List<String> imageURLs = new List<String>();
     StorageReference storageRef;
     StorageUploadTask task;
     String fileName;
     try {
       for (int i = 0; i < images.length; i++) {
+        print('&&&&&&&&&&&&&&&&&&&&&&&&&&');
         fileName = basename(images[i].path);
-        storageRef = FirebaseStorage.instance.ref().child('uploads/$fileName');
+        storageRef = FirebaseStorage.instance.ref().child('$dir/$fileName');
         task = storageRef.putFile(images[i]);
         await task.onComplete.then((picValue) async {
           await picValue.ref.getDownloadURL().then((downloadUrl) {
@@ -86,8 +90,9 @@ class ItemController with ChangeNotifier {
   Future<void> deleteImageFromFirebase(List<String> images) async {
     try {
       for (int i = 0; i < images.length; i++) {
-       FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-        StorageReference storageReference = await firebaseStorage.getReferenceFromUrl(images[i]) ;
+        FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+        StorageReference storageReference =
+            await firebaseStorage.getReferenceFromUrl(images[i]);
         storageReference.delete();
       }
     } catch (e) {
@@ -96,25 +101,36 @@ class ItemController with ChangeNotifier {
   }
 
   Future<void> addItem(Item item) async {
-    item.images = await ItemController().uploadImageToFirebase(item.imageFiles);
+    item.images = [];
     item.favoritesUserIDs = [];
-    firestoreInstance.collection("Items").add({
-      'title': item.title,
-      'description': item.description,
-      'itemOwner': item.itemOwner,
-      'categoryType': item.categoryType,
-      'date': item.date,
-      'images': item.images,
-      'properties': item.properties,
-      'isfree': item.isFree,
-      'condition': item.condition,
-      'location': item.location,
-      'favoritesUserIDs': item.favoritesUserIDs
-    },).then((value) {
-      item.id=value.id;
-      items.add(item);
-      notifyListeners();
+    Item.nameOfDirStorage++;
+    firestoreInstance.collection("Items").add(
+      {
+        'title': item.title,
+        'description': item.description,
+        'itemOwner': item.itemOwner,
+        'categoryType': item.categoryType,
+        'date': item.date,
+        'images': item.images,
+        'properties': item.properties,
+        'isfree': item.isFree,
+        'condition': item.condition,
+        'location': item.location,
+        'favoritesUserIDs': item.favoritesUserIDs,
+        'directory':Item.nameOfDirStorage,
+      },
+    ).then((value) {
+      print("thenthenthenthenthenthenthenthenthenthenthenthenthenthenthen");
+      item.id = value.id;
+      item.directory=Item.nameOfDirStorage;
     });
+    item.images = await uploadImageToFirebase(item.imageFiles, Item.nameOfDirStorage);
+       firestoreInstance.collection("Items").doc(item.id).update({
+        'images': item.images,
+      }).then((value) {
+        items.add(item);
+        notifyListeners();
+      });
   }
 
   void getUserItems() {
@@ -141,7 +157,11 @@ class ItemController with ChangeNotifier {
 
   Future<void> deleteItem(String itemId) async {
     try {
-      await firestoreInstance.collection("Items").doc(itemId).delete().then((_) {
+      await firestoreInstance
+          .collection("Items")
+          .doc(itemId)
+          .delete()
+          .then((_) {
         int index = items.indexWhere((element) => element.id == itemId);
         ItemController().deleteImageFromFirebase(items[index].images);
         userItems.remove(items[index]);
@@ -153,38 +173,35 @@ class ItemController with ChangeNotifier {
     }
   }
 
-/*Future<void> deleteFolderFromFirebase(String id) async {
-    try {
-       FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-        StorageReference storageReference = await firebaseStorage.getReferenceFromUrl('uploads/$id') ;
-        storageReference.delete();
-    } catch (e) {
-      print(e);
-    }
-  }*/
 
-  
   Future<void> updateItem(Item item, int index) async {
     if (item.imageFiles.length != 0) {
+      try{
       await ItemController().deleteImageFromFirebase(item.images);
+      }catch(e){
+
+      }
       item.images =
-          await ItemController().uploadImageToFirebase(item.imageFiles);
+          await ItemController().uploadImageToFirebase(item.imageFiles,item.directory);
     }
     print("////////////////////////////////////////////////////////////");
     print(item.properties);
-    firestoreInstance.collection("Items").doc(item.id).update({
-      'title': item.title,
-      'description': item.description,
-      'itemOwner': item.itemOwner,
-      'categoryType': item.categoryType,
-      'date': item.date,
-      'images': item.images,
-      'properties': item.properties,
-      'isfree': item.isFree,
-      'condition': item.condition,
-      'location': item.location,
-      'favoritesUserIDs': item.favoritesUserIDs
-    },).then((value) {
+    firestoreInstance.collection("Items").doc(item.id).update(
+      {
+        'title': item.title,
+        'description': item.description,
+        'itemOwner': item.itemOwner,
+        'categoryType': item.categoryType,
+        'date': item.date,
+        'images': item.images,
+        'properties': item.properties,
+        'isfree': item.isFree,
+        'condition': item.condition,
+        'location': item.location,
+        'favoritesUserIDs': item.favoritesUserIDs,
+        'directory':item.directory,
+      },
+    ).then((value) {
       items.removeAt(index);
       items.add(item);
       notifyListeners();
