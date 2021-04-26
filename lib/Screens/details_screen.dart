@@ -5,13 +5,9 @@ import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 
-class Details extends StatefulWidget {
+class Details extends StatelessWidget {
   static const String route = "/details";
-  @override
-  _DetailsState createState() => _DetailsState();
-}
 
-class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
     Item item = ModalRoute.of(context).settings.arguments;
@@ -66,7 +62,7 @@ class _DetailsState extends State<Details> {
                         onTap: () => Navigator.pushNamed(
                           context,
                           ImageScreen.route,
-                          arguments:item,
+                          arguments: item,
                         ),
                         child: Container(
                             height: 325,

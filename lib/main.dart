@@ -24,8 +24,9 @@ import 'package:flutter/services.dart';
 
 import 'Screens/registration_screen.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -35,8 +36,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

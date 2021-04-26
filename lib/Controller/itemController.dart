@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:path/path.dart';
 
 class ItemController with ChangeNotifier {
-  final firestoreInstance = FirebaseFirestore.instance;
-  final firebaseUser = FirebaseAuth.instance.currentUser;
+  var firestoreInstance = FirebaseFirestore.instance;
+  var firebaseUser = FirebaseAuth.instance.currentUser;
 
   List<Item> items = [];
   List<Item> favoItems = [];
@@ -27,6 +27,7 @@ class ItemController with ChangeNotifier {
   }
 
   Future<void> getItems() async {
+    firebaseUser=FirebaseAuth.instance.currentUser;
     QuerySnapshot snapshot = await firestoreInstance.collection('Items').get();
     List<Item> tempItems = [];
     snapshot.docs.forEach((element) {

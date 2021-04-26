@@ -2,9 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
+import 'package:gp_version_01/models/userModel.dart';
+import 'package:gp_version_01/widgets/dropDownListLocation.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String route = 'registration_screen';
@@ -21,7 +25,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String password;
   String name;
   String phone;
-  String city;
+  List<String> location;
 
   void showErrorMessage(String message) {
     showDialog(
@@ -129,20 +133,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(
                   height: 8.0,
                 ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'من فضلك ادخل المدينة';
-                    }
-                    return null;
-                  },
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    city = value;
-                  },
-                  decoration:
-                      kTextFieldDecoration.copyWith(hintText: 'ادخل المدينة'),
-                ),
+                DropDownListLocation(false, [], location),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -161,17 +152,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           await _auth.createUserWithEmailAndPassword(
                               email: email, password: password);
                       if (newUser != null) {
-                        _firebaseObject
-                            .collection("User")
-                            .doc(_auth.currentUser.uid)
-                            .set({
-                          "name": name,
-                          "city": city,
-                          "phone": phone,
-                          "banScore": 0,
-                          "isBanned": false,
-                        }).then((_) {
-                          Navigator.pushReplacementNamed(context, TabsScreen.route);
+                        Provider.of<UserController>(context)
+                            .addUser(UserModel(
+                                banScore: 0,
+                                favCategory: [],
+                                id: _auth.currentUser.uid,
+                                isBanned: false,
+                                location: location,
+                                name: name,
+                                phone: phone))
+                            .then((_) {
+                          Navigator.pushReplacementNamed(
+                              context, TabsScreen.route);
                         });
                       }
                       setState(() {

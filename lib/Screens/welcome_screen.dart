@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'login_screen.dart';
 import 'registration_screen.dart';
@@ -15,11 +17,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
+  Widget home;
 
   @override
   void initState() {
     super.initState();
-
     controller =
         AnimationController(duration: Duration(seconds: 1), vsync: this);
     animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
@@ -37,46 +39,60 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: animation.value,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
+  void didChangeDependencies() {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null)
+      setState(() {
+        home = Scaffold(
+          backgroundColor: animation.value,
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                TypewriterAnimatedTextKit(
-                  text: ['تبدل'],
-                  textStyle: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                  ),
+                Row(
+                  children: <Widget>[
+                    TypewriterAnimatedTextKit(
+                      text: ['تبدل'],
+                      textStyle: TextStyle(
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 48.0,
+                ),
+                RoundedButton(
+                  title: 'تسجيل الدخول',
+                  colour: Colors.lightBlueAccent,
+                  onPressed: () {
+                    Navigator.pushNamed(context, LoginScreen.route);
+                  },
+                ),
+                RoundedButton(
+                  title: 'إنشاء حساب',
+                  colour: Colors.blueAccent,
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegistrationScreen.route);
+                  },
                 ),
               ],
             ),
-            SizedBox(
-              height: 48.0,
-            ),
-            RoundedButton(
-              title: 'تسجيل الدخول',
-              colour: Colors.lightBlueAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, LoginScreen.route);
-              },
-            ),
-            RoundedButton(
-              title: 'إنشاء حساب',
-              colour: Colors.blueAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, RegistrationScreen.route);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      });
+    if (user != null)
+      setState(() {
+        home = TabsScreen();
+      });
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return home;
   }
 }

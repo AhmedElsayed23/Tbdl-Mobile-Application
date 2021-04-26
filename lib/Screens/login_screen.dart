@@ -107,9 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: email, password: password);
                       if (user != null) {
                         ItemController().getItems();
-                        Navigator.pushReplacementNamed(context, TabsScreen.route);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/', (Route<dynamic> route) => false);
                       }
-
                       setState(() {
                         showSpinner = false;
                       });

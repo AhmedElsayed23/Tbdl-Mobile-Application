@@ -41,8 +41,8 @@ class _DropListCategoriesState extends State<DropListCategories> {
 
 
   List<Widget> _buildproperties(List<String> properties) {
-    print("wwwwwwwwwwwwwwwwwwwwwwwww");
-    print(widget.initial);
+   //print("wwwwwwwwwwwwwwwwwwwwwwwww");
+    //print(widget.initial);
     widget.prop.clear();
     List<Widget> textForFields = [];
     for (String property in properties) {
@@ -73,8 +73,8 @@ class _DropListCategoriesState extends State<DropListCategories> {
               onSaved: (String value) {
                 widget.initial.clear();
                 widget.prop.putIfAbsent(property, () => value);
-                print("ooooooooooooooooooooooooooooooooooooooooooooooo");
-                print(widget.prop);
+                //print("ooooooooooooooooooooooooooooooooooooooooooooooo");
+                //print(widget.prop);
               },
             ),
           ),
@@ -143,10 +143,10 @@ class _DropListCategoriesState extends State<DropListCategories> {
               },
               onChanged: (String newValue) {
                 setState(() {
-                  print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+                  //print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
                   category = newValue;
                   widget.initial.clear();
-                  print(widget.initial);
+                  //print(widget.initial);
                   isChanged=false;
                   listOfAddedProperties = getProperties(category);
                   widget.updateOrAdd = false;

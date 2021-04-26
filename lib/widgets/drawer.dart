@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Screens/welcome_screen.dart';
 
 class DrawerItem extends StatelessWidget {
   const DrawerItem({
@@ -12,20 +14,21 @@ class DrawerItem extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         // Set the transparency here
-        canvasColor: Colors.white.withOpacity(0.3), //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+        canvasColor: Colors.white.withOpacity(
+            0.3), //or any other color you want. e.g Colors.blue.withOpacity(0.5)
       ),
       child: Drawer(
         child: Stack(
           children: <Widget>[
             //first child be the blur background
             BackdropFilter(
-                filter: ImageFilter.blur(
-                    sigmaX: 5.0,
-                    sigmaY:
-                        5.0), //this is dependent on the import statment above
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(1)),),),
+              filter: ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0), //this is dependent on the import statment above
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white.withOpacity(1)),
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(top: 80),
               child: Column(
@@ -52,10 +55,13 @@ class DrawerItem extends StatelessWidget {
                     ),
                     title: Text(
                       "اقترحلي",
-                      // style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.right,
                     ),
-                    onTap: () {
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            '/', (Route<dynamic> route) => false);
+                      });
                       // Navigator.of(context).pushReplacementNamed('/');
                     },
                   ),
