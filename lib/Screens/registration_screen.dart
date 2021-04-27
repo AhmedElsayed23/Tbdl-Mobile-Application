@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/fav_Category_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/models/userModel.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
@@ -48,6 +49,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Map categories = ModalRoute.of(context).settings.arguments as Map;
+    print("ddddddddddddddddddddddddddddddddd");
+    print(categories);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -134,6 +139,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 8.0,
                 ),
                 DropDownListLocation(false, [], location),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton(
+                        child: Text(
+                          "اختر الفئات المهتم بيها",
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, FavCategoryScreen.route);
+                        })),
                 SizedBox(
                   height: 24.0,
                 ),

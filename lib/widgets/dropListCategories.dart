@@ -124,6 +124,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Text("أختر الفئة"),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Directionality(

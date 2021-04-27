@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Screens/fav_Category_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
           RegistrationScreen.route: (context) => RegistrationScreen(),
           TabsScreen.route: (context) => TabsScreen(),
           UserProductDetailsScreen.route:  (context) => UserProductDetailsScreen(),
+          FavCategoryScreen.route: (context) => FavCategoryScreen(),
         },
       ),
     );

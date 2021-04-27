@@ -499,7 +499,6 @@ class _DropDownListLocationState extends State<DropDownListLocation> {
         district = widget.init[1];
         widget.locat[0] = widget.init[0];
         widget.locat[1] = widget.init[1];
-        
       }
       districts = getDistricts(city);
     }
@@ -512,65 +511,71 @@ class _DropDownListLocationState extends State<DropDownListLocation> {
     districts = getDistricts(city);
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Row(
+      child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: DropdownButton<String>(
-              //isExpanded: true,
-              value: city,
-              style: GoogleFonts.cairo(color: Colors.black54),
-              underline: Container(
-                height: 1,
-                color: Theme.of(context).accentColor,
+          Text('أختر المكان'),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(2),
+                child: DropdownButton<String>(
+                  //isExpanded: true,
+                  value: city,
+                  style: GoogleFonts.cairo(color: Colors.black54),
+                  underline: Container(
+                    height: 1,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      city = newValue;
+                      widget.locat[0] = city;
+                      widget.init.clear();
+                      widget.updateOrAdd = false;
+                      districts = getDistricts(city);
+                      district = districts[0];
+                      widget.locat[1] = district;
+                    });
+                  },
+                  items: cities.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Container(
+                          alignment: Alignment.centerRight, child: Text(value)),
+                    );
+                  }).toList(),
+                ),
               ),
-              onChanged: (String newValue) {
-                setState(() {
-                  city = newValue;
-                  widget.locat[0] = city;
-                  widget.init.clear();
-                  widget.updateOrAdd = false;
-                  districts = getDistricts(city);
-                  district = districts[0];
-                  widget.locat[1]=district;
-                });
-              },
-              items: cities.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Container(
-                      alignment: Alignment.centerRight, child: Text(value)),
-                );
-              }).toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                bottom: 8.0, left: 8.0, top: 8.0, right: 30),
-            child: DropdownButton<String>(
-              //isExpanded: true,
-              value: district,
-              style: GoogleFonts.cairo(color: Colors.black54),
-              underline: Container(
-                height: 1,
-                color: Theme.of(context).accentColor,
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 8.0, left: 8.0, top: 8.0, right: 30),
+                child: DropdownButton<String>(
+                  //isExpanded: true,
+                  value: district,
+                  style: GoogleFonts.cairo(color: Colors.black54),
+                  underline: Container(
+                    height: 1,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      district = newValue;
+                      widget.locat[1] = district;
+                      widget.init.clear();
+                      widget.updateOrAdd = false;
+                    });
+                  },
+                  items:
+                      districts.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Container(
+                          alignment: Alignment.centerRight, child: Text(value)),
+                    );
+                  }).toList(),
+                ),
               ),
-              onChanged: (String newValue) {
-                setState(() {
-                  district = newValue;
-                  widget.locat[1] = district;
-                  widget.init.clear();
-                  widget.updateOrAdd = false;
-                });
-              },
-              items: districts.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Container(
-                      alignment: Alignment.centerRight, child: Text(value)),
-                );
-              }).toList(),
-            ),
+            ],
           ),
         ],
       ),

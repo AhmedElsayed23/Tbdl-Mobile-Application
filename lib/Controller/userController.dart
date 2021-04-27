@@ -43,20 +43,25 @@ class UserController with ChangeNotifier {
     }
   }
 
-  /*Future<void> getUser() async {
+  Future<void> getUser() async {
     try {
-     defaultUser.id= FirebaseAuth.instance.currentUser.uid;
-      FirebaseFirestore.instance.collection("User").doc(defaultUser.id).get();
-        {
-          'name': defaultUser.name,
-          'phone': defaultUser.phone,
-          'location': defaultUser.location,
-          'favCategory': defaultUser.favCategory,
-        },
-      ).then((value) => notifyListeners());
+      var firebaseUser = FirebaseAuth.instance.currentUser;
+      firestoreInstance
+          .collection("User")
+          .doc(firebaseUser.uid)
+          .get()
+          .then((value) {
+            defaultUser.id = firebaseUser.uid;
+            defaultUser.banDate = value['banDate'];
+            defaultUser.banScore = value['banScore'];
+            defaultUser.favCategory = value['favCategory'];
+            defaultUser.isBanned = value['isBanned'];
+            defaultUser.location = value['location'];
+            defaultUser.phone = value['phone'];
+            defaultUser.name = value['name'];
+      });
     } catch (e) {
       print(e);
     }
-  }*/
-
+  }
 }
