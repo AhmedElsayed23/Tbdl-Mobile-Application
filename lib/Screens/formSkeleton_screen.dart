@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,13 +8,12 @@ import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/widgets/dropListCategories.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
-//import 'package:toast/toast.dart';
+import 'package:toast/toast.dart';
 
 class AddItemScreen extends StatefulWidget {
   static const String route = '/addItemScreen';
@@ -50,6 +48,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'categoryType': 'كتب',
     'properties': {},
     'favoritesUserIDs': [''],
+    'offeredProducts':[''],
     'location': [''],
     'directory': 0,
   };
@@ -113,6 +112,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       isFree: null,
       condition: null,
       properties: {});
+
   @override
   void didChangeDependencies() {
     if (isUpdate) {
@@ -132,6 +132,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         initialValues['favoritesUserIDs'] = item.favoritesUserIDs;
         initialValues['location'] = item.location;
         initialValues['directory'] = item.directory;
+        initialValues['offeredProducts'] = item.offeredProducts;
       }
       print("------------------------------------------");
       print(item.properties);
@@ -329,7 +330,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
           directory: initialValues['directory'],
           favoritesUserIDs: initialValues['favoritesUserIDs'],
           images: initialValues['images'],
-          id: initialValues['id']);
+          id: initialValues['id'],
+          offeredProducts: initialValues['offeredProducts'],
+          );
       //print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
       //print(item.properties);
       if (updateOrAdd) {
@@ -342,7 +345,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         showSpinner = false;
       });
-      //Toast.show("تم الاضافة بنجاح", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+      Toast.show("تم الاضافة بنجاح", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
       Navigator.of(context).pushNamed(MyProducts.route);
     }
   }

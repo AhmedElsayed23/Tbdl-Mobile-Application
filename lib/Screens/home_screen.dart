@@ -19,18 +19,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final List categories = [
     "اخري",
-    "خدمات",
-    "عربيات",
     "موبايلات",
+    "ملابس",
     "كتب",
+    "عربيات",
+    "خدمات",
+    "حيوانات",
     "ألعاب إلكترونية",
     "أجهزة كهربائية",
-    "حيوانات",
     "أثاث منزل",
-    "ملابس",
     "الكل",
   ];
 
@@ -78,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  void didChangeDependencies(){
+  void didChangeDependencies() {
     if (isInit) {
       setState(() {
         isLoading = true;
@@ -94,6 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
+    Provider.of<ItemController>(context).getUserHomeItems();
+    final items = Provider.of<ItemController>(context).userHomeItems;
     return DefaultTabController(
       initialIndex: categories.length - 1,
       length: categories.length,
@@ -102,188 +103,209 @@ class _HomeScreenState extends State<HomeScreen> {
           showAlertDialog(context);
           return isLeave;
         },
-        child:isLoading?Center(child:CircularProgressIndicator()): Scaffold(
-          endDrawer: DrawerItem(),
-          appBar: AppBar(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            toolbarHeight: 100,
-            leading: IconButton(icon: Icon(Icons.search), onPressed: () {}),
-            bottom: PreferredSize(
-              preferredSize: Size(0, 10),
-              child: Container(
-                child: TabBar(
-                    isScrollable: true,
-                    tabs: categories
-                        .map((e) => Text(
-                              e,
-                              style: GoogleFonts.cairo(),
-                            ))
-                        .toList()),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Scaffold(
+                endDrawer: DrawerItem(),
+                appBar: AppBar(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  toolbarHeight: 100,
+                  leading:
+                      IconButton(icon: Icon(Icons.search), onPressed: () {}),
+                  bottom: PreferredSize(
+                    preferredSize: Size(0, 10),
+                    child: Container(
+                      child: TabBar(
+                          isScrollable: true,
+                          tabs: categories
+                              .map((e) => Text(
+                                    e,
+                                    style: GoogleFonts.cairo(),
+                                  ))
+                              .toList()),
+                    ),
+                  ),
+                ),
+                body: Container(
+                  child: TabBarView(
+                    children: [
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('اخري')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('موبايلات')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('ملابس')),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('كتب')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('عربيات')),
+                          ),
+                        ],
+                      ),
+                      Column(children: [
+                        Expanded(
+                          child: Grid(
+                              items: Provider.of<ItemController>(context)
+                                  .getCategoryItems('خدمات')),
+                        )
+                      ]),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('حيوانات')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('ألعاب إلكترونية')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('أجهزة كهربائية')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Expanded(
+                            child: Grid(
+                                items: Provider.of<ItemController>(context)
+                                    .getCategoryItems('أثاث منزل')),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  FlatButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context,
+                                            ChooseCategoryScreen.route);
+                                      },
+                                      child: Icon(
+                                        Icons.category_outlined,
+                                        color: Colors.blue[400],
+                                        size: 40,
+                                      )),
+                                  FlatButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, Favorites.route);
+                                      },
+                                      child: Icon(
+                                        Icons.favorite_border_outlined,
+                                        color: Colors.blue[400],
+                                        size: 40,
+                                      )),
+                                  FlatButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, Recommend.route);
+                                      },
+                                      child: Icon(
+                                        Icons.recommend,
+                                        color: Colors.blue[400],
+                                        size: 40,
+                                      )),
+                                  FlatButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, MyProducts.route);
+                                      },
+                                      child: Icon(
+                                        Icons.business_center_outlined,
+                                        color: Colors.blue[400],
+                                        size: 40,
+                                      )),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(
+                                    'الفئات',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'المفضلة',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'مقترح',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'منتجاتى',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: Grid(items: items),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          body: Container(
-            child: TabBarView(
-              children: [
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(),
-                    ),
-                  ],
-                ),
-                Column(children: [
-                  Expanded(
-                    child: Grid(
-                      
-                    ),
-                  )
-                ]),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      child: Grid(
-                      ),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, ChooseCategoryScreen.route);
-                                },
-                                child: Icon(
-                                  Icons.category_outlined,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, Favorites.route);
-                                },
-                                child: Icon(
-                                  Icons.favorite_border_outlined,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, Recommend.route);
-                                },
-                                child: Icon(
-                                  Icons.recommend,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, MyProducts.route);
-                                },
-                                child: Icon(
-                                  Icons.business_center_outlined,
-                                  color: Colors.blue[400],
-                                  size: 40,
-                                )),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Text(
-                              'الفئات',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'المفضلة',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'مقترح',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'منتجاتى',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Grid(),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

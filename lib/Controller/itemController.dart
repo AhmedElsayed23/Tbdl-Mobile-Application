@@ -27,7 +27,7 @@ class ItemController with ChangeNotifier {
   }
 
   Future<void> getItems() async {
-    firebaseUser=FirebaseAuth.instance.currentUser;
+    firebaseUser = FirebaseAuth.instance.currentUser;
     QuerySnapshot snapshot = await firestoreInstance.collection('Items').get();
     List<Item> tempItems = [];
     snapshot.docs.forEach((element) {
@@ -44,6 +44,7 @@ class ItemController with ChangeNotifier {
           title: element['title'],
           directory: element['directory'],
           favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
+          offeredProducts: List<String>.from(element['offeredProducts']),
           id: element.reference.id));
     });
     notifyListeners();
@@ -62,9 +63,8 @@ class ItemController with ChangeNotifier {
     items = tempItems;
   }
 
-  Future<List<String>> uploadImageToFirebase(
-      List<File> images, int dir) async {
-        print("@@@@@@@@@"+images.length.toString());
+  Future<List<String>> uploadImageToFirebase(List<File> images, int dir) async {
+    print("@@@@@@@@@" + images.length.toString());
     List<String> imageURLs = new List<String>();
     StorageReference storageRef;
     StorageUploadTask task;
@@ -104,6 +104,7 @@ class ItemController with ChangeNotifier {
   Future<void> addItem(Item item) async {
     item.images = [];
     item.favoritesUserIDs = [];
+    item.offeredProducts = [];
     Item.nameOfDirStorage++;
     firestoreInstance.collection("Items").add(
       {
@@ -118,20 +119,22 @@ class ItemController with ChangeNotifier {
         'condition': item.condition,
         'location': item.location,
         'favoritesUserIDs': item.favoritesUserIDs,
-        'directory':Item.nameOfDirStorage,
+        'offeredProducts': item.offeredProducts,
+        'directory': Item.nameOfDirStorage,
       },
     ).then((value) {
       print("thenthenthenthenthenthenthenthenthenthenthenthenthenthenthen");
       item.id = value.id;
-      item.directory=Item.nameOfDirStorage;
+      item.directory = Item.nameOfDirStorage;
     });
-    item.images = await uploadImageToFirebase(item.imageFiles, Item.nameOfDirStorage);
-       firestoreInstance.collection("Items").doc(item.id).update({
-        'images': item.images,
-      }).then((value) {
-        items.add(item);
-        notifyListeners();
-      });
+    item.images =
+        await uploadImageToFirebase(item.imageFiles, Item.nameOfDirStorage);
+    firestoreInstance.collection("Items").doc(item.id).update({
+      'images': item.images,
+    }).then((value) {
+      items.add(item);
+      notifyListeners();
+    });
   }
 
   void getUserItems() {
@@ -154,6 +157,16 @@ class ItemController with ChangeNotifier {
     userHomeItems = tempItems;
   }
 
+  List<Item> getCategoryItems(String catName) {
+    List<Item> tempItems = [];
+    for (var item in userHomeItems) {
+      if (item.categoryType == catName) {
+        tempItems.add(item);
+      }
+    }
+    return tempItems;
+  }
+
   Future<void> getUserFavoriteItems() async {}
 
   Future<void> deleteItem(String itemId) async {
@@ -174,16 +187,13 @@ class ItemController with ChangeNotifier {
     }
   }
 
-
   Future<void> updateItem(Item item, int index) async {
     if (item.imageFiles.length != 0) {
-      try{
-      await ItemController().deleteImageFromFirebase(item.images);
-      }catch(e){
-
-      }
-      item.images =
-          await ItemController().uploadImageToFirebase(item.imageFiles,item.directory);
+      try {
+        await ItemController().deleteImageFromFirebase(item.images);
+      } catch (e) {}
+      item.images = await ItemController()
+          .uploadImageToFirebase(item.imageFiles, item.directory);
     }
     print("////////////////////////////////////////////////////////////");
     print(item.properties);
@@ -200,7 +210,8 @@ class ItemController with ChangeNotifier {
         'condition': item.condition,
         'location': item.location,
         'favoritesUserIDs': item.favoritesUserIDs,
-        'directory':item.directory,
+        'directory': item.directory,
+        'offeredProducts': item.offeredProducts,
       },
     ).then((value) {
       items.removeAt(index);
@@ -225,5 +236,47 @@ class ItemController with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> deleteOffer(Item myItem, Item offer) async {
+    int index = items.indexWhere((element) => element.id == myItem.id);
+    items[index].offeredProducts.remove(offer.id);
+    try {
+      await firestoreInstance.collection("Items").doc(myItem.id).update(
+        {'offeredProducts': items[index].offeredProducts},
+      ).then((value) => notifyListeners());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> modifyOffer(
+      String offerId, String itemId, bool isChecked) async {
+    int index = items.indexWhere((element) => element.id == itemId);
+    if (!isChecked) {
+      items[index].offeredProducts.add(offerId);
+    } else {
+      items[index].offeredProducts.remove(offerId);
+    }
+    try {
+      await firestoreInstance.collection("Items").doc(itemId).update(
+        {'offeredProducts': items[index].offeredProducts},
+      ).then((value) => notifyListeners());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  List<Item> getOffersItems(List<String> offersIds) {
+    List<Item> tempItems = [];
+    for (int i = 0; i < offersIds.length; i++) {
+      for (var item in items) {
+        if (item.id == offersIds[i]) {
+          tempItems.add(item);
+          continue;
+        }
+      }
+    }
+    return tempItems;
   }
 }

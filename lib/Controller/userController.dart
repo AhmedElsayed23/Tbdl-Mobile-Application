@@ -6,6 +6,7 @@ import 'package:gp_version_01/models/userModel.dart';
 class UserController with ChangeNotifier {
   var firestoreInstance = FirebaseFirestore.instance;
   UserModel defaultUser;
+  String phone = null;
   Future<void> addUser(UserModel user) async {
     defaultUser = user;
     try {
@@ -51,14 +52,24 @@ class UserController with ChangeNotifier {
           .doc(firebaseUser.uid)
           .get()
           .then((value) {
-            defaultUser.id = firebaseUser.uid;
-            defaultUser.banDate = value['banDate'];
-            defaultUser.banScore = value['banScore'];
-            defaultUser.favCategory = value['favCategory'];
-            defaultUser.isBanned = value['isBanned'];
-            defaultUser.location = value['location'];
-            defaultUser.phone = value['phone'];
-            defaultUser.name = value['name'];
+        defaultUser.id = firebaseUser.uid;
+        defaultUser.banDate = value['banDate'];
+        defaultUser.banScore = value['banScore'];
+        defaultUser.favCategory = value['favCategory'];
+        defaultUser.isBanned = value['isBanned'];
+        defaultUser.location = value['location'];
+        defaultUser.phone = value['phone'];
+        defaultUser.name = value['name'];
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+   Future<void> getUserPhone(String itemOwner) async{
+    try {
+        firestoreInstance.collection("User").doc(itemOwner).get().then((value) {
+        phone = value['phone'];
       });
     } catch (e) {
       print(e);

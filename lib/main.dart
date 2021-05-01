@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/fav_Category_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
@@ -13,6 +14,7 @@ import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
+import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/Screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +43,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => ItemController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserController(),
         ),
       ],
       child: MaterialApp(
@@ -75,6 +80,8 @@ class MyApp extends StatelessWidget {
           TabsScreen.route: (context) => TabsScreen(),
           UserProductDetailsScreen.route:  (context) => UserProductDetailsScreen(),
           FavCategoryScreen.route: (context) => FavCategoryScreen(),
+          ViewOfferScreen.route: (context) => ViewOfferScreen(),
+          
         },
       ),
     );

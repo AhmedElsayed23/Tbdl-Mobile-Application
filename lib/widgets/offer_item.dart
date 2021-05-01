@@ -1,9 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/models/item.dart';
+import 'package:provider/provider.dart';
 
-class MyOffers extends StatelessWidget {
-  final int index;
-  final listOfUrl;
-  MyOffers({this.index, this.listOfUrl});
+class OfferItem extends StatefulWidget {
+  final Item offer;
+  final Item item;
+  OfferItem({this.offer, this.item});
+
+  @override
+  _OfferItemState createState() => _OfferItemState();
+}
+
+class _OfferItemState extends State<OfferItem> {
+  bool isChecked = false;
+
+  Icon check() {
+    String id = FirebaseAuth.instance.currentUser.uid;
+    List<String> temp = widget.item.offeredProducts
+        .where((element) => element == widget.offer.id)
+        .toList();
+    if (temp.isEmpty) {
+      isChecked = false;
+      return Icon(Icons.check_box_outline_blank, color: Theme.of(context).primaryColor);
+    } else {
+      isChecked = true;
+      return Icon(Icons.check_box, color: Theme.of(context).primaryColor);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -25,12 +51,28 @@ class MyOffers extends StatelessWidget {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    listOfUrl[index],
+                    widget.offer.images[0],
                     fit: BoxFit.cover,
                     height: 225,
                     width: double.infinity,
                   ),
                 ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    color: Colors.black26,
+                    child: IconButton(
+                      icon: check(),
+                      onPressed: () async {
+                        await Provider.of<ItemController>(context,listen: false).modifyOffer(widget.offer.id,widget.item.id,isChecked);
+                      },
+                    ),
+                  ),
+                )
               ],
             ),
             Container(
@@ -38,7 +80,7 @@ class MyOffers extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "اسم المنتج",
+                    widget.offer.title,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20.0,
@@ -48,7 +90,7 @@ class MyOffers extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "هنا يدخل المستخدم شرح مفصل عن المنتج المراد نشره",
+                    widget.offer.description,
                     style: TextStyle(fontWeight: FontWeight.w300),
                     textDirection: TextDirection.rtl,
                     maxLines: 2,
@@ -62,7 +104,9 @@ class MyOffers extends StatelessWidget {
                         color: Colors.red,
                       ),
                       Text(
-                        "العنوان",
+                        widget.offer.location[0] +
+                            ' - ' +
+                            widget.offer.location[1],
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

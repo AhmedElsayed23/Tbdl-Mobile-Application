@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
+import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:provider/provider.dart';
 
 class MyProductItems extends StatelessWidget {
   final Item myItem;
   MyProductItems({this.myItem});
+  void noOfferMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            content: Text("لا يوجد عروض لهذا المنتج"),
+            title: Text('تنبيه'),
+            actions: [
+              FlatButton(
+                  onPressed: () => Navigator.of(ctx).pop(), child: Text('تخطى'))
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void _showSheet(BuildContext context) {
     showModalBottomSheet(
@@ -34,7 +53,8 @@ class MyProductItems extends StatelessWidget {
                           FlatButton(
                               onPressed: () {
                                 try {
-                                  Provider.of<ItemController>(context,listen: false)
+                                  Provider.of<ItemController>(context,
+                                          listen: false)
                                       .deleteItem(myItem.id);
                                   Navigator.pop(context);
                                 } catch (e) {}
@@ -44,13 +64,23 @@ class MyProductItems extends StatelessWidget {
                               )),
                           FlatButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamed(AddItemScreen.route,arguments: myItem.id);
+                                Navigator.of(context).pushNamed(
+                                    AddItemScreen.route,
+                                    arguments: myItem.id);
                               },
                               child: Icon(
                                 Icons.update,
                               )),
                           FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (myItem.offeredProducts.isEmpty) {
+                                  noOfferMessage(context);
+                                } else {
+                                  Navigator.of(context).pushNamed(
+                                      ViewOfferScreen.route,
+                                      arguments: myItem);
+                                }
+                              },
                               child: Icon(
                                 Icons.local_offer,
                               )),

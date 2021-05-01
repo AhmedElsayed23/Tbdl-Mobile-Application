@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
+import 'package:gp_version_01/Screens/myProducts_screen.dart';
+import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Details extends StatelessWidget {
   static const String route = "/details";
 
   @override
   Widget build(BuildContext context) {
-    Item item = ModalRoute.of(context).settings.arguments;
+    List<dynamic> args = ModalRoute.of(context).settings.arguments;
+    Item item = args[0];
+    bool isOffer = args[1];
+
+    Provider.of<UserController>(context, listen: false).getUserPhone(item.itemOwner);
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -179,19 +190,41 @@ class Details extends StatelessWidget {
                     width: 120,
                     height: 40,
                     child: FloatingActionButton.extended(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      heroTag: "left",
-                      backgroundColor: Colors.blue[400],
-                      onPressed: () {
-                        Navigator.pushNamed(context, MakeOffer.route);
-                      },
-                      label: Text(
-                        "قدم عرض",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        heroTag: "left",
+                        backgroundColor: Colors.blue[400],
+                        onPressed: () async {
+                          if (isOffer) {
+                            Navigator.pushNamed(context, MakeOffer.route,
+                                arguments: item);
+                          } else {
+                            Item myItem = args[2];
+                            int len = myItem.offeredProducts.length;
+                            await Provider.of<ItemController>(context,
+                                    listen: false)
+                                .deleteOffer(myItem, item);
+                            if (len == 1) {
+                              int count = 0;
+                              Navigator.popUntil(context, (route) {
+                                return count++ == 2;
+                              });
+                            } else {
+                              myItem.offeredProducts.remove(item.id);
+                              Navigator.pop(context);
+                            }
+                          }
+                        },
+                        label: isOffer
+                            ? Text(
+                                "قدم عرض",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            : Text(
+                                "رفض العرض",
+                                style: TextStyle(color: Colors.white),
+                              )),
                   ),
                 ),
                 SizedBox(
@@ -202,7 +235,9 @@ class Details extends StatelessWidget {
                     ),
                     heroTag: "middle",
                     backgroundColor: Colors.blue[100],
-                    onPressed: null,
+                    onPressed: () async {
+                      launch(('tel://${Provider.of<UserController>(context, listen: false).phone}'));
+                    },
                     child: Icon(
                       Icons.phone,
                       color: Colors.blue[400],
