@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
 import 'package:gp_version_01/models/item.dart';
+import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/myProducts.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +38,7 @@ class _MyProductsState extends State<MyProducts> {
   @override
   Widget build(BuildContext context) {
     List<Item> myItems = Provider.of<ItemController>(context).userItems;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("منتجاتى",

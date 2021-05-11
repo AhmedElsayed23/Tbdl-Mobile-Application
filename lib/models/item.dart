@@ -18,7 +18,6 @@ class Item {
   String id;
   static int nameOfDirStorage=0;
   int directory;
-  List<String> offeredProducts;
 
   Item(
       {this.description,
@@ -34,5 +33,5 @@ class Item {
       this.categoryType,
       this.condition,
       this.directory,
-      this.isFree,this.offeredProducts,});
+      this.isFree});
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/models/item.dart';
+import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 import 'package:intl/intl.dart' as os;
@@ -211,7 +213,9 @@ class Details extends StatelessWidget {
                           'الاسم': Provider.of<UserController>(context,
                                   listen: false)
                               .otherUserName,
-                          'تاريخ': os.DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(item.date.millisecondsSinceEpoch))
+                          'تاريخ': os.DateFormat.yMMMd().format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  item.date.millisecondsSinceEpoch))
                         }),
                         SizedBox(
                           height: 60,
@@ -247,17 +251,23 @@ class Details extends StatelessWidget {
                                 arguments: item);
                           } else {
                             Item myItem = args[2];
-                            int len = myItem.offeredProducts.length;
-                            await Provider.of<ItemController>(context,
+                            ItemOffer itemOffer =
+                                Provider.of<ItemOffersController>(context,
+                                        listen: false)
+                                    .getItemOffer(myItem);
+                            int lenghtOfOffers =
+                                itemOffer.upcomingOffers.length;
+
+                            await Provider.of<ItemOffersController>(context,
                                     listen: false)
                                 .deleteOffer(myItem, item);
-                            if (len == 1) {
+                            if (lenghtOfOffers == 1) {
                               int count = 0;
                               Navigator.popUntil(context, (route) {
                                 return count++ == 2;
                               });
                             } else {
-                              myItem.offeredProducts.remove(item.id);
+                              itemOffer.upcomingOffers.remove(item.id);
                               Navigator.pop(context);
                             }
                           }

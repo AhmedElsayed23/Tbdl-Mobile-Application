@@ -1,6 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:provider/provider.dart';
 
@@ -17,13 +16,16 @@ class _OfferItemState extends State<OfferItem> {
   bool isChecked = false;
 
   Icon check() {
-    String id = FirebaseAuth.instance.currentUser.uid;
-    List<String> temp = widget.item.offeredProducts
+    List<String> temp = Provider.of<ItemOffersController>(context)
+        .getItemOffer(widget.item)
+        .upcomingOffers
         .where((element) => element == widget.offer.id)
         .toList();
+
     if (temp.isEmpty) {
       isChecked = false;
-      return Icon(Icons.check_box_outline_blank, color: Theme.of(context).primaryColor);
+      return Icon(Icons.check_box_outline_blank,
+          color: Theme.of(context).primaryColor);
     } else {
       isChecked = true;
       return Icon(Icons.check_box, color: Theme.of(context).primaryColor);
@@ -68,7 +70,10 @@ class _OfferItemState extends State<OfferItem> {
                     child: IconButton(
                       icon: check(),
                       onPressed: () async {
-                        await Provider.of<ItemController>(context,listen: false).modifyOffer(widget.offer.id,widget.item.id,isChecked);
+                        await Provider.of<ItemOffersController>(context,
+                                listen: false)
+                            .modifyOffer(
+                                widget.offer.id, widget.item.id, isChecked);
                       },
                     ),
                   ),

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
+import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:provider/provider.dart';
 import '../widgets/drawer.dart';
@@ -87,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .then((value) => setState(() {
                 isLoading = false;
               }));
+      Provider.of<ItemOffersController>(context).getAllOffers();
     }
     isInit = false;
     super.didChangeDependencies();

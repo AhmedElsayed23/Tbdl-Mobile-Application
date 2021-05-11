@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
-import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
 import 'package:gp_version_01/models/item.dart';
+import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/myOfferItem.dart';
-import 'package:gp_version_01/widgets/myProducts.dart';
 import 'package:provider/provider.dart';
 
 class ViewOfferScreen extends StatefulWidget {
@@ -36,7 +36,8 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   Widget build(BuildContext context) {
     Item myItem = ModalRoute.of(context).settings.arguments;
-    List<String> offersIDs = myItem.offeredProducts;
+    ItemOffer myItemOffers = Provider.of<ItemOffersController>(context).getItemOffer(myItem);
+    List<String> offersIDs = myItemOffers.upcomingOffers;
     List<Item> offersItems = Provider.of<ItemController>(context).getOffersItems(offersIDs);
     return Scaffold(
       appBar: AppBar(

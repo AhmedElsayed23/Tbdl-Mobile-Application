@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/models/item.dart';
@@ -27,7 +28,7 @@ class MyProductItems extends StatelessWidget {
     );
   }
 
-  void _showSheet(BuildContext context) {
+  void _showSheet(BuildContext context, bool checkItemOffer) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -73,7 +74,7 @@ class MyProductItems extends StatelessWidget {
                               )),
                           FlatButton(
                               onPressed: () {
-                                if (myItem.offeredProducts.isEmpty) {
+                                if (checkItemOffer) {
                                   noOfferMessage(context);
                                 } else {
                                   Navigator.of(context).pushNamed(
@@ -114,6 +115,9 @@ class MyProductItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool checkItemOffers =
+        Provider.of<ItemOffersController>(context, listen: false)
+            .checkUpcomingOffersToItem(myItem);
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -150,7 +154,7 @@ class MyProductItems extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Icons.more_vert, color: Colors.white),
                       onPressed: () {
-                        _showSheet(context);
+                        _showSheet(context, checkItemOffers);
                       },
                     ),
                   ),

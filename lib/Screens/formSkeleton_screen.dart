@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
@@ -48,7 +49,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'categoryType': 'كتب',
     'properties': {},
     'favoritesUserIDs': [''],
-    'offeredProducts':[''],
     'location': [''],
     'directory': 0,
   };
@@ -132,7 +132,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         initialValues['favoritesUserIDs'] = item.favoritesUserIDs;
         initialValues['location'] = item.location;
         initialValues['directory'] = item.directory;
-        initialValues['offeredProducts'] = item.offeredProducts;
       }
       print("------------------------------------------");
       print(item.properties);
@@ -317,22 +316,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
         showSpinner = true;
       });
       Item item = new Item(
-          categoryType: categoryType,
-          description: description,
-          itemOwner: FirebaseAuth.instance.currentUser.uid,
-          title: title,
-          date: Timestamp.now(),
-          imageFiles: imagesFiles,
-          condition: condition,
-          isFree: isFree,
-          location: locat,
-          properties: properties,
-          directory: initialValues['directory'],
-          favoritesUserIDs: initialValues['favoritesUserIDs'],
-          images: initialValues['images'],
-          id: initialValues['id'],
-          offeredProducts: initialValues['offeredProducts'],
-          );
+        categoryType: categoryType,
+        description: description,
+        itemOwner: FirebaseAuth.instance.currentUser.uid,
+        title: title,
+        date: Timestamp.now(),
+        imageFiles: imagesFiles,
+        condition: condition,
+        isFree: isFree,
+        location: locat,
+        properties: properties,
+        directory: initialValues['directory'],
+        favoritesUserIDs: initialValues['favoritesUserIDs'],
+        images: initialValues['images'],
+        id: initialValues['id'],
+      );
       //print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
       //print(item.properties);
       if (updateOrAdd) {
@@ -340,12 +338,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
             .updateItem(item, index);
       } else {
         await Provider.of<ItemController>(context, listen: false).addItem(item);
+        await Provider.of<ItemOffersController>(context, listen: false).addItemOffers(item);
       }
       properties.clear();
       setState(() {
         showSpinner = false;
       });
-      Toast.show("تم الاضافة بنجاح", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+      Toast.show("تم الاضافة بنجاح", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
       Navigator.of(context).pushNamed(MyProducts.route);
     }
   }

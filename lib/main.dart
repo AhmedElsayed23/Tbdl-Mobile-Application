@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/fav_Category_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => UserController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ItemOffersController(),
         ),
       ],
       child: MaterialApp(

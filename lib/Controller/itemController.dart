@@ -44,7 +44,6 @@ class ItemController with ChangeNotifier {
           title: element['title'],
           directory: element['directory'],
           favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
-          offeredProducts: List<String>.from(element['offeredProducts']),
           id: element.reference.id));
     });
     notifyListeners();
@@ -104,7 +103,6 @@ class ItemController with ChangeNotifier {
   Future<void> addItem(Item item) async {
     item.images = [];
     item.favoritesUserIDs = [];
-    item.offeredProducts = [];
     Item.nameOfDirStorage++;
     firestoreInstance.collection("Items").add(
       {
@@ -119,7 +117,6 @@ class ItemController with ChangeNotifier {
         'condition': item.condition,
         'location': item.location,
         'favoritesUserIDs': item.favoritesUserIDs,
-        'offeredProducts': item.offeredProducts,
         'directory': Item.nameOfDirStorage,
       },
     ).then((value) {
@@ -211,7 +208,6 @@ class ItemController with ChangeNotifier {
         'location': item.location,
         'favoritesUserIDs': item.favoritesUserIDs,
         'directory': item.directory,
-        'offeredProducts': item.offeredProducts,
       },
     ).then((value) {
       items.removeAt(index);
@@ -232,35 +228,6 @@ class ItemController with ChangeNotifier {
     try {
       await firestoreInstance.collection("Items").doc(id).update(
         {'favoritesUserIDs': items[index].favoritesUserIDs},
-      ).then((value) => notifyListeners());
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> deleteOffer(Item myItem, Item offer) async {
-    int index = items.indexWhere((element) => element.id == myItem.id);
-    items[index].offeredProducts.remove(offer.id);
-    try {
-      await firestoreInstance.collection("Items").doc(myItem.id).update(
-        {'offeredProducts': items[index].offeredProducts},
-      ).then((value) => notifyListeners());
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> modifyOffer(
-      String offerId, String itemId, bool isChecked) async {
-    int index = items.indexWhere((element) => element.id == itemId);
-    if (!isChecked) {
-      items[index].offeredProducts.add(offerId);
-    } else {
-      items[index].offeredProducts.remove(offerId);
-    }
-    try {
-      await firestoreInstance.collection("Items").doc(itemId).update(
-        {'offeredProducts': items[index].offeredProducts},
       ).then((value) => notifyListeners());
     } catch (e) {
       print(e.toString());
