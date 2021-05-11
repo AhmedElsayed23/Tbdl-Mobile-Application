@@ -95,14 +95,14 @@ class _ProductItemState extends State<ProductItem> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
                         Icons.location_on,
                         color: Colors.red,
                       ),
                       Text(
-                        "item.location",
+                        widget.item.location[0],
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

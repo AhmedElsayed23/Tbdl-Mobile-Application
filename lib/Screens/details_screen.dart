@@ -3,11 +3,10 @@ import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
-import 'package:gp_version_01/Screens/myProducts_screen.dart';
-import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+import 'package:intl/intl.dart' as os;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,7 +19,8 @@ class Details extends StatelessWidget {
     Item item = args[0];
     bool isOffer = args[1];
 
-    Provider.of<UserController>(context, listen: false).getUserPhone(item.itemOwner);
+    Provider.of<UserController>(context, listen: false)
+        .getDetailsOfOtherUser(item.itemOwner);
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -123,6 +123,16 @@ class Details extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "المكان",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Divider(color: Colors.black45),
                         Card(
                           margin: EdgeInsets.all(7),
                           shape: RoundedRectangleBorder(
@@ -139,9 +149,20 @@ class Details extends StatelessWidget {
                                   color: Colors.red,
                                 ),
                                 Spacer(),
-                                Text('item.location'),
+                                Text(item.location[0] +
+                                    ' -> ' +
+                                    item.location[1]),
                               ],
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "الوصف",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
                           ),
                         ),
                         Divider(color: Colors.black45),
@@ -165,8 +186,33 @@ class Details extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "الخصائص",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
                         Divider(color: Colors.black45),
                         DescriptionItem(item.properties),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: Text(
+                            "المستخدم",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Divider(color: Colors.black45),
+                        DescriptionItem({
+                          'الاسم': Provider.of<UserController>(context,
+                                  listen: false)
+                              .otherUserName,
+                          'تاريخ': os.DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(item.date.millisecondsSinceEpoch))
+                        }),
                         SizedBox(
                           height: 60,
                         )
@@ -236,7 +282,8 @@ class Details extends StatelessWidget {
                     heroTag: "middle",
                     backgroundColor: Colors.blue[100],
                     onPressed: () async {
-                      launch(('tel://${Provider.of<UserController>(context, listen: false).phone}'));
+                      launch(
+                          ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
                     },
                     child: Icon(
                       Icons.phone,
