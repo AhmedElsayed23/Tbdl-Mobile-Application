@@ -70,7 +70,7 @@ class UserController with ChangeNotifier {
 
    Future<void> getDetailsOfOtherUser(String itemOwner) async{
     try {
-        firestoreInstance.collection("User").doc(itemOwner).get().then((value) {
+        await firestoreInstance.collection("User").doc(itemOwner).get().then((value) {
         otherUserPhone = value['phone'];
         otherUserName = value['name'];
       });

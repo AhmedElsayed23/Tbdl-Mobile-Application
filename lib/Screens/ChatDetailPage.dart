@@ -19,34 +19,19 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   ChatUsers user;
   String name;
 
-  String senderId;
-  String receiverId;
-  String lastText;
-  Timestamp time;
-  List<ChatMessage> messages;
-
   @override
-  void didChangeDependencies() async {
-    if (flag == true) {}
+  void didChangeDependencies() {
+    if (flag == true) {
+      userId = ModalRoute.of(context).settings.arguments;
+      name = Provider.of<UserController>(context, listen: false).otherUserName;
+      user = Provider.of<ChatController>(context, listen: false).chatUser;
+    }
     flag = false;
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    userId = ModalRoute.of(context).settings.arguments;
-    Provider.of<ChatController>(context, listen: false).getUserChat(userId);
-    Provider.of<UserController>(context, listen: false)
-        .getDetailsOfOtherUser(userId);
-    name = Provider.of<UserController>(context, listen: false).otherUserName;
-    user = Provider.of<ChatController>(context, listen: false).chatUser;
-
-    senderId = user.senderId;
-    receiverId = user.senderId;
-    lastText = user.lastText;
-    time = user.time;
-    messages = user.messages;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -101,7 +86,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       body: Stack(
         children: <Widget>[
           ListView.builder(
-            itemCount: messages.length,
+            itemCount: user.messages.length,
             shrinkWrap: true,
             padding: EdgeInsets.only(top: 10, bottom: 10),
             physics: NeverScrollableScrollPhysics(),
@@ -110,21 +95,21 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 padding:
                     EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
                 child: Align(
-                  alignment: (messages[index].senderId ==
+                  alignment: (user.messages[index].senderId ==
                           FirebaseAuth.instance.currentUser.uid
                       ? Alignment.topLeft
                       : Alignment.topRight),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].senderId !=
+                      color: (user.messages[index].senderId !=
                               FirebaseAuth.instance.currentUser.uid
                           ? Colors.grey.shade200
                           : Colors.blue[200]),
                     ),
                     padding: EdgeInsets.all(16),
                     child: Text(
-                      messages[index].messageContent,
+                      user.messages[index].messageContent,
                       style: TextStyle(fontSize: 15),
                     ),
                   ),

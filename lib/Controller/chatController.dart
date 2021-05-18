@@ -48,7 +48,7 @@ class ChatController with ChangeNotifier {
   Future<void> getUserConversations() async {
     String userID = FirebaseAuth.instance.currentUser.uid;
     List<ChatMessage> messages = [];
-    List<String> docIds = [];
+    List<ChatUsers> tempList = [];
     ChatUsers temp;
     QuerySnapshot snapshot = await firestoreInstance.collection('Chat').get();
     snapshot.docs.forEach((element) async {
@@ -82,9 +82,10 @@ class ChatController with ChangeNotifier {
               time: element2['time']));
         });
         temp.messages = messages;
-        userConversations.add(temp);
+        tempList.add(temp);
       }
     }) ;
-    //notifyListeners();
+    userConversations=tempList;
+    notifyListeners();
   }
 }

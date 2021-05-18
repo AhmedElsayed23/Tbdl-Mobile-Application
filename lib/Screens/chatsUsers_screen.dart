@@ -16,6 +16,7 @@ class ChatsUsersScreen extends StatefulWidget {
 class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   bool isLeave = false;
   bool flag = true;
+  String name;
   String currentU = FirebaseAuth.instance.currentUser.uid;
   void _showSheet() {
     showModalBottomSheet(
@@ -118,7 +119,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   @override
   void didChangeDependencies() async {
     if (flag == true) {
-      Provider.of<ChatController>(context, listen: false)
+      await Provider.of<ChatController>(context, listen: false)
           .getUserConversations();
     }
     flag = false;
@@ -126,9 +127,8 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   }
 
   String setName(String id) {
-    Provider.of<UserController>(context, listen: false)
-        .getDetailsOfOtherUser(id);
-    return Provider.of<UserController>(context, listen: false).otherUserName;
+     Provider.of<UserController>(context, listen: false)
+        .getDetailsOfOtherUser(id).then((value) => name= Provider.of<UserController>(context, listen: false).otherUserName);
   }
 
   @override
