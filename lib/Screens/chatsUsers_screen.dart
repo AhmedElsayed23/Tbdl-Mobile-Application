@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart' as os;
 
 class ChatsUsersScreen extends StatefulWidget {
   @override
@@ -11,62 +14,9 @@ class ChatsUsersScreen extends StatefulWidget {
 }
 
 class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
-  /*List<ChatUsers> chatUsersd = [
-    ChatUsers(
-      time: "now",
-      imageURL:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-      messageText: "السلام عليكم",
-      name: "احمد رمضان",
-    ),
-    ChatUsers(
-        time: "yesterday",
-        imageURL:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "هذا رائع",
-        name: "اسلام عادل"),
-    ChatUsers(
-      time: "31 Mar",
-      imageURL:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-      messageText: "شكرا لك",
-      name: "حاتم سيد",
-    ),
-    ChatUsers(
-        time: "28 Mar",
-        imageURL:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "تمام فى الميعاد",
-        name: "عبد الرحمن احمد"),
-    ChatUsers(
-        time: "23 Mar",
-        imageURL:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "زى ما اتفقنا",
-        name: "Ahmed"),
-    ChatUsers(
-        time: "17 Mar",
-        imageURL:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-        messageText: "will update you in evening",
-        name: "Hassan"),
-    ChatUsers(
-      time: "24 Feb",
-      imageURL:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-      messageText: "Can you please share the file?",
-      name: "Adel",
-    ),
-    ChatUsers(
-      time: "18 Feb",
-      imageURL:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
-      messageText: "How are you?",
-      name: "John Wick",
-    ),
-  ];*/
   bool isLeave = false;
-
+  bool flag = true;
+  String currentU = FirebaseAuth.instance.currentUser.uid;
   void _showSheet() {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -166,9 +116,27 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   }
 
   @override
+  void didChangeDependencies() async {
+    if (flag == true) {
+      Provider.of<ChatController>(context, listen: false)
+          .getUserConversations();
+    }
+    flag = false;
+    super.didChangeDependencies();
+  }
+
+  String setName(String id) {
+    Provider.of<UserController>(context, listen: false)
+        .getDetailsOfOtherUser(id);
+    return Provider.of<UserController>(context, listen: false).otherUserName;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //List<ChatController> chatUsers = Provider.of<ChatController>(context).getUserChat(userId);
-    return /*WillPopScope(
+    List<ChatUsers> chatUsers =
+        Provider.of<ChatController>(context, listen: false).userConversations;
+
+    return WillPopScope(
       onWillPop: () async {
         showAlertDialog(context);
         return isLeave;
@@ -191,26 +159,6 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "ابحث...",
-                      hintStyle: TextStyle(color: Colors.grey.shade600),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.grey.shade600,
-                        size: 20,
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey.shade100,
-                      contentPadding: EdgeInsets.all(8),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.grey.shade100)),
-                    ),
-                  ),
-                ),
                 ListView.builder(
                   itemCount: chatUsers.length,
                   shrinkWrap: true,
@@ -220,10 +168,15 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                     return InkWell(
                       onLongPress: _showSheet,
                       child: ConversationList(
-                        name: chatUsers[index].name,
-                        messageText: chatUsers[index].,
-                        imageUrl: chatUsers[index].imageURL,
-                        time: chatUsers[index].time,
+                        name: (currentU == chatUsers[index].receiverId)
+                            ? setName(chatUsers[index].senderId)
+                            : setName(chatUsers[index].receiverId),
+                        messageText: chatUsers[index].lastText,
+                        imageUrl:
+                            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",
+                        time: os.DateFormat.yMMMd().format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                chatUsers[index].time.millisecondsSinceEpoch)),
                         isMessageRead:
                             (index == 0 || index == 3) ? true : false,
                       ),
@@ -235,7 +188,6 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
           ),
         ),
       ),
-    );*/
-    Container();
+    );
   }
 }
