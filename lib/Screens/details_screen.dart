@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
@@ -20,10 +21,6 @@ class Details extends StatelessWidget {
     List<dynamic> args = ModalRoute.of(context).settings.arguments;
     Item item = args[0];
     bool isOffer = args[1];
-
-    Provider.of<UserController>(context, listen: false)
-        .getDetailsOfOtherUser(item.itemOwner);
-
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -312,8 +309,17 @@ class Details extends StatelessWidget {
                       ),
                       heroTag: 'right',
                       backgroundColor: Colors.blue[400],
-                      onPressed: () {
-                        Navigator.pushNamed(context, ChatDetailPage.route, arguments: item.itemOwner);
+                      onPressed: () async {
+                        await Provider.of<ChatController>(context,listen: false)
+                            .getUserChat(item.itemOwner)
+                            .then((value) async {
+                          await Provider.of<UserController>(context,
+                                  listen: false)
+                              .getDetailsOfOtherUser(item.itemOwner)
+                              .then((value) => Navigator.pushNamed(
+                                  context, ChatDetailPage.route,
+                                  arguments: item.itemOwner));
+                        });
                       },
                       label: Text(
                         "راسله",
