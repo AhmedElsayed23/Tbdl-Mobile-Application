@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
+import 'package:provider/provider.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatsUsersScreen extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatsUsersScreenState createState() => _ChatsUsersScreenState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-  List<ChatUsers> chatUsers = [
+class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
+  /*List<ChatUsers> chatUsersd = [
     ChatUsers(
       time: "now",
       imageURL:
@@ -62,7 +64,7 @@ class _ChatPageState extends State<ChatPage> {
       messageText: "How are you?",
       name: "John Wick",
     ),
-  ];
+  ];*/
   bool isLeave = false;
 
   void _showSheet() {
@@ -165,7 +167,8 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    //List<ChatController> chatUsers = Provider.of<ChatController>(context).getUserChat(userId);
+    return /*WillPopScope(
       onWillPop: () async {
         showAlertDialog(context);
         return isLeave;
@@ -218,7 +221,7 @@ class _ChatPageState extends State<ChatPage> {
                       onLongPress: _showSheet,
                       child: ConversationList(
                         name: chatUsers[index].name,
-                        messageText: chatUsers[index].messageText,
+                        messageText: chatUsers[index].,
                         imageUrl: chatUsers[index].imageURL,
                         time: chatUsers[index].time,
                         isMessageRead:
@@ -232,6 +235,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-    );
+    );*/
+    Container();
   }
 }

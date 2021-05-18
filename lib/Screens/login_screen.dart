@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String route = 'login_screen';
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
             key: formKey,
-                      child: Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -107,8 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: email, password: password);
                       if (user != null) {
                         ItemController().getItems();
+                        Provider.of<ItemOffersController>(context)
+                            .getAllOffers();
+
                         Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/', (Route<dynamic> route) => false);
+                            '/', (Route<dynamic> route) => false);
                       }
                       setState(() {
                         showSpinner = false;

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ItemOffersController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChatController(),
         ),
       ],
       child: MaterialApp(

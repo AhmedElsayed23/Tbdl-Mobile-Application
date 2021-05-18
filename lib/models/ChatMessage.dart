@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
-class ChatMessage{
+class ChatMessage {
+  String senderId;
   String messageContent;
-  String messageType;
-  ChatMessage({@required this.messageContent, @required this.messageType});
+  Timestamp time;
+  ChatMessage(
+      {@required this.messageContent,
+      @required this.senderId,
+      @required this.time});
 }

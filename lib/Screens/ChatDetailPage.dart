@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/ChatMessage.dart';
+import 'package:gp_version_01/models/ChatUsers.dart';
+import 'package:provider/provider.dart';
 
 class ChatDetailPage extends StatefulWidget {
   static const String route = "ChatDetailPage";
@@ -8,16 +14,39 @@ class ChatDetailPage extends StatefulWidget {
 }
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "مرحبا, على", messageType: "receiver"),
-    ChatMessage(messageContent: "كيف االحال", messageType: "receiver"),
-    ChatMessage(messageContent: "السلام عليكم", messageType: "sender"),
-    ChatMessage(messageContent: "كويس.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "هل هناك مشكلة?", messageType: "sender"),
-  ];
+  bool flag = true;
+  String userId;
+  ChatUsers user;
+  String name;
+
+  String senderId;
+  String receiverId;
+  String lastText;
+  Timestamp time;
+  List<ChatMessage> messages;
+
+  @override
+  void didChangeDependencies() async {
+    if (flag == true) {}
+    flag = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    userId = ModalRoute.of(context).settings.arguments;
+    Provider.of<ChatController>(context, listen: false).getUserChat(userId);
+    Provider.of<UserController>(context, listen: false)
+        .getDetailsOfOtherUser(userId);
+    name = Provider.of<UserController>(context, listen: false).otherUserName;
+    user = Provider.of<ChatController>(context, listen: false).chatUser;
+
+    senderId = user.senderId;
+    receiverId = user.senderId;
+    lastText = user.lastText;
+    time = user.time;
+    messages = user.messages;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -44,7 +73,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "حسن محمد",
+                          name,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                         ),
@@ -81,13 +110,15 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 padding:
                     EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
                 child: Align(
-                  alignment: (messages[index].messageType == "receiver"
+                  alignment: (messages[index].senderId ==
+                          FirebaseAuth.instance.currentUser.uid
                       ? Alignment.topLeft
                       : Alignment.topRight),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType == "receiver"
+                      color: (messages[index].senderId !=
+                              FirebaseAuth.instance.currentUser.uid
                           ? Colors.grey.shade200
                           : Colors.blue[200]),
                     ),

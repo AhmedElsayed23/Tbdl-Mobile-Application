@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Screens/chatsUsers_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
-import 'chat_screen.dart';
 import 'formSkeleton_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     pages = [
-      {'page': ChatPage(), 'name': 'messages'},
+      {'page': ChatsUsersScreen(), 'name': 'messages'},
       {'page': AddItemScreen(), 'name': 'add'},
       {'page': HomeScreen(), 'name': 'home'},
     ];

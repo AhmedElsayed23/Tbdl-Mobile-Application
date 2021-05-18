@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gp_version_01/models/ChatMessage.dart';
 
 class ChatUsers{
-  String name;
-  String messageText;
-  String imageURL;
-  String time;
-  ChatUsers({@required this.name,@required this.messageText,@required this.imageURL,@required this.time});
+  String senderId;
+  String receiverId;
+  String lastText;
+  Timestamp time;
+  List<ChatMessage> messages;
+
+  ChatUsers({@required this.senderId,@required this.receiverId,@required this.lastText,@required this.time, this.messages});
 }

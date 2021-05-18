@@ -313,7 +313,7 @@ class Details extends StatelessWidget {
                       heroTag: 'right',
                       backgroundColor: Colors.blue[400],
                       onPressed: () {
-                        Navigator.pushNamed(context, ChatDetailPage.route);
+                        Navigator.pushNamed(context, ChatDetailPage.route, arguments: item.itemOwner);
                       },
                       label: Text(
                         "راسله",
