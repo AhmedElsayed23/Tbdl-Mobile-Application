@@ -19,6 +19,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
+  bool flag = true;
   AnimationController controller;
   Animation animation;
   Widget home;
@@ -44,59 +45,64 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   void didChangeDependencies() {
-    var user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      setState(() {
-        home = Scaffold(
-          backgroundColor: animation.value,
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    TypewriterAnimatedTextKit(
-                      text: ['تبدل'],
-                      textStyle: TextStyle(
-                        fontSize: 45.0,
-                        fontWeight: FontWeight.w900,
+    if (flag) {
+      var user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        setState(() {
+          home = Scaffold(
+            backgroundColor: animation.value,
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      TypewriterAnimatedTextKit(
+                        text: ['تبدل'],
+                        textStyle: TextStyle(
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 48.0,
-                ),
-                RoundedButton(
-                  title: 'تسجيل الدخول',
-                  colour: Colors.lightBlueAccent,
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.route);
-                  },
-                ),
-                RoundedButton(
-                  title: 'إنشاء حساب',
-                  colour: Colors.blueAccent,
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.route);
-                  },
-                ),
-              ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 48.0,
+                  ),
+                  RoundedButton(
+                    title: 'تسجيل الدخول',
+                    colour: Colors.lightBlueAccent,
+                    onPressed: () {
+                      Navigator.pushNamed(context, LoginScreen.route);
+                    },
+                  ),
+                  RoundedButton(
+                    title: 'إنشاء حساب',
+                    colour: Colors.blueAccent,
+                    onPressed: () {
+                      Navigator.pushNamed(context, RegistrationScreen.route);
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      });
-    } else {
-      Provider.of<ItemController>(context, listen: false).getItems();
-      Provider.of<ItemOffersController>(context, listen: false).getAllOffers();
-      Provider.of<ChatController>(context, listen: false)
-          .getUserConversations();
+          );
+        });
+      } else {
+        Provider.of<ItemController>(context, listen: false).getItems();
+        Provider.of<ItemOffersController>(context, listen: false)
+            .getAllOffers();
+        Provider.of<ChatController>(context, listen: false)
+            .getUserConversations();
+        setState(() {
+          home = TabsScreen();
+        });
+      }
     }
-    setState(() {
-      home = TabsScreen();
-    });
+    flag = false;
+
     super.didChangeDependencies();
   }
 

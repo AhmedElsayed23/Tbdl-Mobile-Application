@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
+import 'package:provider/provider.dart';
 
 class ConversationList extends StatefulWidget {
   final Map<String, dynamic> temp;
@@ -23,7 +26,10 @@ class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await Provider.of<ChatController>(context, listen: false).getDocId(
+            widget.temp['senId'] + "_" + widget.temp['recId'],
+            widget.temp['recId'] + "_" + widget.temp['senId']);
         Navigator.pushNamed(context, ChatDetailPage.route,
             arguments: widget.temp);
       },

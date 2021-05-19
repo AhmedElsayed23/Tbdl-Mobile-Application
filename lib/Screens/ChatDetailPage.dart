@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/ChatMessage.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart' as os;
+
+final _firestore = FirebaseFirestore.instance;
 
 class ChatDetailPage extends StatefulWidget {
   static const String route = "ChatDetailPage";
@@ -14,10 +18,16 @@ class ChatDetailPage extends StatefulWidget {
 }
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
+  final messageTextController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  String currentUserIsSender;
+  String currentUserIsNotSender;
+
   bool flag = true;
   ChatUsers user;
   String name;
   bool check;
+  String messageText;
 
   @override
   void didChangeDependencies() {
@@ -40,6 +50,18 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (user.receiverId == FirebaseAuth.instance.currentUser.uid) {
+      currentUserIsSender =
+          FirebaseAuth.instance.currentUser.uid + '_' + user.senderId;
+      currentUserIsNotSender =
+          user.senderId + '_' + FirebaseAuth.instance.currentUser.uid;
+    } else {
+      currentUserIsSender =
+          FirebaseAuth.instance.currentUser.uid + '_' + user.receiverId;
+      currentUserIsNotSender =
+          user.receiverId + '_' + FirebaseAuth.instance.currentUser.uid;
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -91,76 +113,158 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: user.messages.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                padding:
-                    EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (user.messages[index].senderId ==
-                          FirebaseAuth.instance.currentUser.uid
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (user.messages[index].senderId !=
-                              FirebaseAuth.instance.currentUser.uid
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      user.messages[index].messageContent,
-                      style: TextStyle(fontSize: 15),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            MessagesStream(
+              currentUserIsNotSender: currentUserIsNotSender,
+              currentUserIsSender: currentUserIsSender,
+            ),
+            Container(
+              decoration: kMessageContainerDecoration,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      controller: messageTextController,
+                      onChanged: (value) {
+                        messageText = value;
+                      },
+                      decoration: kMessageTextFieldDecoration,
                     ),
                   ),
-                ),
-              );
-            },
+                  FlatButton(
+                    onPressed: () async {
+                      try {
+                        if (messageText != null) {
+                          messageTextController.clear();
+                          QuerySnapshot snapshot = await _firestore
+                              .collection('Chat')
+                              .where("fromId_toId", whereIn: [
+                            currentUserIsSender,
+                            currentUserIsNotSender
+                          ]).get();
+                          snapshot.docs.forEach((element) {
+                            element.reference.collection("Message").add({
+                              'messageContent': messageText,
+                              'sender': FirebaseAuth.instance.currentUser.uid,
+                              'time': Timestamp.now(),
+                            });
+                          });
+                        }
+                      } catch (e) {}
+                    },
+                    child: Text(
+                      'Send',
+                      style: kSendButtonTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MessagesStream extends StatelessWidget {
+  final String currentUserIsSender;
+  final String currentUserIsNotSender;
+
+  MessagesStream({this.currentUserIsNotSender, this.currentUserIsSender});
+  @override
+  Widget build(BuildContext context) {
+    String docId =
+        Provider.of<ChatController>(context, listen: false).documentId;
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore
+          .collection('Chat')
+          .doc(docId)
+          .collection("Message")
+          .orderBy('time', descending: true)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        }
+        final messages = snapshot.data.docs;
+        List<MessageBubble> messageBubbles = [];
+        for (var message in messages) {
+          final messageText = message['messageContent'];
+          final messageTime = message['time'];
+          final messageBubble = MessageBubble(
+            time: messageTime,
+            text: messageText,
+            isMe: FirebaseAuth.instance.currentUser.uid == message['sender'],
+          );
+
+          messageBubbles.add(messageBubble);
+        }
+        return Expanded(
+          child: ListView(
+            reverse: true,
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            children: messageBubbles,
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            hintText: "اكتب رسالة...",
-                            hintStyle: TextStyle(color: Colors.black54),
-                            border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {},
-                      child: Icon(
-                        Icons.send,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                      backgroundColor: Colors.blue,
-                      elevation: 0,
-                    ),
-                  ],
+        );
+      },
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  MessageBubble({this.time, this.text, this.isMe});
+
+  final Timestamp time;
+  final String text;
+  final bool isMe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            os.DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(
+                time.millisecondsSinceEpoch)),
+            style: TextStyle(
+              fontSize: 12.0,
+              color: Colors.black54,
+            ),
+          ),
+          Material(
+            borderRadius: isMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0))
+                : BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
+            elevation: 5.0,
+            color: isMe ? Colors.lightBlueAccent : Colors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: isMe ? Colors.white : Colors.black54,
+                  fontSize: 15.0,
                 ),
               ),
             ),

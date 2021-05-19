@@ -59,8 +59,8 @@ class DrawerItem extends StatelessWidget {
                     ),
                     onTap: () async {
                       await FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/', (Route<dynamic> route) => false);
+                        Navigator.of(context).pushReplacementNamed(
+                            '/');
                       });
                       // Navigator.of(context).pushReplacementNamed('/');
                     },

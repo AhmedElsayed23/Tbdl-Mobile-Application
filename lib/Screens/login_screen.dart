@@ -110,19 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (user != null) {
                         print("autolooooooooooooooooooooogin");
                         //ItemController().getItems();
-                        await Provider.of<ItemController>(context)
-                            .getItems()
-                            .then((value) async {
-                          await Provider.of<ItemOffersController>(context)
-                              .getAllOffers()
-                              .then((value) async {
-                            await Provider.of<ChatController>(context)
-                                .getUserConversations()
-                                .then((value) => Navigator.of(context)
-                                    .pushNamedAndRemoveUntil(
-                                        '/', (Route<dynamic> route) => false));
-                          });
-                        });
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            '/', (Route<dynamic> route) => false);
                       }
                       setState(() {
                         showSpinner = false;

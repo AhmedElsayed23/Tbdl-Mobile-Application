@@ -157,7 +157,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                     return InkWell(
                       onLongPress: () => _showSheet(chatUsers[index].docId),
                       child: ConversationList(
-                        temp: {'flag': true, 'obj': chatUsers[index]},
+                        temp: {'flag': true, 'obj': chatUsers[index], 'recId': chatUsers[index].receiverId, 'senId': chatUsers[index].senderId},
                         name: chatUsers[index].tempName,
                         messageText: chatUsers[index].lastText,
                         imageUrl:

@@ -10,17 +10,20 @@ class ChatController with ChangeNotifier {
   List<ChatUsers> userConversations = [];
   ChatUsers chatUser;
   String otherName;
+  String documentId;
 
-  Future<void> getUserChat(String userId) async{
+  Future<void> getUserChat(String userId) async {
     String currentUserIsSender =
         FirebaseAuth.instance.currentUser.uid + '_' + userId;
+    String currentUserIsNotSender =
+        userId + '_' + FirebaseAuth.instance.currentUser.uid;
     List<ChatMessage> messages = [];
     String docId;
-    ChatUsers temp = new ChatUsers(senderId: "", receiverId: "", docId: "", lastText: "", messages: []);
-    QuerySnapshot snapshot = await firestoreInstance
-        .collection('Chat')
-        .where("fromId_toId", isEqualTo: currentUserIsSender)
-        .get();
+    ChatUsers temp = new ChatUsers(
+        senderId: "", receiverId: "", docId: "", lastText: "", messages: []);
+    QuerySnapshot snapshot = await firestoreInstance.collection('Chat').where(
+        "fromId_toId",
+        whereIn: [currentUserIsSender, currentUserIsNotSender]).get();
     snapshot.docs.forEach((element) {
       temp = ChatUsers(
         lastText: element['lastText'],
@@ -39,12 +42,12 @@ class ChatController with ChangeNotifier {
     snapshot2.docs.forEach((element2) {
       messages.add(new ChatMessage(
           messageContent: element2['messageContent'],
-          senderId: element2['fromId'],
+          senderId: element2['sender'],
           time: element2['time']));
     });
-    print(temp.messages);
+
     temp.messages = messages;
-    print(temp.messages);
+
     if (temp.messages.isEmpty) {
       await getUserName(userId);
       temp.receiverId = userId;
@@ -72,10 +75,12 @@ class ChatController with ChangeNotifier {
   }
 
   Future<void> getUserConversations() async {
+    
     String userID = FirebaseAuth.instance.currentUser.uid;
     List<ChatMessage> messages = [];
     List<ChatUsers> tempList = [];
-    ChatUsers temp;
+    ChatUsers temp = new ChatUsers(
+        senderId: "", receiverId: "", docId: "", lastText: "", messages: []);
     QuerySnapshot snapshot = await firestoreInstance.collection('Chat').get();
     snapshot.docs.forEach((element) async {
       String str = element['fromId_toId'];
@@ -98,22 +103,28 @@ class ChatController with ChangeNotifier {
               tempName: otherName,
               docId: element.id));
         }
-        QuerySnapshot snapshot2 = await firestoreInstance
-            .collection('Chat')
-            .doc(element.id)
-            .collection('Message')
-            .get();
-        snapshot2.docs.forEach((element2) {
-          messages.add(new ChatMessage(
-              messageContent: element2['messageContent'],
-              senderId: element2['fromId'],
-              time: element2['time']));
-        });
-        //messages.forEach((element) {print(element.messageContent);});
-        temp.messages = messages;
-        tempList.add(temp);
       }
+      temp.messages = [];
+      tempList.add(temp);
     });
+
+    for (int i = 0; i < tempList.length; i++ ) {
+      QuerySnapshot snapshot2 = await firestoreInstance
+          .collection('Chat')
+          .doc(tempList[i].docId)
+          .collection('Message')
+          .get();
+      snapshot2.docs.forEach((element2) {
+        messages.add(new ChatMessage(
+            messageContent: element2['messageContent'],
+            senderId: element2['sender'],
+            time: element2['time']));
+        print(messages.length);
+      });
+      tempList[i].messages = messages;
+      messages = [];
+    }
+
     userConversations = tempList;
     notifyListeners();
   }
@@ -150,7 +161,22 @@ class ChatController with ChangeNotifier {
     firestoreInstance.collection("Chat").add(
       {
         'fromId_toId': fromIdToId,
+        'lastText': "",
+        'time': Timestamp.now(),
       },
-    );
+    ).then((value) {
+      value.collection("Message").doc().set({});
+    });
+  }
+
+  Future<void> getDocId(
+      String currentUserIsSender, String currentUserIsNotSender) async {
+    QuerySnapshot snapshot = await firestoreInstance.collection('Chat').where(
+        "fromId_toId",
+        whereIn: [currentUserIsSender, currentUserIsNotSender]).get();
+    snapshot.docs.forEach((element) {
+      documentId = element.id;
+      print(documentId);
+    });
   }
 }

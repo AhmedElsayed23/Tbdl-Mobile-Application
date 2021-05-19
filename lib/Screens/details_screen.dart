@@ -12,6 +12,7 @@ import 'package:gp_version_01/Screens/image_screen.dart';
 import 'package:intl/intl.dart' as os;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Details extends StatelessWidget {
   static const String route = "/details";
@@ -228,107 +229,110 @@ class Details extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           color: Colors.white,
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: FloatingActionButton.extended(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        heroTag: "left",
-                        backgroundColor: Colors.blue[400],
-                        onPressed: () async {
-                          if (isOffer) {
-                            Navigator.pushNamed(context, MakeOffer.route,
-                                arguments: item);
-                          } else {
-                            Item myItem = args[2];
-                            ItemOffer itemOffer =
-                                Provider.of<ItemOffersController>(context,
-                                        listen: false)
-                                    .getItemOffer(myItem);
-                            int lenghtOfOffers =
-                                itemOffer.upcomingOffers.length;
-
-                            await Provider.of<ItemOffersController>(context,
-                                    listen: false)
-                                .deleteOffer(myItem, item);
-                            if (lenghtOfOffers == 1) {
-                              int count = 0;
-                              Navigator.popUntil(context, (route) {
-                                return count++ == 2;
-                              });
-                            } else {
-                              itemOffer.upcomingOffers.remove(item.id);
-                              Navigator.pop(context);
-                            }
-                          }
-                        },
-                        label: isOffer
-                            ? Text(
-                                "قدم عرض",
-                                style: TextStyle(color: Colors.white),
-                              )
-                            : Text(
-                                "رفض العرض",
-                                style: TextStyle(color: Colors.white),
-                              )),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                  child: FloatingActionButton(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
+                  Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 120,
+                height: 40,
+                child: FloatingActionButton.extended(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    heroTag: "middle",
-                    backgroundColor: Colors.blue[100],
+                    heroTag: "left",
+                    backgroundColor: Colors.blue[400],
                     onPressed: () async {
-                      launch(
-                          ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
+                      if (isOffer) {
+                        Navigator.pushNamed(context, MakeOffer.route,
+                            arguments: item);
+                      } else {
+                        Item myItem = args[2];
+                        ItemOffer itemOffer = Provider.of<ItemOffersController>(
+                                context,
+                                listen: false)
+                            .getItemOffer(myItem);
+                        int lenghtOfOffers = itemOffer.upcomingOffers.length;
+
+                        await Provider.of<ItemOffersController>(context,
+                                listen: false)
+                            .deleteOffer(myItem, item);
+                        if (lenghtOfOffers == 1) {
+                          int count = 0;
+                          Navigator.popUntil(context, (route) {
+                            return count++ == 2;
+                          });
+                        } else {
+                          itemOffer.upcomingOffers.remove(item.id);
+                          Navigator.pop(context);
+                        }
+                      }
                     },
-                    child: Icon(
-                      Icons.phone,
-                      color: Colors.blue[400],
-                    ),
+                    label: isOffer
+                        ? Text(
+                            "قدم عرض",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : Text(
+                            "رفض العرض",
+                            style: TextStyle(color: Colors.white),
+                          )),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                heroTag: "middle",
+                backgroundColor: Colors.blue[100],
+                onPressed: () async {
+                  launch(
+                      ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
+                },
+                child: Icon(
+                  Icons.phone,
+                  color: Colors.blue[400],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 120,
+                height: 40,
+                child: FloatingActionButton.extended(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  heroTag: 'right',
+                  backgroundColor: Colors.blue[400],
+                  onPressed: () async {
+                    await Provider.of<ChatController>(context, listen: false)
+                        .getUserChat(item.itemOwner)
+                        .then((value) async {
+                      await Provider.of<UserController>(context, listen: false)
+                          .getDetailsOfOtherUser(item.itemOwner)
+                          .then((value) async {
+                        await Provider.of<ChatController>(context, listen: false)
+                            .getDocId(FirebaseAuth.instance.currentUser.uid +"_"+ item.itemOwner,
+                                item.itemOwner + "_"+ FirebaseAuth.instance.currentUser.uid)
+                            .then((_) => Navigator.pushNamed(
+                                context, ChatDetailPage.route,
+                                arguments: {'flag': false}));
+                      });
+                    });
+                  },
+                  label: Text(
+                    "راسله",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: FloatingActionButton.extended(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      heroTag: 'right',
-                      backgroundColor: Colors.blue[400],
-                      onPressed: () async {
-                        await Provider.of<ChatController>(context,listen: false)
-                            .getUserChat(item.itemOwner)
-                            .then((value) async {
-                          await Provider.of<UserController>(context,
-                                  listen: false)
-                              .getDetailsOfOtherUser(item.itemOwner)
-                              .then((value) => Navigator.pushNamed(
-                                  context, ChatDetailPage.route,
-                                  arguments: {'flag': false}));
-                        });
-                      },
-                      label: Text(
-                        "راسله",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ]),
+              ),
+            ),
+          ]),
         ));
   }
 }
