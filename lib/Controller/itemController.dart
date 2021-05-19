@@ -46,8 +46,9 @@ class ItemController with ChangeNotifier {
           favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
           id: element.reference.id));
     });
+    items = tempItems;
     notifyListeners();
-    for (Item temp in tempItems) {
+    /*for (Item temp in tempItems) {
       print(temp.categoryType);
       print(temp.condition);
       print(temp.date);
@@ -58,8 +59,8 @@ class ItemController with ChangeNotifier {
       print(temp.itemOwner);
       print(temp.properties);
       print(temp.title);
-    }
-    items = tempItems;
+    }*/
+    
   }
 
   Future<List<String>> uploadImageToFirebase(List<File> images, int dir) async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
 import 'package:provider/provider.dart';
@@ -118,17 +119,9 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
 
   @override
   void didChangeDependencies() async {
-    if (flag == true) {
-      await Provider.of<ChatController>(context, listen: false)
-          .getUserConversations();
-    }
+    if (flag == true) {}
     flag = false;
     super.didChangeDependencies();
-  }
-
-  String setName(String id) {
-     Provider.of<UserController>(context, listen: false)
-        .getDetailsOfOtherUser(id).then((value) => name= Provider.of<UserController>(context, listen: false).otherUserName);
   }
 
   @override
@@ -166,11 +159,15 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return InkWell(
+                      onTap: () {
+                        print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+                        chatUsers[index].messages.forEach((element) {print(element.messageContent);});
+                        Navigator.pushNamed(context, ChatDetailPage.route,
+                            arguments: [true,chatUsers[index]]);
+                      },
                       onLongPress: _showSheet,
                       child: ConversationList(
-                        name: (currentU == chatUsers[index].receiverId)
-                            ? setName(chatUsers[index].senderId)
-                            : setName(chatUsers[index].receiverId),
+                        name: chatUsers[index].tempName,
                         messageText: chatUsers[index].lastText,
                         imageUrl:
                             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png",

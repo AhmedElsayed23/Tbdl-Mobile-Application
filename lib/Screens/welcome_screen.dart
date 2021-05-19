@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
+import 'package:provider/provider.dart';
 import 'login_screen.dart';
 import 'registration_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -41,7 +45,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   void didChangeDependencies() {
     var user = FirebaseAuth.instance.currentUser;
-    if (user == null)
+    if (user == null) {
       setState(() {
         home = Scaffold(
           backgroundColor: animation.value,
@@ -84,10 +88,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ),
         );
       });
-    if (user != null)
-      setState(() {
-        home = TabsScreen();
-      });
+    } else {
+      Provider.of<ItemController>(context, listen: false).getItems();
+      Provider.of<ItemOffersController>(context, listen: false).getAllOffers();
+      Provider.of<ChatController>(context, listen: false)
+          .getUserConversations();
+    }
+    setState(() {
+      home = TabsScreen();
+    });
     super.didChangeDependencies();
   }
 

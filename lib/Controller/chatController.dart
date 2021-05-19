@@ -9,6 +9,7 @@ class ChatController with ChangeNotifier {
 
   List<ChatUsers> userConversations = [];
   ChatUsers chatUser;
+  String otherName;
 
   Future<void> getUserChat(String userId) async {
     String currentUserIsSender =
@@ -45,7 +46,21 @@ class ChatController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserConversations() async {
+  Future<void> getUserName(String itemOwner) async {
+    try {
+      await firestoreInstance
+          .collection("User")
+          .doc(itemOwner)
+          .get()
+          .then((value) {
+        otherName = value['name'];
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+Future<void> getUserConversations() async {
     String userID = FirebaseAuth.instance.currentUser.uid;
     List<ChatMessage> messages = [];
     List<ChatUsers> tempList = [];
@@ -56,19 +71,22 @@ class ChatController with ChangeNotifier {
       List<String> splitted = str.split('_');
       if (splitted[0] == userID || splitted[1] == userID) {
         if (splitted[0] == userID) {
-          temp = ChatUsers(
+           await getUserName(splitted[1]).then((value) => temp = ChatUsers(
             lastText: element['lastText'],
             receiverId: splitted[1],
             senderId: userID,
             time: element['time'],
-          );
+            tempName: otherName,
+          ));
+          
         }else{
-          temp = ChatUsers(
+           await getUserName(splitted[0]).then((value) => temp = ChatUsers(
             lastText: element['lastText'],
             receiverId: userID,
             senderId: splitted[0],
             time: element['time'],
-          );
+            tempName: otherName,
+          ));
         }
         QuerySnapshot snapshot2 = await firestoreInstance
             .collection('Chat')
@@ -81,6 +99,7 @@ class ChatController with ChangeNotifier {
               senderId: element2['fromId'],
               time: element2['time']));
         });
+        //messages.forEach((element) {print(element.messageContent);});
         temp.messages = messages;
         tempList.add(temp);
       }

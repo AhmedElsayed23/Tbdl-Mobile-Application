@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
@@ -107,12 +108,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       final user = await _auth.signInWithEmailAndPassword(
                           email: email, password: password);
                       if (user != null) {
-                        ItemController().getItems();
-                        Provider.of<ItemOffersController>(context)
-                            .getAllOffers();
-
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/', (Route<dynamic> route) => false);
+                        print("autolooooooooooooooooooooogin");
+                        //ItemController().getItems();
+                        await Provider.of<ItemController>(context)
+                            .getItems()
+                            .then((value) async {
+                          await Provider.of<ItemOffersController>(context)
+                              .getAllOffers()
+                              .then((value) async {
+                            await Provider.of<ChatController>(context)
+                                .getUserConversations()
+                                .then((value) => Navigator.of(context)
+                                    .pushNamedAndRemoveUntil(
+                                        '/', (Route<dynamic> route) => false));
+                          });
+                        });
                       }
                       setState(() {
                         showSpinner = false;

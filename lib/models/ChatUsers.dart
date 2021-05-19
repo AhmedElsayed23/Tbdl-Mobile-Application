@@ -6,8 +6,9 @@ class ChatUsers{
   String senderId;
   String receiverId;
   String lastText;
+  String tempName;
   Timestamp time;
   List<ChatMessage> messages;
 
-  ChatUsers({@required this.senderId,@required this.receiverId,@required this.lastText,@required this.time, this.messages});
+  ChatUsers({@required this.senderId,@required this.receiverId,@required this.lastText,@required this.time, this.messages,this.tempName});
 }

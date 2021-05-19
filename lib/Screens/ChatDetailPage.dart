@@ -15,16 +15,23 @@ class ChatDetailPage extends StatefulWidget {
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
   bool flag = true;
-  String userId;
   ChatUsers user;
   String name;
-
+  bool check;
   @override
   void didChangeDependencies() {
     if (flag == true) {
-      userId = ModalRoute.of(context).settings.arguments;
-      name = Provider.of<UserController>(context, listen: false).otherUserName;
-      user = Provider.of<ChatController>(context, listen: false).chatUser;
+      List<dynamic> args = ModalRoute.of(context).settings.arguments;
+      print(args);
+      check = args[0];
+      if (check) {
+        user = args[1];
+        name=user.tempName;
+      } else {
+        name =
+            Provider.of<UserController>(context, listen: false).otherUserName;
+        user = Provider.of<ChatController>(context, listen: false).chatUser;
+      }
     }
     flag = false;
     super.didChangeDependencies();
