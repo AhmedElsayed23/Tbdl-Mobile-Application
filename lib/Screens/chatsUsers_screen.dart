@@ -19,7 +19,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   bool flag = true;
   String name;
   String currentU = FirebaseAuth.instance.currentUser.uid;
-  void _showSheet() {
+  void _showSheet(String docId) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -43,7 +43,9 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Provider.of<ChatController>(context, listen: false).deleteConvers(docId);
+                              },
                               child: Icon(
                                 Icons.delete,
                               )),
@@ -117,12 +119,6 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
     );
   }
 
-  @override
-  void didChangeDependencies() async {
-    if (flag == true) {}
-    flag = false;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,14 +155,9 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {
-                        print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-                        chatUsers[index].messages.forEach((element) {print(element.messageContent);});
-                        Navigator.pushNamed(context, ChatDetailPage.route,
-                            arguments: [true,chatUsers[index]]);
-                      },
-                      onLongPress: _showSheet,
+                      onLongPress: () => _showSheet(chatUsers[index].docId),
                       child: ConversationList(
+                        temp: {'flag': true, 'obj': chatUsers[index]},
                         name: chatUsers[index].tempName,
                         messageText: chatUsers[index].lastText,
                         imageUrl:

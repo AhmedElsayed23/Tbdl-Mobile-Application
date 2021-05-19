@@ -8,7 +8,8 @@ class ChatUsers{
   String lastText;
   String tempName;
   Timestamp time;
-  List<ChatMessage> messages;
+  String docId;
+  List<ChatMessage> messages = [];
 
-  ChatUsers({@required this.senderId,@required this.receiverId,@required this.lastText,@required this.time, this.messages,this.tempName});
+  ChatUsers({@required this.senderId,@required this.receiverId,this.lastText,this.time, this.messages,this.tempName, this.docId});
 }

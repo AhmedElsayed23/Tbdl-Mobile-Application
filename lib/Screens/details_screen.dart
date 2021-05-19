@@ -318,7 +318,7 @@ class Details extends StatelessWidget {
                               .getDetailsOfOtherUser(item.itemOwner)
                               .then((value) => Navigator.pushNamed(
                                   context, ChatDetailPage.route,
-                                  arguments: [false]));
+                                  arguments: {'flag': false}));
                         });
                       },
                       label: Text(

@@ -18,15 +18,16 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   ChatUsers user;
   String name;
   bool check;
+
   @override
   void didChangeDependencies() {
     if (flag == true) {
-      List<dynamic> args = ModalRoute.of(context).settings.arguments;
+      Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
       print(args);
-      check = args[0];
+      check = args['flag'];
       if (check) {
-        user = args[1];
-        name=user.tempName;
+        user = args['obj'];
+        name = user.tempName;
       } else {
         name =
             Provider.of<UserController>(context, listen: false).otherUserName;
