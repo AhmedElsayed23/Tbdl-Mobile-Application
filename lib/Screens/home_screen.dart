@@ -9,6 +9,7 @@ import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
+import 'package:gp_version_01/widgets/text_field_search.dart';
 import 'package:provider/provider.dart';
 import '../widgets/drawer.dart';
 import 'chooseCategory_screen.dart';
@@ -111,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
             : Scaffold(
                 endDrawer: DrawerItem(),
                 appBar: AppBar(
+                   title:TextFieldSearch(items, false),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
