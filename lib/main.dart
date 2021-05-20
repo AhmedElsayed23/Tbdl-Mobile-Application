@@ -13,6 +13,7 @@ import 'package:gp_version_01/Screens/login_screen.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
+import 'package:gp_version_01/Screens/search_results_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
@@ -30,8 +31,8 @@ import 'package:flutter/services.dart';
 import 'Screens/registration_screen.dart';
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -86,10 +87,11 @@ class MyApp extends StatelessWidget {
           LoginScreen.route: (context) => LoginScreen(),
           RegistrationScreen.route: (context) => RegistrationScreen(),
           TabsScreen.route: (context) => TabsScreen(),
-          UserProductDetailsScreen.route:  (context) => UserProductDetailsScreen(),
+          UserProductDetailsScreen.route: (context) =>
+              UserProductDetailsScreen(),
           FavCategoryScreen.route: (context) => FavCategoryScreen(),
           ViewOfferScreen.route: (context) => ViewOfferScreen(),
-          
+          SearchResults.route: (context) => SearchResults(),
         },
       ),
     );
