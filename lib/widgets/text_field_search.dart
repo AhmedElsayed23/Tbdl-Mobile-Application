@@ -2,7 +2,6 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Screens/search_results_screen.dart';
 import 'package:gp_version_01/models/item.dart';
-import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 class TextFieldSearch extends StatefulWidget {

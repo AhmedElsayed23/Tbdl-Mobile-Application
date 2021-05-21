@@ -41,6 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   List<String> locat = ['', ''];
   bool showSpinner = false;
   bool isLeave = false;
+  bool fromOffer = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var initialValues = {
     'title': '',
@@ -117,7 +118,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void didChangeDependencies() {
     if (isUpdate) {
       String id = ModalRoute.of(context).settings.arguments as String;
-      if (id != null) {
+      if (id == "fromOffer") {
+        fromOffer = true;
+      } else if (id != null) {
         updateOrAdd = true;
         categoriesFlag = true;
         item = Provider.of<ItemController>(context, listen: false).findByID(id);
@@ -338,7 +341,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
             .updateItem(item, index);
       } else {
         await Provider.of<ItemController>(context, listen: false).addItem(item);
-        await Provider.of<ItemOffersController>(context, listen: false).addItemOffers(item);
+        await Provider.of<ItemOffersController>(context, listen: false)
+            .addItemOffers(item);
       }
       properties.clear();
       setState(() {
@@ -346,16 +350,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
       Toast.show("تم الاضافة بنجاح", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-      Navigator.of(context).pushNamed(MyProducts.route);
+      if (fromOffer) {
+        Navigator.of(context).pop();
+      } else {
+        Navigator.of(context).pushNamed(MyProducts.route);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Firebase.initializeApp();
+
     return WillPopScope(
       onWillPop: () async {
-        if (updateOrAdd) {
+        if (updateOrAdd || fromOffer) {
           Navigator.of(context).pop();
           return true;
         } else {
@@ -381,7 +390,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   _buildForm(),
                   _dropListLocation(),
                   _buildCondition(context),
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
                   SizedBox(
                     height: 40,
                     width: 150,
@@ -395,7 +404,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ),
                       onPressed: save,
                     ),
-                  )
+                  ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),

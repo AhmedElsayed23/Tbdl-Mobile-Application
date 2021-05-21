@@ -19,6 +19,9 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   bool flag = true;
   String name;
   String currentU = FirebaseAuth.instance.currentUser.uid;
+
+  List<ChatUsers> chatUsers;
+
   void _showSheet(String docId) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -44,7 +47,9 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                         children: [
                           FlatButton(
                               onPressed: () {
-                                Provider.of<ChatController>(context, listen: false).deleteConvers(docId);
+                                Provider.of<ChatController>(context,
+                                        listen: false)
+                                    .deleteConvers(docId);
                               },
                               child: Icon(
                                 Icons.delete,
@@ -119,12 +124,20 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     List<ChatUsers> chatUsers =
         Provider.of<ChatController>(context, listen: false).userConversations;
 
+    for (var chat in chatUsers) {
+      if (chat.messages.isEmpty) {
+        print("dknksdk");
+        Provider.of<ChatController>(context, listen: false)
+            .deleteConvers(chat.docId);
+      }
+    }
+
+    chatUsers.removeWhere((element) => element.messages.isEmpty);
     return WillPopScope(
       onWillPop: () async {
         showAlertDialog(context);
@@ -157,7 +170,12 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                     return InkWell(
                       onLongPress: () => _showSheet(chatUsers[index].docId),
                       child: ConversationList(
-                        temp: {'flag': true, 'obj': chatUsers[index], 'recId': chatUsers[index].receiverId, 'senId': chatUsers[index].senderId},
+                        temp: {
+                          'flag': true,
+                          'obj': chatUsers[index],
+                          'recId': chatUsers[index].receiverId,
+                          'senId': chatUsers[index].senderId
+                        },
                         name: chatUsers[index].tempName,
                         messageText: chatUsers[index].lastText,
                         imageUrl:

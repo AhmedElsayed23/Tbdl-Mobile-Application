@@ -24,7 +24,10 @@ class Favorites extends StatelessWidget {
           itemCount: items.length,
           itemBuilder: (BuildContext context, int index) => InkWell(
             onTap: () => Navigator.pushNamed(context, Details.route,
-                arguments: items[index]),
+                arguments: [
+              items[index],
+              true,
+            ]),
             child: ProductItem(item: items[index]),
           ),
           staggeredTileBuilder: (int index) => StaggeredTile.count(
@@ -32,3 +35,5 @@ class Favorites extends StatelessWidget {
         ));
   }
 }
+
+

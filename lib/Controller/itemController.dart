@@ -131,6 +131,7 @@ class ItemController with ChangeNotifier {
       'images': item.images,
     }).then((value) {
       items.add(item);
+      userItems.add(item);
       notifyListeners();
     });
   }

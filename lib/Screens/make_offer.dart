@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/offer_item.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,13 @@ class _MakeOfferState extends State<MakeOffer> {
             2, MediaQuery.of(context).size.aspectRatio * 7.5),
         //mainAxisSpacing: 5,
         //crossAxisSpacing: 5,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        tooltip: "أضف منتج",
+        backgroundColor: Theme.of(context).accentColor,
+        onPressed: () => Navigator.pushNamed(context, AddItemScreen.route, arguments: "fromOffer"),
+        child: Icon(Icons.add, color: Theme.of(context).primaryColor),
       ),
     );
   }

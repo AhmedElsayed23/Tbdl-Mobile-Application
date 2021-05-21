@@ -140,6 +140,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     onPressed: () async {
                       try {
                         if (messageText != null) {
+                          String temp;
                           messageTextController.clear();
                           QuerySnapshot snapshot = await _firestore
                               .collection('Chat')
@@ -148,12 +149,24 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                             currentUserIsNotSender
                           ]).get();
                           snapshot.docs.forEach((element) {
+                            temp = element["fromId_toId"];
+                            element.reference.set({
+                              'lastText': messageText,
+                              'time': Timestamp.now(),
+                            }, SetOptions(merge: true));
                             element.reference.collection("Message").add({
                               'messageContent': messageText,
                               'sender': FirebaseAuth.instance.currentUser.uid,
                               'time': Timestamp.now(),
                             });
                           });
+
+                          Provider.of<ChatController>(context, listen: false)
+                              .addMessage(
+                                  temp,
+                                  messageText,
+                                  FirebaseAuth.instance.currentUser.uid,
+                                  Timestamp.now());
                         }
                       } catch (e) {}
                     },
