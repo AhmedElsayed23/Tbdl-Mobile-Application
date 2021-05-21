@@ -75,7 +75,6 @@ class ChatController with ChangeNotifier {
   }
 
   Future<void> getUserConversations() async {
-    
     String userID = FirebaseAuth.instance.currentUser.uid;
     List<ChatMessage> messages = [];
     List<ChatUsers> tempList = [];
@@ -108,7 +107,7 @@ class ChatController with ChangeNotifier {
       tempList.add(temp);
     });
 
-    for (int i = 0; i < tempList.length; i++ ) {
+    for (int i = 0; i < tempList.length; i++) {
       QuerySnapshot snapshot2 = await firestoreInstance
           .collection('Chat')
           .doc(tempList[i].docId)
@@ -158,6 +157,14 @@ class ChatController with ChangeNotifier {
 
   Future<void> addConvers(String fromId, String toId) async {
     String fromIdToId = fromId + '_' + toId;
+    await getUserName(toId);
+    ChatUsers temp = ChatUsers(
+        senderId: fromId,
+        receiverId: toId,
+        lastText: "",
+        time: Timestamp.now(),
+        tempName: otherName,
+        messages: []);
     firestoreInstance.collection("Chat").add(
       {
         'fromId_toId': fromIdToId,
@@ -165,8 +172,9 @@ class ChatController with ChangeNotifier {
         'time': Timestamp.now(),
       },
     ).then((value) {
-      value.collection("Message").doc().set({});
+      temp.docId = value.id;
     });
+    userConversations.add(temp);
   }
 
   Future<void> getDocId(
@@ -178,5 +186,20 @@ class ChatController with ChangeNotifier {
       documentId = element.id;
       print(documentId);
     });
+  }
+
+  void addMessage(
+      String temp, String messageContent, String sender, Timestamp time) {
+    List<String> splitted = temp.split('_');
+    for (int i = 0; i < userConversations.length; i++) {
+      if (userConversations[i].senderId == splitted[0] &&
+          userConversations[i].receiverId == splitted[1]) {
+        userConversations[i].messages.add(new ChatMessage(
+            messageContent: messageContent, senderId: sender, time: time));
+        userConversations[i].lastText = messageContent;
+        userConversations[i].time = time;
+      }
+    }
+    notifyListeners();
   }
 }
