@@ -39,6 +39,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     ItemOffer myItemOffers = Provider.of<ItemOffersController>(context).getItemOffer(myItem);
     List<String> offersIDs = myItemOffers.upcomingOffers;
     List<Item> offersItems = Provider.of<ItemController>(context).getOffersItems(offersIDs);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("العروض",

@@ -27,6 +27,7 @@ class _MyProductsState extends State<MyProducts> {
         isLoading = true;
       });
       Provider.of<ItemController>(context).getUserItems();
+      Provider.of<ItemOffersController>(context).getAllOffers();
       setState(() {
         isLoading = false;
       });

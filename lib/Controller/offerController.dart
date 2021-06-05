@@ -12,10 +12,11 @@ class ItemOffersController with ChangeNotifier {
 
   Future<void> addItemOffers(Item item) async {
     List<String> upcomingOffers = [];
+    bool acceptOffer = false;
     firestoreInstance
         .collection("Offer")
         .doc(item.id)
-        .set(({'upcomingOffers': upcomingOffers}))
+        .set(({'upcomingOffers': upcomingOffers, 'acceptOffer': acceptOffer}))
         .then(
       (value) {
         itemOffers.add(
@@ -31,12 +32,12 @@ class ItemOffersController with ChangeNotifier {
       tempItemOffer.add(new ItemOffer(
         itemId: element.reference.id,
         upcomingOffers: List<String>.from(element['upcomingOffers']),
+        acceptOffer: element['acceptOffer'],
       ));
     });
     notifyListeners();
     itemOffers = tempItemOffer;
   }
-
 
   Future<void> modifyOffer(
       String offerId, String itemId, bool isChecked) async {
@@ -48,7 +49,10 @@ class ItemOffersController with ChangeNotifier {
     }
     try {
       await firestoreInstance.collection("Offer").doc(itemId).update(
-        {'upcomingOffers': itemOffers[index].upcomingOffers},
+        {
+          'upcomingOffers': itemOffers[index].upcomingOffers,
+          'acceptOffer': itemOffers[index].acceptOffer
+        },
       ).then((value) => notifyListeners());
     } catch (e) {
       print(e.toString());
@@ -60,11 +64,56 @@ class ItemOffersController with ChangeNotifier {
     itemOffers[index].upcomingOffers.remove(offer.id);
     try {
       await firestoreInstance.collection("Offer").doc(myItem.id).update(
-        {'upcomingOffers': itemOffers[index].upcomingOffers},
+        {
+          'upcomingOffers': itemOffers[index].upcomingOffers,
+          'acceptOffer': itemOffers[index].acceptOffer
+        },
       ).then((value) => notifyListeners());
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> acceptOffer(Item myItem, Item offer) async {
+    String firstItem = (myItem.subCategoryType == '—')
+        ? myItem.categoryType
+        : myItem.subCategoryType;
+    String secondItem = (offer.subCategoryType == '—')
+        ? offer.categoryType
+        : offer.subCategoryType;
+    String firstSecond = firstItem + "_" + secondItem;
+    String secondFirst = secondItem + "_" + firstItem;
+    String docID = '';
+
+    int count = 1;
+    await firestoreInstance
+        .collection('ItemsHistory')
+        .where("firstItem_secondItem", whereIn: [firstSecond, secondFirst])
+        .get()
+        .then((value) {
+          value.docs.forEach((element) {
+            count += element["counter"];
+            firstSecond = element['firstItem_secondItem'];
+            docID = element.id;
+          });
+        })
+        .then((_) {
+          (docID == '')
+              ? firestoreInstance.collection('ItemsHistory').doc().set({
+                  'firstItem_secondItem': firstSecond,
+                  'counter': count,
+                }, SetOptions(merge: true))
+              : firestoreInstance.collection('ItemsHistory').doc(docID).set({
+                  'firstItem_secondItem': firstSecond,
+                  'counter': count,
+                }, SetOptions(merge: true));
+        })
+        .then(
+            (_) => firestoreInstance.collection("Offer").doc(myItem.id).update(
+                  {'acceptOffer': true},
+                ).then((value) => notifyListeners()));
+      int index = itemOffers.indexWhere((element) => element.itemId == myItem.id);
+      itemOffers[index].acceptOffer = true;
   }
 
   bool checkUpcomingOffersToItem(Item myItem) {
