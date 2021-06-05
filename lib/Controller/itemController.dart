@@ -32,6 +32,7 @@ class ItemController with ChangeNotifier {
     List<Item> tempItems = [];
     snapshot.docs.forEach((element) {
       tempItems.add(new Item(
+          subCategoryType: element['subCategory'],
           categoryType: element['categoryType'],
           condition: element['condition'],
           date: element['date'],
@@ -107,6 +108,7 @@ class ItemController with ChangeNotifier {
     Item.nameOfDirStorage++;
     firestoreInstance.collection("Items").add(
       {
+        'subCategory': item.subCategoryType,
         'title': item.title,
         'description': item.description,
         'itemOwner': item.itemOwner,
@@ -121,7 +123,6 @@ class ItemController with ChangeNotifier {
         'directory': Item.nameOfDirStorage,
       },
     ).then((value) {
-      print("thenthenthenthenthenthenthenthenthenthenthenthenthenthenthen");
       item.id = value.id;
       item.directory = Item.nameOfDirStorage;
     });

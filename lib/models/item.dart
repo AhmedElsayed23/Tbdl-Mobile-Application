@@ -15,6 +15,7 @@ class Item {
   final List<File> imageFiles;
   Map properties = new Map<String, String>();
   String categoryType;
+  String subCategoryType;
   String id;
   static int nameOfDirStorage=0;
   int directory;
@@ -33,5 +34,7 @@ class Item {
       this.categoryType,
       this.condition,
       this.directory,
-      this.isFree});
+      this.isFree,
+      this.subCategoryType,
+      });
 }

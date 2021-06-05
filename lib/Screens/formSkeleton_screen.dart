@@ -24,7 +24,6 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  Widget funs;
   TextEditingController c;
   int index;
   bool updateOrAdd = false;
@@ -36,6 +35,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   bool condition;
   bool isFree;
   String categoryType = 'كتب';
+  String subCategoryType = '—';
   Map properties = new Map<String, String>();
   List<File> imagesFiles = List<File>();
   List<String> locat = ['', ''];
@@ -48,6 +48,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'description': '',
     'images': [''],
     'categoryType': 'كتب',
+    'subCategoryType': '—',
     'properties': {},
     'favoritesUserIDs': [''],
     'location': [''],
@@ -61,6 +62,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       initialValues['properties'],
       updateOrAdd,
       initialValues['categoryType'],
+      initialValues['subCategoryType'],
     );
   }
 
@@ -106,6 +108,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Item item = Item(
       categoryType: 'كتب',
+      subCategoryType: '—',
       description: "",
       title: "",
       id: null,
@@ -130,6 +133,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         initialValues['description'] = item.description;
         initialValues['images'] = item.images;
         initialValues['categoryType'] = item.categoryType;
+        initialValues['subCategoryType'] = item.subCategoryType;
         initialValues['properties'] = item.properties;
         initialValues['id'] = item.id;
         initialValues['favoritesUserIDs'] = item.favoritesUserIDs;
@@ -162,8 +166,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  void fun(String catTemp) {
+  void fun(String catTemp, String subCatTemp) {
     categoryType = catTemp;
+    subCategoryType = subCatTemp;
   }
 
   Widget _buildTitle() {
@@ -320,6 +325,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
       Item item = new Item(
         categoryType: categoryType,
+        subCategoryType: subCategoryType,
         description: description,
         itemOwner: FirebaseAuth.instance.currentUser.uid,
         title: title,

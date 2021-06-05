@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
@@ -16,12 +17,84 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class Details extends StatelessWidget {
   static const String route = "/details";
+  Item item;
+  bool isOffer;
+  List<dynamic> args;
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget continueButton = FlatButton(
+      child: Text("لا"),
+      onPressed: () async {
+        if (isOffer) {
+          Navigator.pushNamed(context, MakeOffer.route, arguments: item);
+        } else {
+          Item myItem = args[2];
+          ItemOffer itemOffer =
+              Provider.of<ItemOffersController>(context, listen: false)
+                  .getItemOffer(myItem);
+          int lenghtOfOffers = itemOffer.upcomingOffers.length;
+
+          await Provider.of<ItemOffersController>(context, listen: false)
+              .deleteOffer(myItem, item);
+          if (lenghtOfOffers == 1) {
+            int count = 0;
+            Navigator.popUntil(context, (route) {
+              return count++ == 2;
+            });
+          } else {
+            itemOffer.upcomingOffers.remove(item.id);
+            Navigator.pop(context);
+          }
+        }
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget cancelButton = FlatButton(
+      child: Text("نعم"),
+      onPressed: () async {
+        Item myItem = args[2];
+        await Provider.of<ItemOffersController>(context, listen: false)
+            .acceptOffer(myItem, item);
+
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget back = FlatButton(
+      child: Text("رجوع"),
+      onPressed: () async {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    Directionality alert = Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          title: Text("تنبيه"),
+          content: Text("هل تريد انا تقبل هذا العرض"),
+          actions: [
+            cancelButton,
+            continueButton,
+            back,
+          ],
+        ));
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> args = ModalRoute.of(context).settings.arguments;
-    Item item = args[0];
-    bool isOffer = args[1];
+    args = ModalRoute.of(context).settings.arguments;
+    item = args[0];
+    isOffer = args[1];
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -229,110 +302,98 @@ class Details extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           color: Colors.white,
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
-                  Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 120,
-                height: 40,
-                child: FloatingActionButton.extended(
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: FloatingActionButton.extended(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        heroTag: "left",
+                        backgroundColor: Colors.blue[400],
+                        onPressed: () {
+                          isOffer
+                              ? Navigator.pushNamed(context, MakeOffer.route,
+                                  arguments: item)
+                              : showAlertDialog(context);
+                        },
+                        label: isOffer
+                            ? Text(
+                                "قدم عرض",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            : Text(
+                                "رفض او قبول",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                  child: FloatingActionButton(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    heroTag: "left",
-                    backgroundColor: Colors.blue[400],
+                    heroTag: "middle",
+                    backgroundColor: Colors.blue[100],
                     onPressed: () async {
-                      if (isOffer) {
-                        Navigator.pushNamed(context, MakeOffer.route,
-                            arguments: item);
-                      } else {
-                        Item myItem = args[2];
-                        ItemOffer itemOffer = Provider.of<ItemOffersController>(
-                                context,
-                                listen: false)
-                            .getItemOffer(myItem);
-                        int lenghtOfOffers = itemOffer.upcomingOffers.length;
-
-                        await Provider.of<ItemOffersController>(context,
-                                listen: false)
-                            .deleteOffer(myItem, item);
-                        if (lenghtOfOffers == 1) {
-                          int count = 0;
-                          Navigator.popUntil(context, (route) {
-                            return count++ == 2;
-                          });
-                        } else {
-                          itemOffer.upcomingOffers.remove(item.id);
-                          Navigator.pop(context);
-                        }
-                      }
+                      launch(
+                          ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
                     },
-                    label: isOffer
-                        ? Text(
-                            "قدم عرض",
-                            style: TextStyle(color: Colors.white),
-                          )
-                        : Text(
-                            "رفض العرض",
-                            style: TextStyle(color: Colors.white),
-                          )),
-              ),
-            ),
-            SizedBox(
-              height: 40,
-              child: FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                heroTag: "middle",
-                backgroundColor: Colors.blue[100],
-                onPressed: () async {
-                  launch(
-                      ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
-                },
-                child: Icon(
-                  Icons.phone,
-                  color: Colors.blue[400],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 120,
-                height: 40,
-                child: FloatingActionButton.extended(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  heroTag: 'right',
-                  backgroundColor: Colors.blue[400],
-                  onPressed: () async {
-                    await Provider.of<ChatController>(context, listen: false)
-                        .getUserChat(item.itemOwner)
-                        .then((value) async {
-                      await Provider.of<UserController>(context, listen: false)
-                          .getDetailsOfOtherUser(item.itemOwner)
-                          .then((value) async {
-                        await Provider.of<ChatController>(context, listen: false)
-                            .getDocId(FirebaseAuth.instance.currentUser.uid +"_"+ item.itemOwner,
-                                item.itemOwner + "_"+ FirebaseAuth.instance.currentUser.uid)
-                            .then((_) => Navigator.pushNamed(
-                                context, ChatDetailPage.route,
-                                arguments: {'flag': false}));
-                      });
-                    });
-                  },
-                  label: Text(
-                    "راسله",
-                    style: TextStyle(color: Colors.white),
+                    child: Icon(
+                      Icons.phone,
+                      color: Colors.blue[400],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ]),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: FloatingActionButton.extended(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      heroTag: 'right',
+                      backgroundColor: Colors.blue[400],
+                      onPressed: () async {
+                        await Provider.of<ChatController>(context,
+                                listen: false)
+                            .getUserChat(item.itemOwner)
+                            .then((value) async {
+                          await Provider.of<UserController>(context,
+                                  listen: false)
+                              .getDetailsOfOtherUser(item.itemOwner)
+                              .then((value) async {
+                            await Provider.of<ChatController>(context,
+                                    listen: false)
+                                .getDocId(
+                                    FirebaseAuth.instance.currentUser.uid +
+                                        "_" +
+                                        item.itemOwner,
+                                    item.itemOwner +
+                                        "_" +
+                                        FirebaseAuth.instance.currentUser.uid)
+                                .then((_) => Navigator.pushNamed(
+                                    context, ChatDetailPage.route,
+                                    arguments: {'flag': false}));
+                          });
+                        });
+                      },
+                      label: Text(
+                        "راسله",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
         ));
   }
 }

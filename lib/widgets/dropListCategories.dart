@@ -6,17 +6,19 @@ class DropListCategories extends StatefulWidget {
   Map prop = new Map<String, String>();
   Map initial = new Map<String, String>();
   String initCategory;
+  String subCategoryType;
   bool updateOrAdd;
   DropListCategories(
-      this.fun, this.prop, this.initial, this.updateOrAdd, this.initCategory);
+      this.fun, this.prop, this.initial, this.updateOrAdd, this.initCategory, this.subCategoryType);
   @override
   _DropListCategoriesState createState() => _DropListCategoriesState();
 }
 
 class _DropListCategoriesState extends State<DropListCategories> {
   String category = 'كتب';
-  bool isChanged=true;
-  bool firstTime=true;
+  String val = '—';
+  bool isChanged = true;
+  bool firstTime = true;
   List<String> listOfAddedProperties = [];
   List<String> servicesProperties = ["نوع الخدمة"];
   List<String> carsProperties = [
@@ -39,20 +41,18 @@ class _DropListCategoriesState extends State<DropListCategories> {
   List<String> clothesProperties = ["نوع الملبس"];
   List<String> othersProperties = ["النوع"];
 
-
   List<Widget> _buildproperties(List<String> properties) {
-   //print("wwwwwwwwwwwwwwwwwwwwwwwww");
-    //print(widget.initial);
     widget.prop.clear();
-    List<Widget> textForFields = [];
+    List<Widget> widgets = [];
     for (String property in properties) {
-      textForFields.add(
+      widgets.add(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: TextFormField(
-              initialValue: widget.updateOrAdd  ? widget.initial[property] : null,
+              initialValue:
+                  widget.updateOrAdd ? widget.initial[property] : null,
               maxLength: 30,
               decoration: InputDecoration(
                 labelText: property,
@@ -79,10 +79,95 @@ class _DropListCategoriesState extends State<DropListCategories> {
             ),
           ),
         ),
-
       );
     }
-    return textForFields;
+    if (category == "أجهزة كهربائية") {
+      widgets.add(Column(
+        children: [
+          Text("اختر الفئة الفرعية"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: val,
+                style: GoogleFonts.cairo(color: Colors.black54),
+                underline: Container(
+                  height: 1,
+                  color: Colors.blue[400],
+                ),
+                onChanged: (String newValue) {
+                  setState(() {
+                    val = newValue;
+                    widget.initial.clear();
+                  });
+                },
+                items: <String>[
+                  "بوتجاز",
+                  "ثلاجة",
+                  "تليفزيون",
+                  "تليفون",
+                  "مروحه",
+                  '—',
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Container(
+                        alignment: Alignment.centerRight, child: Text(value)),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ));
+    }
+    if (category == "أثاث منزل") {
+      widgets.add(Column(
+        children: [
+          Text("اختر الفئة الفرعية"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: val,
+                style: GoogleFonts.cairo(color: Colors.black54),
+                underline: Container(
+                  height: 1,
+                  color: Colors.blue[400],
+                ),
+                onChanged: (String newValue) {
+                  setState(() {
+                    val = newValue;
+                    widget.initial.clear();
+                  });
+                },
+                items: <String>[
+                  "كرسي",
+                  "انتريه",
+                  "طاولة",
+                  "ستاير و سجاد",
+                  "غرف",
+                  '—',
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Container(
+                        alignment: Alignment.centerRight, child: Text(value)),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
+      ));
+    }
+    if ((category != "أثاث منزل") && (category != "أجهزة كهربائية")) val = '—';
+    widget.fun(category, val);
+    return widgets;
   }
 
   List<String> getProperties(String category) {
@@ -107,16 +192,20 @@ class _DropListCategoriesState extends State<DropListCategories> {
     } else {
       listOfAddedProperties = othersProperties;
     }
-    widget.fun(category);
+    
     return listOfAddedProperties;
   }
+
   @override
-  void didChangeDependencies(){
-    if(firstTime){
-    if(widget.updateOrAdd) category = widget.initCategory;
-    listOfAddedProperties = getProperties(category);
+  void didChangeDependencies() {
+    if (firstTime) {
+      if (widget.updateOrAdd){
+        category = widget.initCategory;
+        val = widget.subCategoryType;
+      } 
+      listOfAddedProperties = getProperties(category);
     }
-     firstTime= false;
+    firstTime = false;
     super.didChangeDependencies();
   }
 
@@ -137,18 +226,16 @@ class _DropListCategoriesState extends State<DropListCategories> {
                 height: 1,
                 color: Colors.blue[400],
               ),
-              onTap: (){
+              onTap: () {
                 setState(() {
                   widget.initial.clear();
                 });
               },
               onChanged: (String newValue) {
                 setState(() {
-                  //print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
                   category = newValue;
                   widget.initial.clear();
-                  //print(widget.initial);
-                  isChanged=false;
+                  isChanged = false;
                   listOfAddedProperties = getProperties(category);
                   widget.updateOrAdd = false;
                 });
@@ -175,7 +262,9 @@ class _DropListCategoriesState extends State<DropListCategories> {
           ),
         ),
         Column(
-          children: _buildproperties(listOfAddedProperties),
+          children: _buildproperties(
+            listOfAddedProperties,
+          ),
         ),
       ],
     );

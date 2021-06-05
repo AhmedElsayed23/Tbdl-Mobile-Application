@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,13 +6,12 @@ import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
-import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:gp_version_01/widgets/text_field_search.dart';
 import 'package:provider/provider.dart';
 import '../widgets/drawer.dart';
 import 'chooseCategory_screen.dart';
-////
+
 class HomeScreen extends StatefulWidget {
   static const String route = "Home";
 
