@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
-import 'package:gp_version_01/Screens/fav_Category_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
@@ -56,6 +56,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ChatController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ModelController(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -89,7 +92,6 @@ class MyApp extends StatelessWidget {
           TabsScreen.route: (context) => TabsScreen(),
           UserProductDetailsScreen.route: (context) =>
               UserProductDetailsScreen(),
-          FavCategoryScreen.route: (context) => FavCategoryScreen(),
           ViewOfferScreen.route: (context) => ViewOfferScreen(),
           SearchResults.route: (context) => SearchResults(),
         },

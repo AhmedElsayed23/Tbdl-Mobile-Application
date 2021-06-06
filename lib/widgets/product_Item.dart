@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:provider/provider.dart';
 
 class ProductItem extends StatefulWidget {
-  Item item=new Item();
+  Item item = new Item();
 
   ProductItem({this.item});
 
@@ -14,16 +15,17 @@ class ProductItem extends StatefulWidget {
 }
 
 class _ProductItemState extends State<ProductItem> {
-  bool isFavorite=false;
+  bool isFavorite = false;
 
   Icon check() {
-    String id=FirebaseAuth.instance.currentUser.uid;
-    List<String> temp= widget.item.favoritesUserIDs.where((element) => element==id).toList();
+    String id = FirebaseAuth.instance.currentUser.uid;
+    List<String> temp =
+        widget.item.favoritesUserIDs.where((element) => element == id).toList();
     if (temp.isEmpty) {
-      isFavorite=true;
+      isFavorite = true;
       return Icon(Icons.favorite_border, color: Colors.white);
     } else {
-      isFavorite=false;
+      isFavorite = false;
       return Icon(Icons.favorite, color: Colors.red);
     }
   }
@@ -65,8 +67,10 @@ class _ProductItemState extends State<ProductItem> {
                     color: Colors.black26,
                     child: IconButton(
                       icon: check(),
-                      onPressed: ()async {
-                       await Provider.of<ItemController>(context,listen: false).modifyFavorite(widget.item.id,isFavorite);
+                      onPressed: () async {
+                        await Provider.of<ItemController>(context,
+                                listen: false)
+                            .modifyFavorite(widget.item.id, isFavorite);
                       },
                     ),
                   ),

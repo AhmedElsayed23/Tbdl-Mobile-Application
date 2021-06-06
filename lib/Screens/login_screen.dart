@@ -108,8 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       final user = await _auth.signInWithEmailAndPassword(
                           email: email, password: password);
                       if (user != null) {
-                        print("autolooooooooooooooooooooogin");
-                        //ItemController().getItems();
+                        Provider.of<ItemOffersController>(context,
+                                listen: false)
+                            .getAllOffers();
+                        Provider.of<ChatController>(context, listen: false)
+                            .getUserConversations();
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             '/', (Route<dynamic> route) => false);
                       }

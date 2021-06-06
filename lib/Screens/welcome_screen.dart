@@ -48,6 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     if (flag) {
       var user = FirebaseAuth.instance.currentUser;
       if (user == null) {
+        Provider.of<ItemController>(context, listen: false).getItems();//////////////////////////
         setState(() {
           home = Scaffold(
             backgroundColor: animation.value,
@@ -92,10 +93,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         });
       } else {
         Provider.of<ItemController>(context, listen: false).getItems();
-        Provider.of<ItemOffersController>(context, listen: false)
-            .getAllOffers();
-        Provider.of<ChatController>(context, listen: false)
-            .getUserConversations();
+        Provider.of<ItemOffersController>(context, listen: false).getAllOffers();
+        Provider.of<ChatController>(context, listen: false).getUserConversations();
         setState(() {
           home = TabsScreen();
         });

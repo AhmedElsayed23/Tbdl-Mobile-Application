@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class ItemController with ChangeNotifier {
   var firestoreInstance = FirebaseFirestore.instance;
@@ -61,7 +63,6 @@ class ItemController with ChangeNotifier {
       print(temp.properties);
       print(temp.title);
     }*/
-    
   }
 
   Future<List<String>> uploadImageToFirebase(List<File> images, int dir) async {
@@ -224,9 +225,11 @@ class ItemController with ChangeNotifier {
     if (isFavorite) {
       items[index].favoritesUserIDs.add(firebaseUser.uid);
       favoItems.add(items[index]);
+      ModelController().updateScore(10, id);
     } else {
       items[index].favoritesUserIDs.remove(firebaseUser.uid);
       favoItems.remove(items[index]);
+      ModelController().updateScore(-10, id);
     }
     try {
       await firestoreInstance.collection("Items").doc(id).update(

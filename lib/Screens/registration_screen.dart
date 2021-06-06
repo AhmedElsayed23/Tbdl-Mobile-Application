@@ -2,9 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/fav_Category_screen.dart';
+import 'package:gp_version_01/Screens/login_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
+import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/userModel.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
@@ -26,7 +30,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String password;
   String name;
   String phone;
-  List<String> location;
+  List<String> location = ['', ''];
+  bool _isChecked = false;
+  var categories = {
+    "عربيات": false,
+    "خدمات": false,
+    "ملابس": false,
+    "موبايلات": false,
+    "كتب": false,
+    "ألعاب إلكترونية": false,
+    "أجهزة كهربائية": false,
+    "حيوانات": false,
+    "أثاث منزل": false,
+    "اخري": false,
+  };
 
   void showErrorMessage(String message) {
     showDialog(
@@ -49,10 +66,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Map categories = ModalRoute.of(context).settings.arguments as Map;
-    print("ddddddddddddddddddddddddddddddddd");
-    print(categories);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -138,19 +151,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(
                   height: 8.0,
                 ),
-                DropDownListLocation(false, [], location),
+                DropDownListLocation(false, [''], location),
                 SizedBox(
                   height: 8.0,
                 ),
-                Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ElevatedButton(
-                        child: Text(
-                          "اختر الفئات المهتم بيها",
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, FavCategoryScreen.route);
-                        })),
+                SingleChildScrollView(
+                  child: Container(
+                    height: 100.0,
+                    child: ListView(
+                      padding: EdgeInsets.all(8.0),
+                      children: categories.keys
+                          .map((element) => CheckboxListTile(
+                                title: Text(element),
+                                value: categories[element],
+                                onChanged: (val) {
+                                  setState(() {
+                                    categories[element] = val;
+                                  });
+                                },
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 24.0,
                 ),
@@ -165,30 +188,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     });
                     formKey.currentState.save();
                     try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
-                      if (newUser != null) {
-                        Provider.of<UserController>(context)
-                            .addUser(UserModel(
-                                banScore: 0,
-                                favCategory: [],
-                                id: _auth.currentUser.uid,
-                                isBanned: false,
-                                location: location,
-                                name: name,
-                                phone: phone))
-                            .then((_) {
-                          Navigator.pushReplacementNamed(
-                              context, TabsScreen.route);
+                      await _auth
+                          .createUserWithEmailAndPassword(
+                              email: email, password: password)
+                          .then((newUser) {
+                        if (newUser != null) {
+                          List<String> categ = [];
+                          categories.forEach((key, value) {
+                            if (value) categ.add(key);
+                          });
+                          Provider.of<UserController>(context, listen: false)
+                              .addUser(UserModel(
+                                  banScore: 0,
+                                  favCategory: categ,
+                                  id: _auth.currentUser.uid,
+                                  isBanned: false,
+                                  location: location,
+                                  name: name,
+                                  phone: phone))
+                              .then((_) {
+                            List<Item> items = Provider.of<ItemController>(
+                                    context,
+                                    listen: false)
+                                .items;
+                            Provider.of<ModelController>(context, listen: false)
+                                .addUserInModel(items, categ);
+                            Navigator.pushReplacementNamed(
+                                context, LoginScreen.route);
+                          });
+                        }
+                        setState(() {
+                          showSpinner = false;
                         });
-                      }
-                      setState(() {
-                        showSpinner = false;
                       });
                     } catch (e) {
                       if (e.code == 'email-already-in-use') {
-                        showErrorMessage('المستخدم غير موجود');
+                        showErrorMessage('المستخدم موجود');
                       }
                     }
                   },

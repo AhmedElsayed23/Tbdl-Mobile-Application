@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
@@ -95,6 +96,7 @@ class Details extends StatelessWidget {
     args = ModalRoute.of(context).settings.arguments;
     item = args[0];
     isOffer = args[1];
+    Provider.of<ModelController>(context, listen: false).updateScore(5, item.id);
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(

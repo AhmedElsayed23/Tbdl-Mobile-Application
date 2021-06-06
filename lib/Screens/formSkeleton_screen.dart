@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
@@ -349,6 +350,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         await Provider.of<ItemController>(context, listen: false).addItem(item);
         await Provider.of<ItemOffersController>(context, listen: false)
             .addItemOffers(item);
+                     await Provider.of<ModelController>(context, listen: false).addItemToModel(item.id);
       }
       properties.clear();
       setState(() {
