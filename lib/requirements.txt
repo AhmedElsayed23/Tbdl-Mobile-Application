@@ -1,0 +1,6 @@
+- Delete Item from DataSet
+- Delete Item from offer
+- Update score in offer
+- Update score in form with category - addItemToDataSet
+- Notification
+- Model

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/itemOffer.dart';
 
@@ -42,10 +43,17 @@ class ItemOffersController with ChangeNotifier {
   Future<void> modifyOffer(
       String offerId, String itemId, bool isChecked) async {
     int index = itemOffers.indexWhere((element) => element.itemId == itemId);
+    for (var item in itemOffers[index].upcomingOffers) {}
     if (!isChecked) {
       itemOffers[index].upcomingOffers.add(offerId);
+
+      ModelController().updateScore(
+          10, itemId); ////////////////////////////////////////////////////
     } else {
-      itemOffers[index].upcomingOffers.remove(offerId);
+      itemOffers[index]
+          .upcomingOffers
+          .remove(offerId); //////////////////////////////////////////////////
+      ModelController().updateScore(10, itemId);
     }
     try {
       await firestoreInstance.collection("Offer").doc(itemId).update(
@@ -112,8 +120,8 @@ class ItemOffersController with ChangeNotifier {
             (_) => firestoreInstance.collection("Offer").doc(myItem.id).update(
                   {'acceptOffer': true},
                 ).then((value) => notifyListeners()));
-      int index = itemOffers.indexWhere((element) => element.itemId == myItem.id);
-      itemOffers[index].acceptOffer = true;
+    int index = itemOffers.indexWhere((element) => element.itemId == myItem.id);
+    itemOffers[index].acceptOffer = true;
   }
 
   bool checkUpcomingOffersToItem(Item myItem) {
