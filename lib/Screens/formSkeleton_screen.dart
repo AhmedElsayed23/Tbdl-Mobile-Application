@@ -10,6 +10,7 @@ import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
+import 'package:gp_version_01/widgets/dropDownListNeededCategory.dart';
 import 'package:gp_version_01/widgets/dropListCategories.dart';
 import 'package:gp_version_01/widgets/image_input.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
@@ -37,6 +38,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   bool isFree;
   String categoryType = 'كتب';
   String subCategoryType = '—';
+  String neededCategory = '—';
+  String neededsubCategoryType = '—';
   Map properties = new Map<String, String>();
   List<File> imagesFiles = List<File>();
   List<String> locat = ['', ''];
@@ -50,6 +53,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     'images': [''],
     'categoryType': 'كتب',
     'subCategoryType': '—',
+    'neededCategory': '—',
+    'neededSubCategory': '—',
     'properties': {},
     'favoritesUserIDs': [''],
     'location': [''],
@@ -64,6 +69,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
       updateOrAdd,
       initialValues['categoryType'],
       initialValues['subCategoryType'],
+    );
+  }
+
+  Widget _dropListNeededCat() {
+    return DropDownListNeededCategory(
+      updateOrAdd: updateOrAdd,
+      fun: neededCategoryFun,
+      initCategory: initialValues['neededCategory'],
+      subCategoryType: initialValues['neededSubCategory'],
     );
   }
 
@@ -108,15 +122,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Item item = Item(
-      categoryType: 'كتب',
-      subCategoryType: '—',
-      description: "",
-      title: "",
-      id: null,
-      images: [],
-      isFree: null,
-      condition: null,
-      properties: {});
+    categoryType: 'كتب',
+    subCategoryType: '—',
+    description: "",
+    title: "",
+    id: null,
+    images: [],
+    isFree: null,
+    condition: null,
+    properties: {},
+    neededSubCategory: '—',
+    neededCategory: '—',
+  );
 
   @override
   void didChangeDependencies() {
@@ -135,6 +152,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         initialValues['images'] = item.images;
         initialValues['categoryType'] = item.categoryType;
         initialValues['subCategoryType'] = item.subCategoryType;
+        initialValues['neededCategory'] = item.neededCategory;
+        initialValues['neededSubCategory'] = item.neededSubCategory;
         initialValues['properties'] = item.properties;
         initialValues['id'] = item.id;
         initialValues['favoritesUserIDs'] = item.favoritesUserIDs;
@@ -170,6 +189,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void fun(String catTemp, String subCatTemp) {
     categoryType = catTemp;
     subCategoryType = subCatTemp;
+  }
+
+  void neededCategoryFun(String neededCat, String needsubCatTemp) {
+    neededCategory = neededCat;
+    neededsubCategoryType = needsubCatTemp;
   }
 
   Widget _buildTitle() {
@@ -243,7 +267,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
       key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [_buildTitle(), _buildDescription(), _dropList()],
+        children: [
+          _buildTitle(),
+          _buildDescription(),
+          _dropList(),
+          _dropListNeededCat()
+        ],
       ),
     );
   }
@@ -327,6 +356,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       Item item = new Item(
         categoryType: categoryType,
         subCategoryType: subCategoryType,
+        neededCategory: neededCategory,
+        neededSubCategory: neededsubCategoryType,
         description: description,
         itemOwner: FirebaseAuth.instance.currentUser.uid,
         title: title,
@@ -341,16 +372,40 @@ class _AddItemScreenState extends State<AddItemScreen> {
         images: initialValues['images'],
         id: initialValues['id'],
       );
-      //print("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-      //print(item.properties);
       if (updateOrAdd) {
         await Provider.of<ItemController>(context, listen: false)
             .updateItem(item, index);
+
+        await Provider.of<ModelController>(context, listen: false)
+            .categoryScore(
+                Provider.of<ItemController>(context, listen: false).items,
+                initialValues['neededCategory'],
+                initialValues['neededSubCategory'],
+                true);
+
+        if (neededCategory != '—') {
+          print("ooooooooooooooooooooooo");
+          await Provider.of<ModelController>(context, listen: false)
+              .categoryScore(
+                  Provider.of<ItemController>(context, listen: false).items,
+                  neededCategory,
+                  neededsubCategoryType,
+                  false);
+        }
       } else {
         await Provider.of<ItemController>(context, listen: false).addItem(item);
         await Provider.of<ItemOffersController>(context, listen: false)
             .addItemOffers(item);
-                     await Provider.of<ModelController>(context, listen: false).addItemToModel(item.id);
+        await Provider.of<ModelController>(context, listen: false)
+            .addItemToModel(item.id);
+        if (neededCategory != '—') {
+          await Provider.of<ModelController>(context, listen: false)
+              .categoryScore(
+                  Provider.of<ItemController>(context, listen: false).items,
+                  neededCategory,
+                  neededsubCategoryType,
+                  false);
+        }
       }
       properties.clear();
       setState(() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +74,10 @@ class _OfferItemState extends State<OfferItem> {
                         await Provider.of<ItemOffersController>(context,
                                 listen: false)
                             .modifyOffer(
-                                widget.offer.id, widget.item.id, isChecked);
+                                widget.offer.id,
+                                widget.item.id,
+                                isChecked,
+                                Provider.of<ItemController>(context, listen: false).items);
                       },
                     ),
                   ),

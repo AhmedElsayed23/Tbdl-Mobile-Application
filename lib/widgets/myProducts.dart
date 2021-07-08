@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/view_offers.dart';
@@ -55,6 +56,15 @@ class MyProductItems extends StatelessWidget {
                               onPressed: () {
                                 try {
                                   Provider.of<ItemController>(context,
+                                          listen: false)
+                                      .deleteItem(myItem.id);
+                                  String neededCategory = myItem.categoryType;
+                                  String neededSubCategory = myItem.subCategoryType;
+                                  //Provider.of<ModelController>(context, listen: false).categoryScore(Provider.of<ItemController>(context, listen: false).items, neededCategory, neededSubCategory, true);
+                                  Provider.of<ModelController>(context,
+                                          listen: false)
+                                      .deleteItem(myItem.id);
+                                  Provider.of<ItemOffersController>(context,
                                           listen: false)
                                       .deleteItem(myItem.id);
                                   Navigator.pop(context);

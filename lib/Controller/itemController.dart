@@ -34,6 +34,8 @@ class ItemController with ChangeNotifier {
     List<Item> tempItems = [];
     snapshot.docs.forEach((element) {
       tempItems.add(new Item(
+        neededCategory: element['neededCategory'],
+        neededSubCategory: element['neededSubCategory'],
           subCategoryType: element['subCategory'],
           categoryType: element['categoryType'],
           condition: element['condition'],
@@ -122,6 +124,8 @@ class ItemController with ChangeNotifier {
         'location': item.location,
         'favoritesUserIDs': item.favoritesUserIDs,
         'directory': Item.nameOfDirStorage,
+        'neededCategory': item.neededCategory,
+        'neededSubCategory': item.neededSubCategory,
       },
     ).then((value) {
       item.id = value.id;
@@ -212,6 +216,9 @@ class ItemController with ChangeNotifier {
         'location': item.location,
         'favoritesUserIDs': item.favoritesUserIDs,
         'directory': item.directory,
+        'neededCategory': item.neededCategory,
+        'neededSubCategory': item.neededSubCategory,
+        'subCategory': item.subCategoryType,
       },
     ).then((value) {
       items.removeAt(index);
@@ -242,9 +249,15 @@ class ItemController with ChangeNotifier {
 
   List<Item> getOffersItems(List<String> offersIds) {
     List<Item> tempItems = [];
+    print("fkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    print(offersIds.length);
     for (int i = 0; i < offersIds.length; i++) {
+      print("outer ");
+      print(items.length);
       for (var item in items) {
+        print("inner ");
         if (item.id == offersIds[i]) {
+          print("iffffffffffffffffffff ");
           tempItems.add(item);
           continue;
         }

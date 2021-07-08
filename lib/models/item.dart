@@ -16,6 +16,8 @@ class Item {
   Map properties = new Map<String, String>();
   String categoryType;
   String subCategoryType;
+  String neededCategory;
+  String neededSubCategory;
   String id;
   static int nameOfDirStorage=0;
   int directory;
@@ -36,5 +38,7 @@ class Item {
       this.directory,
       this.isFree,
       this.subCategoryType,
+      this.neededCategory,
+      this.neededSubCategory
       });
 }
