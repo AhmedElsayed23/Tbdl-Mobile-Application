@@ -37,7 +37,11 @@ class ModelController with ChangeNotifier {
         await FirebaseFirestore.instance.collection('Dataset').get();
 
     snapshot.docs.forEach((element) {
-      element.reference.collection("Items").doc(itemID).set({'score': 0});
+      if (element.reference.id == FirebaseAuth.instance.currentUser.uid) {
+        element.reference.collection("Items").doc(itemID).set({'score': -1});
+      } else {
+        element.reference.collection("Items").doc(itemID).set({'score': 0});
+      }
     });
   }
 
