@@ -46,14 +46,12 @@ class ItemOffersController with ChangeNotifier {
     for (var item in itemOffers[index].upcomingOffers) {}
     if (!isChecked) {
       itemOffers[index].upcomingOffers.add(offerId);
-
-      ModelController().updateScore(
-          10, itemId); ////////////////////////////////////////////////////
+      ModelController().updateScore(15, itemId); ////////////////////////////////////////////////////
     } else {
       itemOffers[index]
           .upcomingOffers
           .remove(offerId); //////////////////////////////////////////////////
-      ModelController().updateScore(10, itemId);
+      ModelController().updateScore(-15, itemId);
     }
     try {
       await firestoreInstance.collection("Offer").doc(itemId).update(

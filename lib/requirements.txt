@@ -1,5 +1,6 @@
 - Delete Item from DataSet
 - Delete Item from offer
+    - Delete from upcomingOffers
 - Update score in offer
 - Update score in form with category - addItemToDataSet
 - Notification
