@@ -26,8 +26,12 @@ class _RecommendState extends State<Recommend> {
       Provider.of<ModelController>(context, listen: false)
           .getPredictedItems()
           .then((value) => setState(() {
-                Provider.of<ItemController>(context, listen: false).getRecommendedItems(value);
-                Provider.of<ItemController>(context, listen: false).getHistoryItems(value);
+                Provider.of<ItemController>(context, listen: false)
+                    .getUserItems();
+                Provider.of<ItemController>(context, listen: false)
+                    .getRecommendedItems(value);
+                Provider.of<ItemController>(context, listen: false)
+                    .getHistoryItems();
                 isLoading = false;
               }));
     }
@@ -58,7 +62,10 @@ class _RecommendState extends State<Recommend> {
             },
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Center(child: Text('الكل',)),
+                child: Center(
+                    child: Text(
+                  'الكل',
+                )),
                 value: 'all',
               ),
               PopupMenuItem(

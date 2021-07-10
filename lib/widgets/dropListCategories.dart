@@ -107,7 +107,6 @@ class _DropListCategoriesState extends State<DropListCategories> {
                   "بوتجاز",
                   "ثلاجة",
                   "تليفزيون",
-                  "تليفون",
                   "مروحه",
                   '—',
                 ].map<DropdownMenuItem<String>>((String value) {

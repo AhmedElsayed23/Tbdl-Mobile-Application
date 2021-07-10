@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/itemOffer.dart';

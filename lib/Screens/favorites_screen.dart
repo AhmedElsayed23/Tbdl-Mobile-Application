@@ -11,6 +11,7 @@ class Favorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<ItemController>(context).getUserHomeItems();
+    Provider.of<ItemController>(context).getUserFavoriteItems();
     final items = Provider.of<ItemController>(context).favoItems;
     return Scaffold(
         appBar: AppBar(

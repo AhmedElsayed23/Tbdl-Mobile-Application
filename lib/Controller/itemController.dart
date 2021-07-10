@@ -173,7 +173,15 @@ class ItemController with ChangeNotifier {
     return tempItems;
   }
 
-  Future<void> getUserFavoriteItems() async {}
+  void getUserFavoriteItems(){
+    List<Item> temp = [];
+    for (var item in userHomeItems) {
+      if(item.favoritesUserIDs.indexWhere((element) => element == firebaseUser.uid) != -1){
+        temp.add(item);
+      }
+    }
+    favoItems = temp;
+  }
 
   Future<void> deleteItem(String itemId) async {
     try {
@@ -264,15 +272,69 @@ class ItemController with ChangeNotifier {
   }
 
   void getRecommendedItems(List<String> itemsIds) {
+    List<Item> temp = [];
     for (int i = 0; i < itemsIds.length; i++) {
       for (var item in items) {
         if (item.id == itemsIds[i] && firebaseUser.uid != item.itemOwner) {
-          recomendedItems.add(item);
+          temp.add(item);
           continue;
         }
       }
     }
+    recomendedItems = temp;
   }
 
-  void getHistoryItems(List<String> itemsIds){}
+  void getHistoryItems() async {
+    List<String> history = [];
+    List<String> myCategories = [];
+    List<String> recommendCat = [];
+    List<Item> tempHistory = [];
+    int index = 0;
+
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('ItemsHistory').get();
+
+    snapshot.docs.forEach((element) {
+      if (element['counter'] >= 5) {
+        history.add(element['firstItem_secondItem']);
+      }
+    });
+
+    for (var item in userItems) {
+      if (item.subCategoryType == '—') {
+        myCategories.add(item.categoryType);
+      } else {
+        myCategories.add(item.subCategoryType);
+      }
+    }
+
+    for (var cat in myCategories) {
+      for (var his in history) {
+        var temp = his.split('_');
+        if (cat == temp[0]) {
+          recommendCat.add(temp[1]);
+        } else if (cat == temp[1]) {
+          recommendCat.add(temp[0]);
+        }
+      }
+    }
+
+    for (var item in recomendedItems) {
+      index =
+          recommendCat.indexWhere((element) => element == item.subCategoryType);
+      if (index == -1) {
+        index =
+            recommendCat.indexWhere((element) => element == item.categoryType);
+        if (index == -1) {
+          continue;
+        } else {
+          tempHistory.add(item);
+        }
+      } else {
+        tempHistory.add(item);
+      }
+    }
+
+    historyItems = tempHistory;
+  }
 }

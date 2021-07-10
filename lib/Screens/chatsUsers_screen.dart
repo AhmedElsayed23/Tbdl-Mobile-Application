@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
-import 'package:gp_version_01/Controller/userController.dart';
-import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
 import 'package:provider/provider.dart';

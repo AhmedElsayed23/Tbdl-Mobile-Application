@@ -4,11 +4,9 @@ import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
 import 'package:gp_version_01/models/item.dart';
-import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/myProducts.dart';
 import 'package:provider/provider.dart';
 
-import 'details_screen.dart';
 
 class MyProducts extends StatefulWidget {
   static const String route = "MyProducts";

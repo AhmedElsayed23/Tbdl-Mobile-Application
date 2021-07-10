@@ -59,7 +59,6 @@ class _DropDownListNeededCategoryState
                   "بوتجاز",
                   "ثلاجة",
                   "تليفزيون",
-                  "تليفون",
                   "مروحه",
                   '—',
                 ].map<DropdownMenuItem<String>>((String value) {

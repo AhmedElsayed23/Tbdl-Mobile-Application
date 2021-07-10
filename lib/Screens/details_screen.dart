@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
@@ -16,11 +15,21 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   static const String route = "/details";
+
+  @override
+  _DetailsState createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
   Item item;
+
   bool isOffer;
+
   List<dynamic> args;
+
+  bool isFavorite = false;
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
@@ -91,12 +100,26 @@ class Details extends StatelessWidget {
     );
   }
 
+  Icon check() {
+    String id = FirebaseAuth.instance.currentUser.uid;
+    List<String> temp =
+        item.favoritesUserIDs.where((element) => element == id).toList();
+    if (temp.isEmpty) {
+      isFavorite = true;
+      return Icon(Icons.favorite_border, color: Colors.white);
+    } else {
+      isFavorite = false;
+      return Icon(Icons.favorite, color: Colors.red);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
     item = args[0];
     isOffer = args[1];
-    Provider.of<ModelController>(context, listen: false).updateScore(5, item.id);
+    Provider.of<ModelController>(context, listen: false)
+        .updateScore(5, item.id);
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -132,8 +155,12 @@ class Details extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35.0),
                   ),
                   child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_border, color: Colors.white),
+                    icon: check(),
+                    onPressed: () async {
+                      await Provider.of<ItemController>(context, listen: false)
+                          .modifyFavorite(item.id, isFavorite);
+                      setState(() {});
+                    },
                   ),
                 ),
               ],

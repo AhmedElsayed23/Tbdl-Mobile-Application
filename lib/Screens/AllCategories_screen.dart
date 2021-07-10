@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/widgets/Grid.dart';
 
 
 
@@ -12,7 +11,6 @@ class AllCategories extends StatelessWidget {
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
 
     final title = args['title'];
-    final urls = args['urls'];
 
     return Scaffold(
       appBar: AppBar(

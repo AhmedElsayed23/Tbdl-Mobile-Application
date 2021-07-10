@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
-import 'package:gp_version_01/models/ChatMessage.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as os;
@@ -19,7 +18,6 @@ class ChatDetailPage extends StatefulWidget {
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
   final messageTextController = TextEditingController();
-  final _auth = FirebaseAuth.instance;
   String currentUserIsSender;
   String currentUserIsNotSender;
 

@@ -146,9 +146,6 @@ class ModelController with ChangeNotifier {
 
     snapshot.docs.forEach((element) {
       sum = sum + element['score'];
-      print(element['score']);
-      print("_____________________________________________________________________________");
-      print(element.reference.id);
       itemScore[element.reference.id] = element['score'];
     });
 
