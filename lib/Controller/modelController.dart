@@ -34,9 +34,9 @@ class ModelController with ChangeNotifier {
 
   Future<void> categoryScore(List<Item> items, String category,
       String subCategory, bool isUpdate) async {
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        print(category);
-        print(subCategory);
+    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    print(category);
+    print(subCategory);
 
     int index;
     int score = 0;
@@ -49,7 +49,6 @@ class ModelController with ChangeNotifier {
 
       snapshot.docs.forEach((element) {
         if (subCategory == '—') {
-          print(category);
           index = items.indexWhere((element1) =>
               (element1.categoryType == category &&
                   element1.id == element.reference.id &&
@@ -89,11 +88,7 @@ class ModelController with ChangeNotifier {
         await FirebaseFirestore.instance.collection('Dataset').get();
 
     snapshot.docs.forEach((element) {
-      if (element.reference.id == FirebaseAuth.instance.currentUser.uid) {
-        element.reference.collection("Items").doc(itemID).set({'score': -1});
-      } else {
-        element.reference.collection("Items").doc(itemID).set({'score': 0});
-      }
+      element.reference.collection("Items").doc(itemID).set({'score': 0});
     });
   }
 
@@ -125,7 +120,6 @@ class ModelController with ChangeNotifier {
       QuerySnapshot snapshot =
           await firestoreInstance.collection('Dataset').get();
       snapshot.docs.forEach((element) {
-        print("loooooooooooooooooooooo");
         firestoreInstance
             .collection('Dataset')
             .doc(element.reference.id)
@@ -136,5 +130,35 @@ class ModelController with ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<List<String>> getPredictedItems() async {
+    double sum = 0.0;
+    double avg = 0.0;
+    Map<String, double> itemScore = {};
+    List<String> predictedItems = [];
+
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('PredictedDataset')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("Items")
+        .get();
+
+    snapshot.docs.forEach((element) {
+      sum = sum + element['score'];
+      print(element['score']);
+      print("_____________________________________________________________________________");
+      print(element.reference.id);
+      itemScore[element.reference.id] = element['score'];
+    });
+
+    avg = sum / itemScore.length;
+
+    for (var key in itemScore.keys) {
+      if (itemScore[key] >= avg) {
+        predictedItems.add(key);
+      }
+    }
+    return predictedItems;
   }
 }

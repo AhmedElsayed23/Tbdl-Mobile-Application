@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 
 class ItemController with ChangeNotifier {
   var firestoreInstance = FirebaseFirestore.instance;
@@ -17,6 +16,8 @@ class ItemController with ChangeNotifier {
   List<Item> favoItems = [];
   List<Item> userItems = [];
   List<Item> userHomeItems = [];
+  List<Item> recomendedItems = [];
+  List<Item> historyItems = [];
 
   ItemController();
 
@@ -34,8 +35,8 @@ class ItemController with ChangeNotifier {
     List<Item> tempItems = [];
     snapshot.docs.forEach((element) {
       tempItems.add(new Item(
-        neededCategory: element['neededCategory'],
-        neededSubCategory: element['neededSubCategory'],
+          neededCategory: element['neededCategory'],
+          neededSubCategory: element['neededSubCategory'],
           subCategoryType: element['subCategory'],
           categoryType: element['categoryType'],
           condition: element['condition'],
@@ -247,17 +248,13 @@ class ItemController with ChangeNotifier {
     }
   }
 
-  List<Item> getOffersItems(List<String> offersIds) {
+  List<Item> getItemsByIds(List<String> offersIds) {
     List<Item> tempItems = [];
-    print("fkkkkkkkkkkkkkkkkkkkkkkkkkk");
     print(offersIds.length);
     for (int i = 0; i < offersIds.length; i++) {
-      print("outer ");
       print(items.length);
       for (var item in items) {
-        print("inner ");
         if (item.id == offersIds[i]) {
-          print("iffffffffffffffffffff ");
           tempItems.add(item);
           continue;
         }
@@ -265,4 +262,17 @@ class ItemController with ChangeNotifier {
     }
     return tempItems;
   }
+
+  void getRecommendedItems(List<String> itemsIds) {
+    for (int i = 0; i < itemsIds.length; i++) {
+      for (var item in items) {
+        if (item.id == itemsIds[i] && firebaseUser.uid != item.itemOwner) {
+          recomendedItems.add(item);
+          continue;
+        }
+      }
+    }
+  }
+
+  void getHistoryItems(List<String> itemsIds){}
 }

@@ -38,7 +38,7 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
     Item myItem = ModalRoute.of(context).settings.arguments;
     ItemOffer myItemOffers = Provider.of<ItemOffersController>(context).getItemOffer(myItem);
     List<String> offersIDs = myItemOffers.upcomingOffers;
-    List<Item> offersItems = Provider.of<ItemController>(context).getOffersItems(offersIDs);
+    List<Item> offersItems = Provider.of<ItemController>(context).getItemsByIds(offersIDs);
 
     return Scaffold(
       appBar: AppBar(
