@@ -23,6 +23,9 @@ class Grid extends StatelessWidget {
               .then((_) {
             print(Provider.of<UserController>(context, listen: false)
                 .otherUserName);
+            Provider.of<ItemController>(context, listen: false)
+                .checkBanedItem(items[index]);
+
             Navigator.pushNamed(context, Details.route, arguments: [
               items[index],
               true,

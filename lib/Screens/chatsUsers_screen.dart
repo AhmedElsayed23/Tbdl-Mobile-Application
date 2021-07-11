@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
 
   List<ChatUsers> chatUsers;
 
-  void _showSheet(String docId) {
+  void _showSheet(ChatUsers chatUser) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -47,13 +48,27 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                               onPressed: () {
                                 Provider.of<ChatController>(context,
                                         listen: false)
-                                    .deleteConvers(docId);
+                                    .deleteConvers(chatUser.docId);
                               },
                               child: Icon(
                                 Icons.delete,
                               )),
                           FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Provider.of<ChatController>(context,
+                                        listen: false)
+                                    .deleteConvers(chatUser.docId);
+                                if (chatUser.senderId != currentU) {
+                                  Provider.of<UserController>(context,
+                                          listen: false)
+                                      .baneIf(100, chatUser.senderId);
+                                } else {
+                                  Provider.of<UserController>(context,
+                                          listen: false)
+                                      .baneIf(100, chatUser.receiverId);
+                                }
+                                Navigator.of(context).pop();
+                              },
                               child: Icon(
                                 Icons.report,
                               )),
@@ -66,7 +81,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                             'حذف',
                           ),
                           Text(
-                            'بلغ',
+                            'بلغ و احذف',
                           ),
                         ],
                       ),
@@ -166,7 +181,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onLongPress: () => _showSheet(chatUsers[index].docId),
+                      onLongPress: () => _showSheet(chatUsers[index]),
                       child: ConversationList(
                         temp: {
                           'flag': true,

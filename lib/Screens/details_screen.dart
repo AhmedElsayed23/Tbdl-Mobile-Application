@@ -10,6 +10,7 @@ import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/itemOffer.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
+import 'package:gp_version_01/widgets/report_dialog.dart';
 import 'package:intl/intl.dart' as os;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,6 +31,16 @@ class _DetailsState extends State<Details> {
   List<dynamic> args;
 
   bool isFavorite = false;
+
+  showReportDialog(BuildContext context, Item item) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return ReportDialog(item: item);
+      },
+    );
+  }
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
@@ -120,6 +131,7 @@ class _DetailsState extends State<Details> {
     isOffer = args[1];
     Provider.of<ModelController>(context, listen: false)
         .updateScore(5, item.id);
+    var itemController = ItemController;
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(
@@ -138,16 +150,20 @@ class _DetailsState extends State<Details> {
                 ),
               ),
               actions: <Widget>[
-                Card(
-                  color: Colors.black26,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(35.0),
+                if (!Provider.of<ItemController>(context, listen: false)
+                    .isbaned)
+                  Card(
+                    color: Colors.black26,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        showReportDialog(context, item);
+                      },
+                      icon: Icon(Icons.report_outlined, color: Colors.white),
+                    ),
                   ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.report_outlined, color: Colors.white),
-                  ),
-                ),
                 Card(
                   elevation: 10,
                   color: Colors.black26,

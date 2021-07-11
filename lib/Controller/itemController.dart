@@ -13,11 +13,13 @@ class ItemController with ChangeNotifier {
   var firebaseUser = FirebaseAuth.instance.currentUser;
 
   List<Item> items = [];
+  List banedItems = [];
   List<Item> favoItems = [];
   List<Item> userItems = [];
   List<Item> userHomeItems = [];
   List<Item> recomendedItems = [];
   List<Item> historyItems = [];
+  bool isbaned = false;
 
   ItemController();
 
@@ -33,8 +35,10 @@ class ItemController with ChangeNotifier {
     firebaseUser = FirebaseAuth.instance.currentUser;
     QuerySnapshot snapshot = await firestoreInstance.collection('Items').get();
     List<Item> tempItems = [];
+
     snapshot.docs.forEach((element) {
-      tempItems.add(new Item(
+      tempItems.add(
+        new Item(
           neededCategory: element['neededCategory'],
           neededSubCategory: element['neededSubCategory'],
           subCategoryType: element['subCategory'],
@@ -50,22 +54,13 @@ class ItemController with ChangeNotifier {
           title: element['title'],
           directory: element['directory'],
           favoritesUserIDs: List<String>.from(element['favoritesUserIDs']),
-          id: element.reference.id));
+          id: element.reference.id,
+          baneScore: element['baneScore'],
+        ),
+      );
     });
     items = tempItems;
     notifyListeners();
-    /*for (Item temp in tempItems) {
-      print(temp.categoryType);
-      print(temp.condition);
-      print(temp.date);
-      print(temp.description);
-      print(temp.id);
-      print(temp.images);
-      print(temp.isFree);
-      print(temp.itemOwner);
-      print(temp.properties);
-      print(temp.title);
-    }*/
   }
 
   Future<List<String>> uploadImageToFirebase(List<File> images, int dir) async {
@@ -127,6 +122,7 @@ class ItemController with ChangeNotifier {
         'directory': Item.nameOfDirStorage,
         'neededCategory': item.neededCategory,
         'neededSubCategory': item.neededSubCategory,
+        'baneScore': item.baneScore,
       },
     ).then((value) {
       item.id = value.id;
@@ -173,10 +169,12 @@ class ItemController with ChangeNotifier {
     return tempItems;
   }
 
-  void getUserFavoriteItems(){
+  void getUserFavoriteItems() {
     List<Item> temp = [];
     for (var item in userHomeItems) {
-      if(item.favoritesUserIDs.indexWhere((element) => element == firebaseUser.uid) != -1){
+      if (item.favoritesUserIDs
+              .indexWhere((element) => element == firebaseUser.uid) !=
+          -1) {
         temp.add(item);
       }
     }
@@ -228,6 +226,7 @@ class ItemController with ChangeNotifier {
         'neededCategory': item.neededCategory,
         'neededSubCategory': item.neededSubCategory,
         'subCategory': item.subCategoryType,
+        'baneScore': item.baneScore,
       },
     ).then((value) {
       items.removeAt(index);
@@ -336,5 +335,56 @@ class ItemController with ChangeNotifier {
     }
 
     historyItems = tempHistory;
+  }
+
+  Future<void> updatebaneScore(Item item, int index) async {
+    await firestoreInstance.collection("Items").doc(item.id).update(
+      {
+        'title': item.title,
+        'description': item.description,
+        'itemOwner': item.itemOwner,
+        'categoryType': item.categoryType,
+        'date': item.date,
+        'images': item.images,
+        'properties': item.properties,
+        'isfree': item.isFree,
+        'condition': item.condition,
+        'location': item.location,
+        'favoritesUserIDs': item.favoritesUserIDs,
+        'directory': item.directory,
+        'neededCategory': item.neededCategory,
+        'neededSubCategory': item.neededSubCategory,
+        'subCategory': item.subCategoryType,
+        'baneScore': item.baneScore,
+      },
+    ).then((value) {
+      items.removeAt(index);
+      items.insert(index, item);
+      notifyListeners();
+    });
+  }
+
+  bool isBanned(int baneScore) {
+    return baneScore >= 100;
+  }
+
+  Future<void> addBanedItem(Item item) async {
+    firestoreInstance
+        .collection("BanedItems")
+        .doc(item.id)
+        .set({'userId': firebaseUser.uid, "itemId": item.id});
+  }
+
+  Future<void> checkBanedItem(Item item) async {
+    bool res = false;
+    firebaseUser = FirebaseAuth.instance.currentUser;
+    QuerySnapshot snapshot =
+        await firestoreInstance.collection('BanedItems').get();
+
+    snapshot.docs.forEach((element) {
+      if (element['userId'] == firebaseUser.uid && element['itemId'] == item.id)
+        res = true;
+    });
+    isbaned = res;
   }
 }

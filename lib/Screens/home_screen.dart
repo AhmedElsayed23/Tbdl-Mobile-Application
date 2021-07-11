@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             : Scaffold(
                 endDrawer: DrawerItem(),
                 appBar: AppBar(
-                   title:TextFieldSearch(items, false),
+                  title: TextFieldSearch(items, false),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),

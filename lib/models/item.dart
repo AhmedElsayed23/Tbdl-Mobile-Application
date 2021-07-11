@@ -19,26 +19,29 @@ class Item {
   String neededCategory;
   String neededSubCategory;
   String id;
-  static int nameOfDirStorage=0;
+  static int nameOfDirStorage = 0;
   int directory;
-
-  Item(
-      {this.description,
-      this.favoritesUserIDs,
-      this.images,
-      this.location,
-      this.title,
-      this.itemOwner,
-      this.imageFiles,
-      this.date,
-      this.properties,
-      this.id,
-      this.categoryType,
-      this.condition,
-      this.directory,
-      this.isFree,
-      this.subCategoryType,
-      this.neededCategory,
-      this.neededSubCategory
-      });
+  int baneScore;
+  bool isBaned;
+  Item({
+    this.description,
+    this.favoritesUserIDs,
+    this.images,
+    this.location,
+    this.title,
+    this.itemOwner,
+    this.imageFiles,
+    this.date,
+    this.properties,
+    this.id,
+    this.categoryType,
+    this.condition,
+    this.directory,
+    this.isFree,
+    this.subCategoryType,
+    this.neededCategory,
+    this.neededSubCategory,
+    this.baneScore = 0,
+    this.isBaned = false,
+  });
 }
