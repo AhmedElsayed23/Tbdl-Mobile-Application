@@ -18,13 +18,13 @@ class Grid extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => InkWell(
         onTap: () async {
+          await Provider.of<ItemController>(context, listen: false)
+              .checkBanedItem(items[index]);
           await Provider.of<UserController>(context, listen: false)
               .getDetailsOfOtherUser(items[index].itemOwner)
               .then((_) {
             print(Provider.of<UserController>(context, listen: false)
                 .otherUserName);
-            Provider.of<ItemController>(context, listen: false)
-                .checkBanedItem(items[index]);
 
             Navigator.pushNamed(context, Details.route, arguments: [
               items[index],
