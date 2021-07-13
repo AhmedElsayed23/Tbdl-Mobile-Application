@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
+import 'package:gp_version_01/models/userModel.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:gp_version_01/widgets/text_field_search.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLeave = false;
   bool isInit = true;
   bool isLoading = true;
+  var user = new UserModel();
   showAlertDialog(BuildContext context) {
     // set up the buttons
     // ignore: deprecated_member_use
@@ -92,6 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
               }));
       Provider.of<ItemOffersController>(context).getAllOffers();
     }
+
+    Provider.of<UserController>(context).getUser().then((_) {
+      user = Provider.of<UserController>(context).defaultUser;
+    });
     isInit = false;
     super.didChangeDependencies();
   }
@@ -110,7 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: isLoading
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
-                endDrawer: DrawerItem(),
+                endDrawer: DrawerItem(
+                  name: user.name,
+                  phone: user.phone,
+                ),
                 appBar: AppBar(
                   title: TextFieldSearch(items, false),
                   shape: RoundedRectangleBorder(
