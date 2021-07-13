@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/models/city.dart';
 
+// ignore: must_be_immutable
 class DropDownListLocation extends StatefulWidget {
   bool updateOrAdd;
   List<String> init;

@@ -5,6 +5,7 @@ import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/banned_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
@@ -94,6 +95,7 @@ class MyApp extends StatelessWidget {
               UserProductDetailsScreen(),
           ViewOfferScreen.route: (context) => ViewOfferScreen(),
           SearchResults.route: (context) => SearchResults(),
+          BannedScreen.route: (context) => BannedScreen(),
         },
       ),
     );

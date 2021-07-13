@@ -20,6 +20,7 @@ class MyProductItems extends StatelessWidget {
             content: Text("لا يوجد عروض لهذا المنتج"),
             title: Text('تنبيه'),
             actions: [
+              // ignore: deprecated_member_use
               FlatButton(
                   onPressed: () => Navigator.of(ctx).pop(), child: Text('تخطى'))
             ],
@@ -52,14 +53,15 @@ class MyProductItems extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          // ignore: deprecated_member_use
+                          // ignore: deprecated_member_use
                           FlatButton(
                               onPressed: () {
                                 try {
                                   Provider.of<ItemController>(context,
                                           listen: false)
                                       .deleteItem(myItem.id);
-                                  String neededCategory = myItem.categoryType;
-                                  String neededSubCategory = myItem.subCategoryType;
+
                                   //Provider.of<ModelController>(context, listen: false).categoryScore(Provider.of<ItemController>(context, listen: false).items, neededCategory, neededSubCategory, true);
                                   Provider.of<ModelController>(context,
                                           listen: false)
@@ -73,6 +75,7 @@ class MyProductItems extends StatelessWidget {
                               child: Icon(
                                 Icons.delete,
                               )),
+                          // ignore: deprecated_member_use
                           FlatButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamed(
@@ -82,6 +85,7 @@ class MyProductItems extends StatelessWidget {
                               child: Icon(
                                 Icons.update,
                               )),
+                          // ignore: deprecated_member_use
                           FlatButton(
                               onPressed: () {
                                 if (checkItemOffer) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Screens/home_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:gp_version_01/widgets/drawer.dart';
 import 'package:gp_version_01/widgets/text_field_search.dart';
 
+// ignore: must_be_immutable
 class SearchResults extends StatelessWidget {
   static const String route = "search_results";
   List<Item> _filteredItems;

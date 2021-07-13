@@ -41,7 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String neededCategory = '—';
   String neededsubCategoryType = '—';
   Map properties = new Map<String, String>();
-  List<File> imagesFiles = List<File>();
+  List<File> imagesFiles = [];
   List<String> locat = ['', ''];
   bool showSpinner = false;
   bool isLeave = false;
@@ -83,6 +83,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
+    // ignore: deprecated_member_use
     Widget continueButton = FlatButton(
       child: Text("لا"),
       onPressed: () {
@@ -90,6 +91,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         Navigator.of(context).pop();
       },
     );
+    // ignore: deprecated_member_use
     Widget cancelButton = FlatButton(
       child: Text("نعم"),
       onPressed: () {
@@ -177,6 +179,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             content: Text("يجب ان يكون هناك صورة واحده للمنتج على الاقل"),
             title: Text('خطأ'),
             actions: [
+              // ignore: deprecated_member_use
               FlatButton(
                   onPressed: () => Navigator.of(ctx).pop(), child: Text('تخطى'))
             ],
@@ -457,6 +460,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   SizedBox(
                     height: 40,
                     width: 150,
+                    // ignore: deprecated_member_use
                     child: RaisedButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),

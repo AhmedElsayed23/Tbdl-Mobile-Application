@@ -4,8 +4,9 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 
+// ignore: must_be_immutable
 class ImageMultiple extends StatefulWidget {
-  List<File> files = List<File>();
+  List<File> files = [];
   List<String> initial;
   bool updateOrAdd;
   ImageMultiple(this.files, this.initial, this.updateOrAdd);
@@ -14,7 +15,7 @@ class ImageMultiple extends StatefulWidget {
 }
 
 class _ImageMultipleState extends State<ImageMultiple> {
-  List<Asset> images = List<Asset>();
+  List<Asset> images = [];
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class _ImageMultipleState extends State<ImageMultiple> {
   }
 
   Future<void> pickImages() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = [];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -95,6 +96,7 @@ class _ImageMultipleState extends State<ImageMultiple> {
                       )
                     : Image.asset("assets/no-image-icon-6.png"),
           ),
+          // ignore: deprecated_member_use
           RaisedButton.icon(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

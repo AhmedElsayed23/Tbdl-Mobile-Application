@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
-import 'package:gp_version_01/models/userModel.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +8,7 @@ import '../Controller/itemController.dart';
 import '../Controller/userController.dart';
 import '../models/item.dart';
 
+// ignore: must_be_immutable
 class ReportDialog extends StatefulWidget {
   ReportDialog({this.item});
   Item item;
@@ -105,6 +105,7 @@ class _ReportDialogState extends State<ReportDialog> {
             ),
           ),
           actions: [
+            // ignore: deprecated_member_use
             FlatButton(
               child: Text("تبليغ"),
               onPressed: _updateScore,

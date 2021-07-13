@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
@@ -21,7 +20,6 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
-  final _firebaseObject = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
   bool showSpinner = false;
   String email;
@@ -29,7 +27,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String name;
   String phone;
   List<String> location = ['', ''];
-  bool _isChecked = false;
   var categories = {
     "عربيات": false,
     "خدمات": false,
@@ -53,6 +50,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             content: Text(message),
             title: Text('خطأ'),
             actions: [
+              // ignore: deprecated_member_use
               FlatButton(
                   onPressed: () => Navigator.of(ctx).pop(), child: Text('تخطى'))
             ],
@@ -200,7 +198,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   banScore: 0,
                                   favCategory: categ,
                                   id: _auth.currentUser.uid,
-                                  isBanned: false,
                                   location: location,
                                   name: name,
                                   phone: phone))

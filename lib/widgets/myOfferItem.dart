@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Controller/itemController.dart';
-import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/models/item.dart';
-import 'package:provider/provider.dart';
 
 class MyOfferItems extends StatelessWidget {
   final Item offer;

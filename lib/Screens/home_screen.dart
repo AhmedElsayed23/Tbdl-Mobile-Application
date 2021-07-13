@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = true;
   showAlertDialog(BuildContext context) {
     // set up the buttons
+    // ignore: deprecated_member_use
     Widget continueButton = FlatButton(
       child: Text("لا"),
       onPressed: () {
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.of(context).pop();
       },
     );
+    // ignore: deprecated_member_use
     Widget cancelButton = FlatButton(
       child: Text("نعم"),
       onPressed: () {
@@ -230,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
+                                  // ignore: deprecated_member_use
                                   FlatButton(
                                       onPressed: () {
                                         Navigator.pushNamed(context,
@@ -240,6 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.blue[400],
                                         size: 40,
                                       )),
+                                  // ignore: deprecated_member_use
                                   FlatButton(
                                       onPressed: () {
                                         Navigator.pushNamed(
@@ -250,6 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.blue[400],
                                         size: 40,
                                       )),
+                                  // ignore: deprecated_member_use
                                   FlatButton(
                                       onPressed: () {
                                         Navigator.pushNamed(
@@ -260,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.blue[400],
                                         size: 40,
                                       )),
+                                  // ignore: deprecated_member_use
                                   FlatButton(
                                       onPressed: () {
                                         Navigator.pushNamed(

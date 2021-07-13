@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../Screens/details_screen.dart';
 import 'product_Item.dart';
 
+// ignore: must_be_immutable
 class Grid extends StatelessWidget {
   List<Item> items;
   Grid({this.items});

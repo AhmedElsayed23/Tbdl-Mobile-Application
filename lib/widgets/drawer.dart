@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gp_version_01/Screens/welcome_screen.dart';
 
 class DrawerItem extends StatelessWidget {
   const DrawerItem({

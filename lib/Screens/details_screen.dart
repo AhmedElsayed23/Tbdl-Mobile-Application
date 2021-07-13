@@ -44,6 +44,7 @@ class _DetailsState extends State<Details> {
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
+    // ignore: deprecated_member_use
     Widget continueButton = FlatButton(
       child: Text("لا"),
       onPressed: () async {
@@ -72,6 +73,7 @@ class _DetailsState extends State<Details> {
       },
     );
 
+    // ignore: deprecated_member_use
     Widget cancelButton = FlatButton(
       child: Text("نعم"),
       onPressed: () async {
@@ -83,6 +85,7 @@ class _DetailsState extends State<Details> {
       },
     );
 
+    // ignore: deprecated_member_use
     Widget back = FlatButton(
       child: Text("رجوع"),
       onPressed: () async {
@@ -131,7 +134,6 @@ class _DetailsState extends State<Details> {
     isOffer = args[1];
     Provider.of<ModelController>(context, listen: false)
         .updateScore(5, item.id);
-    var itemController = ItemController;
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(

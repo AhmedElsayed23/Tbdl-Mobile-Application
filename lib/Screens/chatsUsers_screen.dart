@@ -44,6 +44,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          // ignore: deprecated_member_use
                           FlatButton(
                               onPressed: () {
                                 Provider.of<ChatController>(context,
@@ -53,6 +54,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                               child: Icon(
                                 Icons.delete,
                               )),
+                          // ignore: deprecated_member_use
                           FlatButton(
                               onPressed: () {
                                 Provider.of<ChatController>(context,
@@ -99,6 +101,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
+    // ignore: deprecated_member_use
     Widget continueButton = FlatButton(
       child: Text("لا"),
       onPressed: () {
@@ -106,6 +109,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
         Navigator.of(context).pop();
       },
     );
+    // ignore: deprecated_member_use
     Widget cancelButton = FlatButton(
       child: Text("نعم"),
       onPressed: () {

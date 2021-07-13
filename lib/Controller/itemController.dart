@@ -64,14 +64,12 @@ class ItemController with ChangeNotifier {
   }
 
   Future<List<String>> uploadImageToFirebase(List<File> images, int dir) async {
-    print("@@@@@@@@@" + images.length.toString());
-    List<String> imageURLs = new List<String>();
+    List<String> imageURLs = [];
     StorageReference storageRef;
     StorageUploadTask task;
     String fileName;
     try {
       for (int i = 0; i < images.length; i++) {
-        print('&&&&&&&&&&&&&&&&&&&&&&&&&&');
         fileName = basename(images[i].path);
         storageRef = FirebaseStorage.instance.ref().child('$dir/$fileName');
         task = storageRef.putFile(images[i]);

@@ -134,6 +134,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
+                  // ignore: deprecated_member_use
                   FlatButton(
                     onPressed: () async {
                       try {

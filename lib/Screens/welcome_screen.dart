@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/banned_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   bool flag = true;
   AnimationController controller;
   Animation animation;
-  Widget home;
+  Widget home = Container();
 
   @override
   void initState() {
@@ -48,7 +50,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     if (flag) {
       var user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        Provider.of<ItemController>(context, listen: false).getItems();//////////////////////////
+        Provider.of<ItemController>(context, listen: false)
+            .getItems(); //////////////////////////
         setState(() {
           home = Scaffold(
             backgroundColor: animation.value,
@@ -92,11 +95,24 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           );
         });
       } else {
-        Provider.of<ItemController>(context, listen: false).getItems();
-        Provider.of<ItemOffersController>(context, listen: false).getAllOffers();
-        Provider.of<ChatController>(context, listen: false).getUserConversations();
-        setState(() {
-          home = TabsScreen();
+        Provider.of<UserController>(context, listen: false)
+            .checkBan(user.uid)
+            .then((value) {
+          if (!Provider.of<UserController>(context, listen: false).isbanned) {
+            print("d7kkkkkkkkkkkkkkkk");
+            Provider.of<ItemController>(context, listen: false).getItems();
+            Provider.of<ItemOffersController>(context, listen: false)
+                .getAllOffers();
+            Provider.of<ChatController>(context, listen: false)
+                .getUserConversations();
+            setState(() {
+              home = TabsScreen();
+            });
+          } else {
+            setState(() {
+              home = BannedScreen();
+            });
+          }
         });
       }
     }
