@@ -5,7 +5,7 @@ class NotificationModel{
   String docId;
   String userTo;
   String userFrom;
-  String content;
+  List<String> content;
   Timestamp date;
   bool isSeen;
   String type;

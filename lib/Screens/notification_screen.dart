@@ -7,17 +7,37 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as os;
 
 // ignore: must_be_immutable
-class NotifivationScreen extends StatelessWidget {
+class NotifivationScreen extends StatefulWidget {
   static const String route = "NotifivationScreen";
+
+  @override
+  _NotifivationScreenState createState() => _NotifivationScreenState();
+}
+
+class _NotifivationScreenState extends State<NotifivationScreen> {
   List<NotificationModel> notifications = [];
+
   @override
   Widget build(BuildContext context) {
     notifications = Provider.of<NotificationContoller>(context, listen: false)
         .notifications;
-    print("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-    print(notifications[0].date);
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+       Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: IconButton(
+           icon: Icon(Icons.delete ),
+          color:Colors. black,
+          onPressed: () async {
+            await Provider.of<NotificationContoller>(context,listen: false).deleteAllNotifications().then((value) {
+              setState(() {
+            });
+            });
+          },
+      ),
+       ),
+  ],
         title: Text(
           "الإشعارات",
           style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
@@ -49,23 +69,31 @@ class NotifivationScreen extends StatelessWidget {
                   }
                 },
                 child: Container(
-                  height: 100,
+                  height: 150,
                   child: Card(
                       shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.blue[400], width: 2.0),
                           borderRadius: BorderRadius.circular(20.0)),
-                      child: ListTile(
-                        title: Directionality(
+                      elevation: 7,
+                      child: Column(children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          notifications[index].content[0],
+                        ),
+                        Directionality(
                           textDirection: TextDirection.rtl,
                           child: Text(
-                            notifications[index].content,
+                            notifications[index].content[1],
                           ),
                         ),
-                        trailing: Text(os.DateFormat.yMMMd()
+                        Text(
+                            notifications[index].content[2],
+                          ),
+                        Text(os.DateFormat.yMMMd()
                             .add_Hm()
                             .format(notifications[index].date.toDate())),
-                      )),
-                  // ),
+                      ])),
                 ),
               );
             }),

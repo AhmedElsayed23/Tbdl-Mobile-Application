@@ -7,6 +7,10 @@ class NotificationContoller with ChangeNotifier {
   var firestoreInstance = FirebaseFirestore.instance;
   List<NotificationModel> notifications = [];
 
+  int itemsCount() {
+    return notifications.length == 0 ? 0 : notifications.length;
+  }
+
   Future<void> addNotification(NotificationModel notification) async {
     try {
       FirebaseFirestore.instance
@@ -35,6 +39,7 @@ class NotificationContoller with ChangeNotifier {
 
   Future<void> getNotifications() async {
     List<NotificationModel> temp = [];
+    print('sssssssssssssssssssssssss');
     try {
       var firebaseUser = FirebaseAuth.instance.currentUser;
       QuerySnapshot snapshot = await firestoreInstance
@@ -43,12 +48,13 @@ class NotificationContoller with ChangeNotifier {
           .collection('Notify')
           .get();
       snapshot.docs.forEach((element) {
+            print('qqqqqqqqqqqqqqqqqqqqqqqqq');
         temp.add(NotificationModel(
-            docId: element["docId"],
+            docId: element.reference.id,
             type: element['type'],
             userFrom: element['userFrom'],
             userTo: firebaseUser.uid,
-            content: element['content'],
+            content: List<String>.from(element['content']),
             date: element['date'],
             isSeen: element['isSeen']));
       });
@@ -78,6 +84,7 @@ class NotificationContoller with ChangeNotifier {
       print(e.toString());
     }
     notifications.clear();
+    notifyListeners();
   }
 
   Future<void> seenUpdate(String docID) async {
@@ -92,7 +99,11 @@ class NotificationContoller with ChangeNotifier {
         {
           'isSeen': true,
         },
-      );
+      ).then((value) {
+        int index=notifications.indexWhere((element) => element.docId==docID);
+        notifications[index].isSeen=true;
+        notifyListeners();
+      });
     } catch (e) {
       print(e);
     }

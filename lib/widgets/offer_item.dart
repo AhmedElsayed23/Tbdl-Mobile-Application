@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,19 +34,7 @@ class _OfferItemState extends State<OfferItem> {
           color: Theme.of(context).primaryColor);
     } else {
       isChecked = true;
-      String user =
-          Provider.of<UserController>(context, listen: false).defaultUser.name;
-      String content =
-           " "+ user + " من المستخدم" + " " + widget.item.title + " هناك عرض مقدم على منتج";
-      Provider.of<NotificationContoller>(context, listen: false)
-          .addNotification(NotificationModel(
-        type: "offer",
-        date: Timestamp.now(),
-        isSeen: false,
-        userFrom: FirebaseAuth.instance.currentUser.uid,
-        userTo: widget.item.itemOwner,
-        content: content,
-      ));
+
       return Icon(Icons.check_box, color: Theme.of(context).primaryColor);
     }
   }
@@ -90,6 +77,32 @@ class _OfferItemState extends State<OfferItem> {
                     child: IconButton(
                       icon: check(),
                       onPressed: () async {
+                        print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+                          print(isChecked);
+                        if (!isChecked) {
+                          print("ssssssssssssssssssssssssssssssssssss");
+                          print(isChecked);
+                          String user = Provider.of<UserController>(context,
+                                  listen: false)
+                              .defaultUser
+                              .name;
+                          List<String> content = [];
+                          content.add(user) ;
+                          content.add(' قام بتقديم عرض لمنتج');
+                          content.add( widget.item.title);
+
+                          await Provider.of<NotificationContoller>(context,
+                                  listen: false)
+                              .addNotification(NotificationModel(
+                            type: "offer",
+                            date: Timestamp.now(),
+                            isSeen: false,
+                            userFrom: FirebaseAuth.instance.currentUser.uid,
+                            userTo: widget.item.itemOwner,
+                            content: content,
+                          ));
+                        }
+
                         await Provider.of<ItemOffersController>(context,
                                 listen: false)
                             .modifyOffer(

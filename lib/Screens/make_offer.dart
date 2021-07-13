@@ -19,7 +19,7 @@ class _MakeOfferState extends State<MakeOffer> {
   bool isLoading = true;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async{
     if (isInit) {
       setState(() {
         isLoading = true;
@@ -37,7 +37,7 @@ class _MakeOfferState extends State<MakeOffer> {
   Widget build(BuildContext context) {
     Item item = ModalRoute.of(context).settings.arguments;
 
-    List<Item> myOffers = Provider.of<ItemController>(context).userItems;
+    List<Item> myOffers = Provider.of<ItemController>(context,listen: false).userItems;
 
     return Scaffold(
       appBar: AppBar(

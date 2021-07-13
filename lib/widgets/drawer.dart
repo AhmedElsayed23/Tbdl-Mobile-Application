@@ -2,13 +2,23 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Screens/notification_screen.dart';
+import 'package:gp_version_01/Screens/recommend_screen.dart';
+import 'package:provider/provider.dart';
 
-class DrawerItem extends StatelessWidget {
+import 'badge.dart';
+
+class DrawerItem extends StatefulWidget {
   const DrawerItem({
     Key key,
   }) : super(key: key);
 
+  @override
+  _DrawerItemState createState() => _DrawerItemState();
+}
+
+class _DrawerItemState extends State<DrawerItem> {
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -58,11 +68,7 @@ class DrawerItem extends StatelessWidget {
                       textAlign: TextAlign.right,
                     ),
                     onTap: () async {
-                      await FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.of(context).pushReplacementNamed(
-                            '/');
-                      });
-                      // Navigator.of(context).pushReplacementNamed('/');
+                      Navigator.pushNamed(context, Recommend.route);
                     },
                   ),
                   Divider(
@@ -73,39 +79,22 @@ class DrawerItem extends StatelessWidget {
                     endIndent: 15,
                   ),
                   ListTile(
-                    trailing: Icon(
-                      Icons.notifications,
-                      color: Colors.black,
-                      size: 30,
+                    trailing: Consumer<NotificationContoller>(
+                      builder: (context, value, child) => Badge(
+                          child: child, value: value.itemsCount().toString()),
+                      child: Icon(
+                        Icons.notifications,
+                        color: Colors.black,
+                      ),
                     ),
                     title: Text(
                       "اشعارات",
-                      // style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.right,
                     ),
                     onTap: () {
+                      setState(() {});
                       Navigator.pushNamed(context, NotifivationScreen.route);
                     },
-                  ),
-                  Divider(
-                    height: 10,
-                    thickness: 2,
-                    indent: 20,
-                    endIndent: 15,
-                    color: Colors.black,
-                  ),
-                  ListTile(
-                    trailing: Icon(
-                      Icons.settings,
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                    title: Text(
-                      "الضبط",
-                      // style: TextStyle(color: Colors.black, fontSize: 20),
-                      textAlign: TextAlign.right,
-                    ),
-                    onTap: () {},
                   ),
                   Divider(
                     height: 10,
@@ -122,13 +111,13 @@ class DrawerItem extends StatelessWidget {
                     ),
                     title: Text(
                       "تسجيل خروج",
-                      // style: TextStyle(
-                      //   color: Colors.black,
-                      //   fontSize: 20,
-                      // ),
                       textAlign: TextAlign.right,
                     ),
-                    onTap: () {},
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.of(context).pushReplacementNamed('/');
+                      });
+                    },
                   ),
                 ],
               ),
