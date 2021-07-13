@@ -8,6 +8,8 @@ class UserController with ChangeNotifier {
   UserModel defaultUser;
   String otherUserPhone;
   String otherUserName;
+  bool isbanned = false;
+  DateTime bannedDate;
 
   Future<void> addUser(UserModel user) async {
     defaultUser = user;
@@ -17,9 +19,7 @@ class UserController with ChangeNotifier {
           'name': user.name,
           'phone': user.phone,
           'location': user.location,
-          'isBanned': user.isBanned,
           'banScore': user.banScore,
-          'banDate': user.banDate,
           'favCategory': user.favCategory,
         },
       ).then((value) => notifyListeners());
@@ -28,7 +28,7 @@ class UserController with ChangeNotifier {
     }
   }
 
-  Future<void> updaeUser(UserModel user, String email, String pass) async {
+  Future<void> updateUser(UserModel user, String email, String pass) async {
     defaultUser = user;
     try {
       FirebaseAuth.instance.currentUser.updateEmail(email);
@@ -38,7 +38,6 @@ class UserController with ChangeNotifier {
           'name': user.name,
           'phone': user.phone,
           'location': user.location,
-          'favCategory': user.favCategory,
         },
       ).then((value) => notifyListeners());
     } catch (e) {
@@ -56,10 +55,8 @@ class UserController with ChangeNotifier {
           .then((value) {
         user = new UserModel(
             id: itemOwner,
-            banDate: value['banDate'],
             banScore: value['banScore'],
             favCategory: List<String>.from(value['favCategory']),
-            isBanned: value['isBanned'],
             location: List<String>.from(value['location']),
             name: value['name'],
             phone: value['phone']);
@@ -80,10 +77,8 @@ class UserController with ChangeNotifier {
           .get()
           .then((value) {
         defaultUser.id = firebaseUser.uid;
-        defaultUser.banDate = value['banDate'];
         defaultUser.banScore = value['banScore'];
         defaultUser.favCategory = value['favCategory'];
-        defaultUser.isBanned = value['isBanned'];
         defaultUser.location = value['location'];
         defaultUser.phone = value['phone'];
         defaultUser.name = value['name'];
@@ -113,22 +108,47 @@ class UserController with ChangeNotifier {
     user.banScore += baneScore;
     print(user.banScore);
     if (user.banScore >= 200) {
+      DateTime temp = Timestamp.now().toDate().add(Duration(days: 1));
+      Timestamp banDate = Timestamp.fromDate(temp);
+      FirebaseFirestore.instance.collection("User").doc(user.id).update(
+        {
+          'banScore': 0,
+        },
+      );
       FirebaseFirestore.instance
           .collection("blacklist")
           .doc(user.id)
-          .set({"blacklisted_at": Timestamp.now()});
+          .set({"blacklisted_at": banDate});
     } else {
-      FirebaseFirestore.instance.collection("User").doc(user.id).set(
+      print(user.banScore);
+      FirebaseFirestore.instance.collection("User").doc(user.id).update(
         {
-          'name': user.name,
-          'phone': user.phone,
-          'location': user.location,
-          'isBanned': user.isBanned,
           'banScore': user.banScore,
-          'banDate': user.banDate,
-          'favCategory': user.favCategory,
         },
       );
     }
+  }
+
+  Future<void> checkBan(String userId) async {
+    bool temp = false;
+    Timestamp banDate;
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('blacklist').get();
+      snapshot.docs.forEach((element) {
+        if (element.reference.id == userId) {
+          banDate = element['blacklisted_at'];
+          if (Timestamp.now().toDate().isAfter(banDate.toDate())) {
+            temp = false;
+          } else {
+            temp = true;
+            bannedDate = banDate.toDate();
+          }
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+    isbanned = temp;
   }
 }
