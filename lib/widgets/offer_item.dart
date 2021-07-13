@@ -1,7 +1,13 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/item.dart';
+import 'package:gp_version_01/models/notificationModel.dart';
 import 'package:provider/provider.dart';
 
 class OfferItem extends StatefulWidget {
@@ -29,6 +35,19 @@ class _OfferItemState extends State<OfferItem> {
           color: Theme.of(context).primaryColor);
     } else {
       isChecked = true;
+      String user =
+          Provider.of<UserController>(context, listen: false).defaultUser.name;
+      String content =
+           " "+ user + " من المستخدم" + " " + widget.item.title + " هناك عرض مقدم على منتج";
+      Provider.of<NotificationContoller>(context, listen: false)
+          .addNotification(NotificationModel(
+        type: "offer",
+        date: Timestamp.now(),
+        isSeen: false,
+        userFrom: FirebaseAuth.instance.currentUser.uid,
+        userTo: widget.item.itemOwner,
+        content: content,
+      ));
       return Icon(Icons.check_box, color: Theme.of(context).primaryColor);
     }
   }
@@ -77,7 +96,9 @@ class _OfferItemState extends State<OfferItem> {
                                 widget.offer.id,
                                 widget.item.id,
                                 isChecked,
-                                Provider.of<ItemController>(context, listen: false).items);
+                                Provider.of<ItemController>(context,
+                                        listen: false)
+                                    .items);
                       },
                     ),
                   ),

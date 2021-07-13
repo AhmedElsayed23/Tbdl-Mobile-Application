@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/banned_screen.dart';
@@ -99,7 +100,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             .checkBan(user.uid)
             .then((value) {
           if (!Provider.of<UserController>(context, listen: false).isbanned) {
-            print("d7kkkkkkkkkkkkkkkk");
+            Provider.of<NotificationContoller>(context, listen: false)
+                .getNotifications();
+            Provider.of<UserController>(context, listen: false).getUser();
             Provider.of<ItemController>(context, listen: false).getItems();
             Provider.of<ItemOffersController>(context, listen: false)
                 .getAllOffers();

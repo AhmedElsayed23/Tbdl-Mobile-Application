@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as os;
 
 class ChatsUsersScreen extends StatefulWidget {
+  static const String route = '/ChatsUsersScreen';
   @override
   _ChatsUsersScreenState createState() => _ChatsUsersScreenState();
 }

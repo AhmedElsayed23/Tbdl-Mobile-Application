@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     Provider.of<UserController>(context).getUser().then((_) {
-      user = Provider.of<UserController>(context).defaultUser;
+      user = Provider.of<UserController>(context, listen: false).defaultUser;
     });
     isInit = false;
     super.didChangeDependencies();
@@ -118,8 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 endDrawer: DrawerItem(
-                  name: user.name,
-                  phone: user.phone,
+                  // name: user.name,
+                  // phone: user.phone,
                 ),
                 appBar: AppBar(
                   title: TextFieldSearch(items, false),

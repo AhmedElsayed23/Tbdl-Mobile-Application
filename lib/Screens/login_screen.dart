@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/banned_screen.dart';
@@ -115,6 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (!Provider.of<UserController>(context,
                                   listen: false)
                               .isbanned) {
+                            Provider.of<NotificationContoller>(context,
+                                    listen: false)
+                                .getNotifications();
+                            Provider.of<UserController>(context, listen: false)
+                                .getUser();
                             Provider.of<ItemOffersController>(context,
                                     listen: false)
                                 .getAllOffers();

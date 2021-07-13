@@ -76,12 +76,13 @@ class UserController with ChangeNotifier {
           .doc(firebaseUser.uid)
           .get()
           .then((value) {
-        defaultUser.id = firebaseUser.uid;
-        defaultUser.banScore = value['banScore'];
-        defaultUser.favCategory = value['favCategory'];
-        defaultUser.location = value['location'];
-        defaultUser.phone = value['phone'];
-        defaultUser.name = value['name'];
+        defaultUser = UserModel(
+            id: firebaseUser.uid,
+            banScore: value['banScore'],
+            favCategory: List<String>.from(value['favCategory']),
+            location: List<String>.from(value['location']),
+            name: value['name'],
+            phone: value['phone']);
       });
     } catch (e) {
       print(e);

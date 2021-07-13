@@ -1,11 +1,14 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/banned_screen.dart';
+import 'package:gp_version_01/Screens/chatsUsers_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
 import 'package:gp_version_01/Screens/formSkeleton_screen.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
@@ -13,6 +16,7 @@ import 'package:gp_version_01/Screens/home_screen.dart';
 import 'package:gp_version_01/Screens/login_screen.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
+import 'package:gp_version_01/Screens/notification_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/search_results_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
@@ -21,7 +25,6 @@ import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
 import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/Screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
-
 import 'Screens/AllCategories_screen.dart';
 import 'Screens/ChatDetailPage.dart';
 import 'Screens/chooseCategory_screen.dart';
@@ -53,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ItemOffersController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationContoller(),
         ),
         ChangeNotifierProvider(
           create: (context) => ChatController(),
@@ -96,6 +102,8 @@ class MyApp extends StatelessWidget {
           ViewOfferScreen.route: (context) => ViewOfferScreen(),
           SearchResults.route: (context) => SearchResults(),
           BannedScreen.route: (context) => BannedScreen(),
+          ChatsUsersScreen.route: (context) => ChatsUsersScreen(),
+          NotifivationScreen.route: (context) => NotifivationScreen(),
         },
       ),
     );

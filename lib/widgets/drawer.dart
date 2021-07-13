@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Screens/notification_screen.dart';
 
 class DrawerItem extends StatelessWidget {
   const DrawerItem({
@@ -73,16 +74,18 @@ class DrawerItem extends StatelessWidget {
                   ),
                   ListTile(
                     trailing: Icon(
-                      Icons.favorite,
+                      Icons.notifications,
                       color: Colors.black,
                       size: 30,
                     ),
                     title: Text(
-                      "مفضلتي",
+                      "اشعارات",
                       // style: TextStyle(color: Colors.black, fontSize: 20),
                       textAlign: TextAlign.right,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, NotifivationScreen.route);
+                    },
                   ),
                   Divider(
                     height: 10,
