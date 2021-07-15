@@ -19,22 +19,25 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   bool flag = true;
   String name;
   String currentU = FirebaseAuth.instance.currentUser.uid;
+  bool isNotifiy = false;
 
-  List<ChatUsers> chatUsers=[];
+  List<ChatUsers> chatUsers = [];
 
   bool check = true;
   @override
   void didChangeDependencies() {
     if (check) {
-      Provider.of<ChatController>(context, listen: false).qq();
+      String Notifiy = ModalRoute.of(context).settings.arguments as String;
+      if (Notifiy == "Notifiy") {
+        isNotifiy = true;
+      }
       Provider.of<ChatController>(context, listen: false)
           .getUserConvMessages()
           .then((value) {
         print(
             'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
-        chatUsers =
-            Provider.of<ChatController>(context, listen: false)
-                .userConversations;
+        chatUsers = Provider.of<ChatController>(context, listen: false)
+            .userConversations;
         for (var chat in chatUsers) {
           if (chat.messages.isEmpty) {
             print("dknksdk");
@@ -172,11 +175,15 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return WillPopScope(
       onWillPop: () async {
-        showAlertDialog(context);
-        return isLeave;
+        if (isNotifiy) {
+          Navigator.of(context).pop();
+          return true;
+        } else {
+          showAlertDialog(context);
+          return isLeave;
+        }
       },
       child: Scaffold(
         body: SingleChildScrollView(

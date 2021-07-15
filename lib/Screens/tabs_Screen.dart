@@ -4,14 +4,15 @@ import 'package:gp_version_01/Screens/home_screen.dart';
 import 'formSkeleton_screen.dart';
 
 class TabsScreen extends StatefulWidget {
-  static const String route = "tabs"; 
+  int pageIndex = 2;
+  TabsScreen({@required this.pageIndex});
+  static const String route = "tabs";
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
   List<Map<String, Object>> pages;
-  int pageIndex = 2;
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
   void select(int index) {
     setState(() {
-      pageIndex = index;
+      widget.pageIndex = index;
     });
   }
 
@@ -35,8 +36,9 @@ class _TabsScreenState extends State<TabsScreen> {
       bottomNavigationBar: SizedBox(
         height: 65,
         child: BottomNavigationBar(
-            selectedItemColor: Colors.blue[400],
-            currentIndex: pageIndex,
+            unselectedItemColor: Colors.black54,
+            selectedItemColor: Theme.of(context).accentColor,
+            currentIndex: widget.pageIndex,
             onTap: select,
             items: [
               BottomNavigationBarItem(
@@ -53,7 +55,7 @@ class _TabsScreenState extends State<TabsScreen> {
               ),
             ]),
       ),
-      body: pages[pageIndex]['page'],
+      body: pages[widget.pageIndex]['page'],
     );
   }
 }

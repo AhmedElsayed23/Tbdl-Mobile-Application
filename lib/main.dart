@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
@@ -17,6 +16,7 @@ import 'package:gp_version_01/Screens/login_screen.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
 import 'package:gp_version_01/Screens/notification_screen.dart';
+import 'package:gp_version_01/Screens/offeringItems_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/search_results_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
           AllCategories.route: (context) => AllCategories(),
           LoginScreen.route: (context) => LoginScreen(),
           RegistrationScreen.route: (context) => RegistrationScreen(),
-          TabsScreen.route: (context) => TabsScreen(),
+          TabsScreen.route: (context) => TabsScreen(pageIndex: 2,),
           UserProductDetailsScreen.route: (context) =>
               UserProductDetailsScreen(),
           ViewOfferScreen.route: (context) => ViewOfferScreen(),
@@ -104,6 +104,7 @@ class MyApp extends StatelessWidget {
           BannedScreen.route: (context) => BannedScreen(),
           ChatsUsersScreen.route: (context) => ChatsUsersScreen(),
           NotificationScreen.route: (context) => NotificationScreen(),
+          OfferingItemsScreen.route: (context) => OfferingItemsScreen(),
         },
       ),
     );

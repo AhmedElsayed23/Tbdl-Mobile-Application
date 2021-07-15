@@ -104,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     Provider.of<ItemController>(context).getUserHomeItems();
     final items = Provider.of<ItemController>(context).userHomeItems;
     return DefaultTabController(
@@ -126,9 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  toolbarHeight: 100,
-                  leading:
-                      IconButton(icon: Icon(Icons.search), onPressed: () {}),
+                  toolbarHeight: queryData.size.height * 0.1,
+                  leading: Icon(Icons.search),
                   bottom: PreferredSize(
                     preferredSize: Size(0, 10),
                     child: Container(
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Icon(
                                         Icons.category_outlined,
                                         color: Colors.blue[400],
-                                        size: 40,
+                                        size: queryData.size.height * 0.05,
                                       )),
                                   // ignore: deprecated_member_use
                                   FlatButton(
@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Icon(
                                         Icons.favorite_border_outlined,
                                         color: Colors.blue[400],
-                                        size: 40,
+                                        size: queryData.size.height * 0.05,
                                       )),
                                   // ignore: deprecated_member_use
                                   FlatButton(
@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Icon(
                                         Icons.recommend,
                                         color: Colors.blue[400],
-                                        size: 40,
+                                        size: queryData.size.height * 0.05,
                                       )),
                                   // ignore: deprecated_member_use
                                   FlatButton(
@@ -284,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Icon(
                                         Icons.business_center_outlined,
                                         color: Colors.blue[400],
-                                        size: 40,
+                                        size: queryData.size.height * 0.05,
                                       )),
                                 ],
                               ),

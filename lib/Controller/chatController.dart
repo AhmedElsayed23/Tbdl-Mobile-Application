@@ -12,12 +12,6 @@ class ChatController with ChangeNotifier {
   String otherName;
   String documentId;
   List<ChatUsers> tempList = [];
-  List<ChatUsers> ww = [];
-
-  void qq(){
-    ww=tempList;
-    //tempList=[];
-  }
 
   Future<void> getUserChat(String userId) async {
     String currentUserIsSender =
@@ -82,12 +76,12 @@ class ChatController with ChangeNotifier {
   Future<void> getUserConvMessages() async {
     List<ChatMessage> messages = [];
     print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq10");
-    print(ww.length);
-    for (int i = 0; i < ww.length; i++) {
+
+    for (int i = 0; i < tempList.length; i++) {
       print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq5");
       QuerySnapshot snapshot2 = await firestoreInstance
           .collection('Chat')
-          .doc(ww[i].docId)
+          .doc(tempList[i].docId)
           .collection('Message')
           .get();
       snapshot2.docs.forEach((element2) {
@@ -99,13 +93,13 @@ class ChatController with ChangeNotifier {
         print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
       });
       print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
-      ww[i].messages = messages;
+      tempList[i].messages = messages;
       print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
       print(messages);
       messages = [];
     }
 
-    userConversations = ww;
+    userConversations = tempList;
     print(userConversations.length);
   }
 

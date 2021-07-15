@@ -221,4 +221,21 @@ class ItemOffersController with ChangeNotifier {
     }
     return null;
   }
+
+  List<String> getOfferingItems(List<Item> userItems){
+    List<String> offeringItems = [];
+    for(int i=0; i < itemOffers.length; i++){
+      List<String> upOffers = itemOffers[i].upcomingOffers;
+      for(int j=0; j < upOffers.length; j++){
+        for(int k=0; k < userItems.length; k++){
+          if(userItems[k].id == upOffers[j]){
+            offeringItems.add(itemOffers[i].itemId);
+            k = userItems.length;
+            j = upOffers.length;
+          }
+        }
+      }
+    }
+    return offeringItems;
+  }
 }

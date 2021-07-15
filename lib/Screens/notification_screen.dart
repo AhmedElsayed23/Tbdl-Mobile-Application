@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Screens/chatsUsers_screen.dart';
 import 'package:gp_version_01/Screens/myProducts_screen.dart';
+import 'package:gp_version_01/Screens/offeringItems_screen.dart';
 import 'package:gp_version_01/models/notificationModel.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as os;
@@ -33,18 +34,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
               icon: Icon(Icons.delete),
               color: Colors.black,
               onPressed: () async {
-                if(temp == 'notify'){
-                await Provider.of<NotificationContoller>(context, listen: false)
-                    .deleteAllNotifications()
-                    .then((value) {
-                  setState(() {});
-                });
-                }else{
-                  await Provider.of<NotificationContoller>(context, listen: false)
-                    .deleteAllChatNotifications()
-                    .then((value) {
-                  setState(() {});
-                });
+                if (temp == 'notify') {
+                  await Provider.of<NotificationContoller>(context,
+                          listen: false)
+                      .deleteAllNotifications()
+                      .then((value) {
+                    setState(() {});
+                  });
+                } else {
+                  await Provider.of<NotificationContoller>(context,
+                          listen: false)
+                      .deleteAllChatNotifications()
+                      .then((value) {
+                    setState(() {});
+                  });
                 }
               },
             ),
@@ -67,17 +70,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
               return InkWell(
                 onTap: () {
                   if (notifications[index].type == "offer") {
-                    Provider.of<NotificationContoller>(context, listen: false)
-                        .seenUpdate(notifications[index].docId)
-                        .then((value) =>
-                            Navigator.pushNamed(context, MyProducts.route));
+                    Navigator.pushNamed(context, MyProducts.route);
                   } else if (notifications[index].type == "chat") {
-                    Provider.of<NotificationContoller>(context, listen: false)
-                        .seenUpdate(notifications[index].docId)
-                        .then((value) => Navigator.pushNamed(
-                              context,
-                              ChatsUsersScreen.route,
-                            ));
+                    Navigator.pushNamed(context, ChatsUsersScreen.route,
+                        arguments: "Notifiy");
+                  } else if (notifications[index].type == "acceptOffer") {
+                    Navigator.pushNamed(context, OfferingItemsScreen.route);
+                  } else if (notifications[index].type == "rejectOffer") {
+                    Navigator.pushNamed(context, OfferingItemsScreen.route);
                   }
                 },
                 child: Container(

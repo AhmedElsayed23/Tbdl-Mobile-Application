@@ -19,16 +19,14 @@ class Badge extends StatelessWidget {
       children: [
         child,
         Positioned(
-          bottom: 4,
+          bottom: 8,
           left: 14,
-          
           child: Container(
             padding: EdgeInsets.all(2.0),
-            
             child: Text(
               value,
               style: TextStyle(
-                fontWeight: FontWeight.bold ,
+                fontWeight: FontWeight.bold,
                 color: Colors.red,
                 fontSize: 12,
               ),

@@ -5,6 +5,7 @@ import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/models/notificationModel.dart';
 import 'package:provider/provider.dart';
@@ -38,10 +39,20 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       if (check) {
         user = args['obj'];
         name = user.tempName;
+        String id = (FirebaseAuth.instance.currentUser.uid == user.senderId)
+            ? user.receiverId
+            : user.senderId;
+        Provider.of<NotificationContoller>(context)
+            .deleteChatNotifitication(id);
       } else {
         name =
             Provider.of<UserController>(context, listen: false).otherUserName;
         user = Provider.of<ChatController>(context, listen: false).chatUser;
+        String id = (FirebaseAuth.instance.currentUser.uid == user.senderId)
+            ? user.receiverId
+            : user.senderId;
+        Provider.of<NotificationContoller>(context)
+            .deleteChatNotifitication(id);
       }
     }
     flag = false;
@@ -101,6 +112,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   IconButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TabsScreen(
+                                  pageIndex: 0,
+                                )),
+                      );
                     },
                     icon: Icon(
                       Icons.arrow_forward,

@@ -106,31 +106,6 @@ class NotificationContoller with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> seenUpdate(String docID) async {
-    try {
-      var firebaseUser = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance
-          .collection("Notification")
-          .doc(firebaseUser.uid)
-          .collection('Notify')
-          .doc(docID)
-          .update(
-        {
-          'isSeen': true,
-        },
-      ).then((value) {
-        int index =
-            notifications.indexWhere((element) => element.docId == docID);
-        notifications[index].isSeen = true;
-        notifyListeners();
-      });
-    } catch (e) {
-      print(e);
-    }
-
-    int index = notifications.indexWhere((element) => element.docId == docID);
-    notifications[index].isSeen = true;
-  }
 
   Future<void> addChatNotification(NotificationModel notification) async {
     bool firstChat = false;

@@ -109,7 +109,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             Provider.of<ItemOffersController>(context, listen: false)
                 .getAllOffers();
             setState(() {
-              home = TabsScreen();
+              home = TabsScreen(pageIndex: 2,);
             });
           } else {
             setState(() {

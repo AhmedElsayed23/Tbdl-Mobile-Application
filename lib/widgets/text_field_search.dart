@@ -18,6 +18,7 @@ class TextFieldSearch extends StatefulWidget {
 class _TextFieldSearchState extends State<TextFieldSearch> {
   AutoCompleteTextField searchTextField;
   String searchedName;
+
   static List categories = [
     "موبايلات",
     "ملابس",
@@ -55,65 +56,79 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
   @override
   Widget build(BuildContext context) {
     GlobalKey key = new GlobalKey<AutoCompleteTextFieldState>();
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
     if (!widget._inSearchResultsScreen) {
       removeDupllicatesFromAutoComplete();
       fillAutoCompleteWithTitles();
     }
-    return Directionality(
-      textDirection: ui.TextDirection.rtl,
-      child: searchTextField = AutoCompleteTextField(
-        decoration: new InputDecoration(
-          labelText: searchedName == null ? null : searchedName,
-          hintText: "ابحث عن منتجات",
-        ),
-        onFocusChanged: (_) {},
-        clearOnSubmit: false,
-        submitOnSuggestionTap: true,
-        suggestionsAmount: 10,
-        key: key,
-        suggestions: categories,
-        textInputAction: TextInputAction.search,
-        textSubmitted: (searched) => setState(() {
-          searchTextField.textField.controller.text = searched;
-          _submitSearch(context, searched);
-          if (widget._inSearchResultsScreen) {
-            Navigator.pushReplacementNamed(context, SearchResults.route,
-                arguments: [searched, widget.items]);
-          } else {
-            Navigator.pushNamed(context, SearchResults.route,
-                arguments: [searched, widget.items]);
-          }
-        }),
-        itemBuilder: (context, suggestion) => Padding(
-            child: Row(
-              children: <Widget>[
-                // title:
-                Text(
-                  suggestion,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+    return Container(
+      width: queryData.size.width * 0.8,
+      height: queryData.size.height * 0.058,
+      child: Directionality(
+        textDirection: ui.TextDirection.rtl,
+        child: searchTextField = AutoCompleteTextField(
+          decoration: new InputDecoration(
+            contentPadding: EdgeInsets.all(20.0),
+            labelText: searchedName == null ? null : searchedName,
+            hintText: "ابحث عن منتجات",
+            border: new OutlineInputBorder(
+              gapPadding: 0.4,
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(20.0),
+              ),
             ),
-            padding: EdgeInsets.all(8.0)),
-        itemSubmitted: (searched) => setState(() {
-          searchTextField.textField.controller.text = searched;
-          _submitSearch(context, searched);
-          if (widget._inSearchResultsScreen) {
-            Navigator.pushReplacementNamed(context, SearchResults.route,
-                arguments: [searched, widget.items]);
-          } else {
-            Navigator.pushNamed(context, SearchResults.route,
-                arguments: [searched, widget.items]);
-          }
-        }),
-        itemSorter: (a, b) => a == b
-            ? 0
-            : a.length < b.length
-                ? -1
-                : 1,
-        itemFilter: (suggestion, input) =>
-            suggestion.toLowerCase().contains(input.toLowerCase()),
+            filled: true,
+          ),
+          onFocusChanged: (_) {},
+          clearOnSubmit: false,
+          submitOnSuggestionTap: true,
+          suggestionsAmount: 10,
+          key: key,
+          suggestions: categories,
+          textInputAction: TextInputAction.search,
+          textSubmitted: (searched) => setState(() {
+            searchTextField.textField.controller.text = searched;
+            _submitSearch(context, searched);
+            if (widget._inSearchResultsScreen) {
+              Navigator.pushReplacementNamed(context, SearchResults.route,
+                  arguments: [searched, widget.items]);
+            } else {
+              Navigator.pushNamed(context, SearchResults.route,
+                  arguments: [searched, widget.items]);
+            }
+          }),
+          itemBuilder: (context, suggestion) => Padding(
+              child: Row(
+                children: <Widget>[
+                  // title:
+                  Text(
+                    suggestion,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.all(8.0)),
+          itemSubmitted: (searched) => setState(() {
+            searchTextField.textField.controller.text = searched;
+            _submitSearch(context, searched);
+            if (widget._inSearchResultsScreen) {
+              Navigator.pushReplacementNamed(context, SearchResults.route,
+                  arguments: [searched, widget.items]);
+            } else {
+              Navigator.pushNamed(context, SearchResults.route,
+                  arguments: [searched, widget.items]);
+            }
+          }),
+          itemSorter: (a, b) => a == b
+              ? 0
+              : a.length < b.length
+                  ? -1
+                  : 1,
+          itemFilter: (suggestion, input) =>
+              suggestion.toLowerCase().contains(input.toLowerCase()),
+        ),
       ),
     );
   }

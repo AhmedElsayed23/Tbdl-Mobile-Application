@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Screens/notification_screen.dart';
+import 'package:gp_version_01/Screens/offeringItems_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -59,21 +60,21 @@ class _DrawerItemState extends State<DrawerItem> {
                   ),
                   ListTile(
                     trailing: Icon(
-                      Icons.library_books,
+                      Icons.library_books_outlined,
                       size: 30,
-                      color: Colors.black,
+                      color: Theme.of(context).accentColor,
                     ),
                     title: Text(
-                      "اقترحلي",
+                      "المنتجات التى تقدم لها عروض",
                       textAlign: TextAlign.right,
                     ),
                     onTap: () async {
-                      Navigator.pushNamed(context, Recommend.route);
+                      Navigator.pushNamed(context, OfferingItemsScreen.route);
                     },
                   ),
                   Divider(
                     height: 10,
-                    thickness: 2,
+                    thickness: 0.5,
                     indent: 20,
                     color: Colors.black,
                     endIndent: 15,
@@ -83,8 +84,8 @@ class _DrawerItemState extends State<DrawerItem> {
                       builder: (context, value, child) => Badge(
                           child: child, value: value.itemsCount().toString()),
                       child: Icon(
-                        Icons.notifications,
-                        color: Colors.black,
+                        Icons.notifications_none,
+                        color: Theme.of(context).accentColor,
                       ),
                     ),
                     title: Text(
@@ -93,12 +94,13 @@ class _DrawerItemState extends State<DrawerItem> {
                     ),
                     onTap: () {
                       setState(() {});
-                      Navigator.pushNamed(context, NotificationScreen.route,arguments: 'notify');
+                      Navigator.pushNamed(context, NotificationScreen.route,
+                          arguments: 'notify');
                     },
                   ),
                   Divider(
                     height: 10,
-                    thickness: 2,
+                    thickness: 0.5,
                     indent: 20,
                     endIndent: 15,
                     color: Colors.black,
@@ -108,8 +110,8 @@ class _DrawerItemState extends State<DrawerItem> {
                       builder: (context, value, child) => Badge(
                           child: child, value: value.chatCount().toString()),
                       child: Icon(
-                        Icons.notifications,
-                        color: Colors.black,
+                        Icons.notifications_none_outlined,
+                        color: Theme.of(context).accentColor,
                       ),
                     ),
                     title: Text(
@@ -118,12 +120,13 @@ class _DrawerItemState extends State<DrawerItem> {
                     ),
                     onTap: () {
                       setState(() {});
-                      Navigator.pushNamed(context, NotificationScreen.route,arguments: 'chat');
+                      Navigator.pushNamed(context, NotificationScreen.route,
+                          arguments: 'chat');
                     },
                   ),
                   Divider(
                     height: 10,
-                    thickness: 2,
+                    thickness: 0.5,
                     indent: 20,
                     endIndent: 15,
                     color: Colors.black,
@@ -131,7 +134,7 @@ class _DrawerItemState extends State<DrawerItem> {
                   ListTile(
                     trailing: Icon(
                       Icons.exit_to_app,
-                      color: Colors.black,
+                      color: Theme.of(context).accentColor,
                       size: 30,
                     ),
                     title: Text(
