@@ -102,12 +102,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           if (!Provider.of<UserController>(context, listen: false).isbanned) {
             Provider.of<NotificationContoller>(context, listen: false)
                 .getNotifications();
+                print('-------------------------------------------------------------------------');
+            Provider.of<ChatController>(context, listen: false).getUserConv();
             Provider.of<UserController>(context, listen: false).getUser();
             Provider.of<ItemController>(context, listen: false).getItems();
             Provider.of<ItemOffersController>(context, listen: false)
                 .getAllOffers();
-            Provider.of<ChatController>(context, listen: false)
-                .getUserConversations();
             setState(() {
               home = TabsScreen();
             });

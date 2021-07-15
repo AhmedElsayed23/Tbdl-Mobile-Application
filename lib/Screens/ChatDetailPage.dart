@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
+import 'package:gp_version_01/models/notificationModel.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as os;
 
@@ -159,13 +161,41 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                               'time': Timestamp.now(),
                             });
                           });
-
                           Provider.of<ChatController>(context, listen: false)
                               .addMessage(
                                   temp,
                                   messageText,
                                   FirebaseAuth.instance.currentUser.uid,
                                   Timestamp.now());
+                          List<String> content = [];
+                          content.add('لديك رسالة جديدة من المتسخدم');
+                          content.add(Provider.of<UserController>(context,
+                                  listen: false)
+                              .defaultUser
+                              .name);
+                          content.add(messageText);
+                          Provider.of<NotificationContoller>(context,
+                                  listen: false)
+                              .addChatNotification(
+                            NotificationModel(
+                                userTo:
+                                    (FirebaseAuth.instance.currentUser.uid ==
+                                            user.senderId)
+                                        ? user.receiverId
+                                        : user.senderId,
+                                type: 'chat',
+                                date: Timestamp.now(),
+                                isSeen: false,
+                                userFrom: FirebaseAuth.instance.currentUser.uid,
+                                content: content),
+                          );
+                          Provider.of<NotificationContoller>(context,
+                                  listen: false)
+                              .deleteChatNotifitication(
+                                  (FirebaseAuth.instance.currentUser.uid ==
+                                          user.senderId)
+                                      ? user.receiverId
+                                      : user.senderId);
                         }
                       } catch (e) {}
                     },

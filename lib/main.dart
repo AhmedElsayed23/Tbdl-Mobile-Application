@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
           SearchResults.route: (context) => SearchResults(),
           BannedScreen.route: (context) => BannedScreen(),
           ChatsUsersScreen.route: (context) => ChatsUsersScreen(),
-          NotifivationScreen.route: (context) => NotifivationScreen(),
+          NotificationScreen.route: (context) => NotificationScreen(),
         },
       ),
     );

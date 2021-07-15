@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/ChatDetailPage.dart';
 import 'package:gp_version_01/Screens/make_offer.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/itemOffer.dart';
+import 'package:gp_version_01/models/notificationModel.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 import 'package:gp_version_01/widgets/report_dialog.dart';
@@ -56,18 +59,33 @@ class _DetailsState extends State<Details> {
               Provider.of<ItemOffersController>(context, listen: false)
                   .getItemOffer(myItem);
           int lenghtOfOffers = itemOffer.upcomingOffers.length;
-
+          List<String> content = [];
+          content.add(Provider.of<UserController>(context, listen: false)
+              .defaultUser
+              .name);
+          content.add('رفض عرض تبديل المنتج الخاص به بمنتجك');
+          content.add(item.title);
           await Provider.of<ItemOffersController>(context, listen: false)
-              .deleteOffer(myItem, item);
-          if (lenghtOfOffers == 1) {
-            int count = 0;
-            Navigator.popUntil(context, (route) {
-              return count++ == 2;
-            });
-          } else {
-            itemOffer.upcomingOffers.remove(item.id);
-            Navigator.pop(context);
-          }
+              .deleteOffer(myItem, item)
+              .then((value) {
+            Provider.of<NotificationContoller>(context, listen: false)
+                .addNotification(NotificationModel(
+                    type: 'rejectOffer',
+                    date: Timestamp.now(),
+                    isSeen: false,
+                    content: content,
+                    userFrom: FirebaseAuth.instance.currentUser.uid,
+                    userTo: item.itemOwner));
+            if (lenghtOfOffers == 1) {
+              int count = 0;
+              Navigator.popUntil(context, (route) {
+                return count++ == 2;
+              });
+            } else {
+              itemOffer.upcomingOffers.remove(item.id);
+              Navigator.pop(context);
+            }
+          });
         }
         Navigator.of(context).pop();
       },
@@ -78,10 +96,25 @@ class _DetailsState extends State<Details> {
       child: Text("نعم"),
       onPressed: () async {
         Item myItem = args[2];
+        List<String> content = [];
+        content.add(Provider.of<UserController>(context, listen: false)
+            .defaultUser
+            .name);
+        content.add('قبل عرض تبديل المنتج الخاص به بمنتجك');
+        content.add(item.title);
         await Provider.of<ItemOffersController>(context, listen: false)
-            .acceptOffer(myItem, item);
-
-        Navigator.of(context).pop();
+            .acceptOffer(myItem, item)
+            .then((value) {
+          Provider.of<NotificationContoller>(context, listen: false)
+              .addNotification(NotificationModel(
+                  type: 'acceptOffer',
+                  date: Timestamp.now(),
+                  isSeen: false,
+                  content: content,
+                  userFrom: FirebaseAuth.instance.currentUser.uid,
+                  userTo: item.itemOwner));
+          Navigator.of(context).pop();
+        });
       },
     );
 

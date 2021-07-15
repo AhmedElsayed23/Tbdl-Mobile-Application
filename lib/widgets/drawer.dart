@@ -93,7 +93,32 @@ class _DrawerItemState extends State<DrawerItem> {
                     ),
                     onTap: () {
                       setState(() {});
-                      Navigator.pushNamed(context, NotifivationScreen.route);
+                      Navigator.pushNamed(context, NotificationScreen.route,arguments: 'notify');
+                    },
+                  ),
+                  Divider(
+                    height: 10,
+                    thickness: 2,
+                    indent: 20,
+                    endIndent: 15,
+                    color: Colors.black,
+                  ),
+                  ListTile(
+                    trailing: Consumer<NotificationContoller>(
+                      builder: (context, value, child) => Badge(
+                          child: child, value: value.chatCount().toString()),
+                      child: Icon(
+                        Icons.notifications,
+                        color: Colors.black,
+                      ),
+                    ),
+                    title: Text(
+                      "المراسلات",
+                      textAlign: TextAlign.right,
+                    ),
+                    onTap: () {
+                      setState(() {});
+                      Navigator.pushNamed(context, NotificationScreen.route,arguments: 'chat');
                     },
                   ),
                   Divider(

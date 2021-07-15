@@ -6,6 +6,7 @@ import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/banned_screen.dart';
+import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
@@ -119,15 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             Provider.of<NotificationContoller>(context,
                                     listen: false)
                                 .getNotifications();
+                                print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+                            Provider.of<ChatController>(context, listen: false)
+                                .getUserConv();
                             Provider.of<UserController>(context, listen: false)
                                 .getUser();
                             Provider.of<ItemOffersController>(context,
                                     listen: false)
                                 .getAllOffers();
-                            Provider.of<ChatController>(context, listen: false)
-                                .getUserConversations();
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/', (Route<dynamic> route) => false);
+                                TabsScreen.route, (Route<dynamic> route) => false);
                           } else {
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 BannedScreen.route,

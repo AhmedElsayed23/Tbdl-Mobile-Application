@@ -7,37 +7,49 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as os;
 
 // ignore: must_be_immutable
-class NotifivationScreen extends StatefulWidget {
+class NotificationScreen extends StatefulWidget {
   static const String route = "NotifivationScreen";
 
   @override
-  _NotifivationScreenState createState() => _NotifivationScreenState();
+  _NotificationScreenState createState() => _NotificationScreenState();
 }
 
-class _NotifivationScreenState extends State<NotifivationScreen> {
+class _NotificationScreenState extends State<NotificationScreen> {
   List<NotificationModel> notifications = [];
 
   @override
   Widget build(BuildContext context) {
-    notifications = Provider.of<NotificationContoller>(context, listen: false)
-        .notifications;
+    String temp = ModalRoute.of(context).settings.arguments;
+    notifications = (temp == 'notify')
+        ? Provider.of<NotificationContoller>(context, listen: false)
+            .notifications
+        : Provider.of<NotificationContoller>(context, listen: false).chat;
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-       Padding(
-         padding: const EdgeInsets.all(8.0),
-         child: IconButton(
-           icon: Icon(Icons.delete ),
-          color:Colors. black,
-          onPressed: () async {
-            await Provider.of<NotificationContoller>(context,listen: false).deleteAllNotifications().then((value) {
-              setState(() {
-            });
-            });
-          },
-      ),
-       ),
-  ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(Icons.delete),
+              color: Colors.black,
+              onPressed: () async {
+                if(temp == 'notify'){
+                await Provider.of<NotificationContoller>(context, listen: false)
+                    .deleteAllNotifications()
+                    .then((value) {
+                  setState(() {});
+                });
+                }else{
+                  await Provider.of<NotificationContoller>(context, listen: false)
+                    .deleteAllChatNotifications()
+                    .then((value) {
+                  setState(() {});
+                });
+                }
+              },
+            ),
+          ),
+        ],
         title: Text(
           "الإشعارات",
           style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
@@ -88,8 +100,8 @@ class _NotifivationScreenState extends State<NotifivationScreen> {
                           ),
                         ),
                         Text(
-                            notifications[index].content[2],
-                          ),
+                          notifications[index].content[2],
+                        ),
                         Text(os.DateFormat.yMMMd()
                             .add_Hm()
                             .format(notifications[index].date.toDate())),

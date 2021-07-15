@@ -20,7 +20,35 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   String name;
   String currentU = FirebaseAuth.instance.currentUser.uid;
 
-  List<ChatUsers> chatUsers;
+  List<ChatUsers> chatUsers=[];
+
+  bool check = true;
+  @override
+  void didChangeDependencies() {
+    if (check) {
+      Provider.of<ChatController>(context, listen: false).qq();
+      Provider.of<ChatController>(context, listen: false)
+          .getUserConvMessages()
+          .then((value) {
+        print(
+            'sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
+        chatUsers =
+            Provider.of<ChatController>(context, listen: false)
+                .userConversations;
+        for (var chat in chatUsers) {
+          if (chat.messages.isEmpty) {
+            print("dknksdk");
+            Provider.of<ChatController>(context, listen: false)
+                .deleteConvers(chat.docId);
+          }
+          chatUsers.removeWhere((element) => element.messages.isEmpty);
+        }
+        setState(() {});
+      });
+    }
+    check = false;
+    super.didChangeDependencies();
+  }
 
   void _showSheet(ChatUsers chatUser) {
     showModalBottomSheet(
@@ -144,18 +172,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<ChatUsers> chatUsers =
-        Provider.of<ChatController>(context, listen: false).userConversations;
-
-    for (var chat in chatUsers) {
-      if (chat.messages.isEmpty) {
-        print("dknksdk");
-        Provider.of<ChatController>(context, listen: false)
-            .deleteConvers(chat.docId);
-      }
-    }
-
-    chatUsers.removeWhere((element) => element.messages.isEmpty);
+    
     return WillPopScope(
       onWillPop: () async {
         showAlertDialog(context);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/itemOffer.dart';
@@ -36,9 +37,11 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
   @override
   Widget build(BuildContext context) {
     Item myItem = ModalRoute.of(context).settings.arguments;
-    ItemOffer myItemOffers = Provider.of<ItemOffersController>(context).getItemOffer(myItem);
+    ItemOffer myItemOffers =
+        Provider.of<ItemOffersController>(context).getItemOffer(myItem);
     List<String> offersIDs = myItemOffers.upcomingOffers;
-    List<Item> offersItems = Provider.of<ItemController>(context).getItemsByIds(offersIDs);
+    List<Item> offersItems =
+        Provider.of<ItemController>(context).getItemsByIds(offersIDs);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,9 +55,14 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
               itemCount: offersItems.length,
 
               itemBuilder: (BuildContext context, int index) => InkWell(
-                onTap: () => Navigator.pushNamed(
-                    context, Details.route,
-                    arguments: [offersItems[index], false, myItem]),
+                onTap: () async {
+                  await Provider.of<UserController>(context, listen: false)
+                      .getDetailsOfOtherUser(offersItems[index].itemOwner)
+                      .then((value) {
+                    Navigator.pushNamed(context, Details.route,
+                        arguments: [offersItems[index], false, myItem]);
+                  });
+                },
                 child: MyOfferItems(
                   offer: offersItems[index],
                 ),

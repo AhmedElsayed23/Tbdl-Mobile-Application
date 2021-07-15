@@ -11,6 +11,13 @@ class ChatController with ChangeNotifier {
   ChatUsers chatUser;
   String otherName;
   String documentId;
+  List<ChatUsers> tempList = [];
+  List<ChatUsers> ww = [];
+
+  void qq(){
+    ww=tempList;
+    //tempList=[];
+  }
 
   Future<void> getUserChat(String userId) async {
     String currentUserIsSender =
@@ -62,55 +69,25 @@ class ChatController with ChangeNotifier {
 
   Future<void> getUserName(String itemOwner) async {
     try {
-      await firestoreInstance
-          .collection("User")
-          .doc(itemOwner)
-          .get()
-          .then((value) {
-        otherName = value['name'];
-      });
+          await firestoreInstance.collection("User").doc(itemOwner).get().then((value) {
+      print('get usser naaaaaaaaaaaaaaaaaaaaaaaaaaaaaame');
+      otherName = value['name'];
+
+          });
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> getUserConversations() async {
-    String userID = FirebaseAuth.instance.currentUser.uid;
+  Future<void> getUserConvMessages() async {
     List<ChatMessage> messages = [];
-    List<ChatUsers> tempList = [];
-    ChatUsers temp = new ChatUsers(
-        senderId: "", receiverId: "", docId: "", lastText: "", messages: []);
-    QuerySnapshot snapshot = await firestoreInstance.collection('Chat').get();
-    snapshot.docs.forEach((element) async {
-      String str = element['fromId_toId'];
-      List<String> splitted = str.split('_');
-      if (splitted[0] == userID || splitted[1] == userID) {
-        if (splitted[0] == userID) {
-          await getUserName(splitted[1]).then((value) => temp = ChatUsers(
-              lastText: element['lastText'],
-              receiverId: splitted[1],
-              senderId: userID,
-              time: element['time'],
-              tempName: otherName,
-              docId: element.id));
-        } else {
-          await getUserName(splitted[0]).then((value) => temp = ChatUsers(
-              lastText: element['lastText'],
-              receiverId: userID,
-              senderId: splitted[0],
-              time: element['time'],
-              tempName: otherName,
-              docId: element.id));
-        }
-      }
-      temp.messages = [];
-      tempList.add(temp);
-    });
-
-    for (int i = 0; i < tempList.length; i++) {
+    print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq10");
+    print(ww.length);
+    for (int i = 0; i < ww.length; i++) {
+      print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq5");
       QuerySnapshot snapshot2 = await firestoreInstance
           .collection('Chat')
-          .doc(tempList[i].docId)
+          .doc(ww[i].docId)
           .collection('Message')
           .get();
       snapshot2.docs.forEach((element2) {
@@ -119,17 +96,77 @@ class ChatController with ChangeNotifier {
             senderId: element2['sender'],
             time: element2['time']));
         print(messages.length);
+        print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
       });
-      tempList[i].messages = messages;
+      print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+      ww[i].messages = messages;
+      print("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+      print(messages);
       messages = [];
     }
 
-    userConversations = tempList;
-    notifyListeners();
+    userConversations = ww;
+    print(userConversations.length);
+  }
+
+  Future<void> getUserConv() async {
+    tempList=[];
+    print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq1");
+    String userID = FirebaseAuth.instance.currentUser.uid;
+    ChatUsers temp = new ChatUsers(
+        senderId: "", receiverId: "", docId: "", lastText: "", messages: []);
+    QuerySnapshot snapshot = await firestoreInstance.collection('Chat').get();
+    snapshot.docs.forEach((element) {
+      print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq2");
+      String str = element['fromId_toId'];
+      List<String> splitted = str.split('_');
+      if (splitted[0] == userID || splitted[1] == userID) {
+        if (splitted[0] == userID) {
+          print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3");
+          getUserName(splitted[1]).then((value) {
+            temp = ChatUsers(
+                lastText: element['lastText'],
+                receiverId: splitted[1],
+                senderId: userID,
+                time: element['time'],
+                tempName: otherName,
+                docId: element.reference.id);
+            print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq7");
+            temp.messages = [];
+            tempList.add(temp);
+            print(tempList.length);
+            print(tempList[0].docId);
+          });
+        } else {
+          print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq4");
+          getUserName(splitted[0]).then((value) {
+            temp = ChatUsers(
+                lastText: element['lastText'],
+                receiverId: userID,
+                senderId: splitted[0],
+                time: element['time'],
+                tempName: otherName,
+                docId: element.reference.id);
+            print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+            print(temp.tempName);
+            print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq7");
+            temp.messages = [];
+            tempList.add(temp);
+            print(tempList.length);
+            print(tempList[0].docId);
+          });
+        }
+        print("qqqqqqqq3333333333333333333");
+      }
+      print("qqqqqqqq11111111111111");
+    });
+    print("qqqqqqqq00000000000000000");
   }
 
   Future<void> deleteConvers(String docId) async {
     try {
+      print(
+          '#########################################################################################');
       QuerySnapshot snapshot = await firestoreInstance
           .collection('Chat')
           .doc(docId)
