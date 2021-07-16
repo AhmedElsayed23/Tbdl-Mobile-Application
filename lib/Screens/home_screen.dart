@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -105,6 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
+    final _auth = FirebaseAuth.instance;
+    final user =
+        Provider.of<UserController>(context, listen: false).defaultUser;
     Provider.of<ItemController>(context).getUserHomeItems();
     final items = Provider.of<ItemController>(context).userHomeItems;
     return DefaultTabController(
@@ -119,8 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 endDrawer: DrawerItem(
-                  // name: user.name,
-                  // phone: user.phone,
+                  name: user.name,
+                  email: _auth.currentUser.email,
                 ),
                 appBar: AppBar(
                   title: TextFieldSearch(items, false),

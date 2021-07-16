@@ -6,6 +6,7 @@ import 'package:gp_version_01/Controller/modelController.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/SingleCategoryScreen.dart';
 import 'package:gp_version_01/Screens/banned_screen.dart';
 import 'package:gp_version_01/Screens/chatsUsers_screen.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
@@ -33,6 +34,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 
 import 'Screens/registration_screen.dart';
+import 'Screens/updateUserInfoScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -96,7 +98,9 @@ class MyApp extends StatelessWidget {
           AllCategories.route: (context) => AllCategories(),
           LoginScreen.route: (context) => LoginScreen(),
           RegistrationScreen.route: (context) => RegistrationScreen(),
-          TabsScreen.route: (context) => TabsScreen(pageIndex: 2,),
+          TabsScreen.route: (context) => TabsScreen(
+                pageIndex: 2,
+              ),
           UserProductDetailsScreen.route: (context) =>
               UserProductDetailsScreen(),
           ViewOfferScreen.route: (context) => ViewOfferScreen(),
@@ -105,6 +109,8 @@ class MyApp extends StatelessWidget {
           ChatsUsersScreen.route: (context) => ChatsUsersScreen(),
           NotificationScreen.route: (context) => NotificationScreen(),
           OfferingItemsScreen.route: (context) => OfferingItemsScreen(),
+          UpdateUserInfoScreen.route: (context) => UpdateUserInfoScreen(),
+          SingleCategoryScreen.route: (context) => SingleCategoryScreen(),
         },
       ),
     );

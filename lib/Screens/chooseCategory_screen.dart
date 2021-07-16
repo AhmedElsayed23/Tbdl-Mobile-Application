@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Screens/AllCategories_screen.dart';
+import 'package:gp_version_01/widgets/Grid.dart';
+import 'package:provider/provider.dart';
+
+import 'SingleCategoryScreen.dart';
 
 class ChooseCategoryScreen extends StatelessWidget {
   static const String route = "ChooseCategory";
@@ -113,6 +118,8 @@ class ChooseCategoryScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    Provider.of<ItemController>(context).getItems();
+    final items = Provider.of<ItemController>(context).items;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -134,29 +141,15 @@ class ChooseCategoryScreen extends StatelessWidget {
                   }),
               child: Container(
                 height: 100,
-                // decoration:
-                //     BoxDecoration(border: Border.all(color: Colors.blue[400])),
                 child: Card(
                     shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.blue[400], width: 2.0),
                         borderRadius: BorderRadius.circular(20.0)),
-                    child:
-                        // Container(
-                        //     decoration: BoxDecoration(
-                        //       gradient: LinearGradient(
-                        //         tileMode: TileMode.repeated,
-                        //         begin: Alignment.topRight,
-                        //         end: Alignment.bottomLeft,
-                        //         colors: <Color>[
-                        //           Colors.blue[200],
-                        //           Colors.blue[100],
-                        //           Colors.blue[100],
-                        //           Colors.blue[200],
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     child:
-                        ListTile(
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, SingleCategoryScreen.route,
+                            arguments: _categories.keys.elementAt(index));
+                      },
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

@@ -28,11 +28,11 @@ class UserController with ChangeNotifier {
     }
   }
 
-  Future<void> updateUser(UserModel user, String email, String pass) async {
-    defaultUser = user;
+  Future<void> updateUser(UserModel user) async {
+    //defaultUser = user;
     try {
-      FirebaseAuth.instance.currentUser.updateEmail(email);
-      FirebaseAuth.instance.currentUser.updatePassword(pass);
+      //FirebaseAuth.instance.currentUser.updateEmail(email);
+      //FirebaseAuth.instance.currentUser.updatePassword(pass);
       FirebaseFirestore.instance.collection("User").doc(user.id).update(
         {
           'name': user.name,

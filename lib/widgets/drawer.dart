@@ -6,13 +6,18 @@ import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Screens/notification_screen.dart';
 import 'package:gp_version_01/Screens/offeringItems_screen.dart';
 import 'package:gp_version_01/Screens/recommend_screen.dart';
+import 'package:gp_version_01/Screens/updateUserInfoScreen.dart';
 import 'package:provider/provider.dart';
 
 import 'badge.dart';
 
 class DrawerItem extends StatefulWidget {
+  final name;
+  final email;
   const DrawerItem({
     Key key,
+    this.name,
+    this.email,
   }) : super(key: key);
 
   @override
@@ -47,13 +52,16 @@ class _DrawerItemState extends State<DrawerItem> {
                   SizedBox(
                     height: 20,
                   ),
-                  CircleAvatar(
-                    radius: 40,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg?fbclid=IwAR2QDnBRbxwB02FnZi8KkwbrEluyuUxhhRSslqBvCcqEbaG60sfFK08jHSQ'),
-                      radius: 80,
-                    ),
+                  Text(
+                    "${widget.name}",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "${widget.email}",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   SizedBox(
                     height: 20,
@@ -127,6 +135,29 @@ class _DrawerItemState extends State<DrawerItem> {
                   Divider(
                     height: 10,
                     thickness: 0.5,
+                    indent: 20,
+                    endIndent: 15,
+                    color: Colors.black,
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.settings,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    title: Text(
+                      "الضبط",
+                      // style: TextStyle(color: Colors.black, fontSize: 20),
+                      textAlign: TextAlign.right,
+                    ),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(UpdateUserInfoScreen.route);
+                    },
+                  ),
+                  Divider(
+                    height: 10,
+                    thickness: 2,
                     indent: 20,
                     endIndent: 15,
                     color: Colors.black,
