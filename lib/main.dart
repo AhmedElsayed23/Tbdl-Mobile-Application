@@ -26,7 +26,6 @@ import 'package:gp_version_01/Screens/userProductDetails_screen.dart';
 import 'package:gp_version_01/Screens/view_offers.dart';
 import 'package:gp_version_01/Screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
-import 'Screens/AllCategories_screen.dart';
 import 'Screens/ChatDetailPage.dart';
 import 'Screens/chooseCategory_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,7 +94,6 @@ class MyApp extends StatelessWidget {
           MyProducts.route: (context) => MyProducts(),
           MakeOffer.route: (context) => MakeOffer(),
           ChatDetailPage.route: (context) => ChatDetailPage(),
-          AllCategories.route: (context) => AllCategories(),
           LoginScreen.route: (context) => LoginScreen(),
           RegistrationScreen.route: (context) => RegistrationScreen(),
           TabsScreen.route: (context) => TabsScreen(

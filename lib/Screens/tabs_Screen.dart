@@ -3,6 +3,7 @@ import 'package:gp_version_01/Screens/chatsUsers_screen.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
 import 'formSkeleton_screen.dart';
 
+// ignore: must_be_immutable
 class TabsScreen extends StatefulWidget {
   int pageIndex = 2;
   TabsScreen({@required this.pageIndex});

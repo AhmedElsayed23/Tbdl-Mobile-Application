@@ -27,8 +27,8 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
   @override
   void didChangeDependencies() {
     if (check) {
-      String Notifiy = ModalRoute.of(context).settings.arguments as String;
-      if (Notifiy == "Notifiy") {
+      String notifiy = ModalRoute.of(context).settings.arguments as String;
+      if (notifiy == "Notifiy") {
         isNotifiy = true;
       }
       Provider.of<ChatController>(context, listen: false)

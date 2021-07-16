@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Screens/notification_screen.dart';
 import 'package:gp_version_01/Screens/offeringItems_screen.dart';
-import 'package:gp_version_01/Screens/recommend_screen.dart';
 import 'package:gp_version_01/Screens/updateUserInfoScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -142,12 +141,10 @@ class _DrawerItemState extends State<DrawerItem> {
                   ListTile(
                     trailing: Icon(
                       Icons.settings,
-                      color: Colors.black,
-                      size: 30,
+                      color: Theme.of(context).accentColor,
                     ),
                     title: Text(
-                      "الضبط",
-                      // style: TextStyle(color: Colors.black, fontSize: 20),
+                      "تعديل البيانات",
                       textAlign: TextAlign.right,
                     ),
                     onTap: () {
@@ -157,7 +154,7 @@ class _DrawerItemState extends State<DrawerItem> {
                   ),
                   Divider(
                     height: 10,
-                    thickness: 2,
+                    thickness: 0.5,
                     indent: 20,
                     endIndent: 15,
                     color: Colors.black,

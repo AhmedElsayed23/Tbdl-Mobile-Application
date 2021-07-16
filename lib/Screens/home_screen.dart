@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
+import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/favorites_screen.dart';
@@ -95,11 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 isLoading = false;
               }));
       Provider.of<ItemOffersController>(context).getAllOffers();
+      Provider.of<NotificationContoller>(context).getNotifications();
     }
-
-    Provider.of<UserController>(context).getUser().then((_) {
-      user = Provider.of<UserController>(context, listen: false).defaultUser;
-    });
+    user = Provider.of<UserController>(context, listen: false).defaultUser;
     isInit = false;
     super.didChangeDependencies();
   }
@@ -107,8 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
     final _auth = FirebaseAuth.instance;
-    final user =
-        Provider.of<UserController>(context, listen: false).defaultUser;
     Provider.of<ItemController>(context).getUserHomeItems();
     final items = Provider.of<ItemController>(context).userHomeItems;
     return DefaultTabController(
@@ -123,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 endDrawer: DrawerItem(
-                  name: user.name,
+                  name: user.name, /////////////////////////////////////////////////////////////////
                   email: _auth.currentUser.email,
                 ),
                 appBar: AppBar(

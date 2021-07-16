@@ -110,7 +110,6 @@ class NotificationContoller with ChangeNotifier {
   Future<void> addChatNotification(NotificationModel notification) async {
     bool firstChat = false;
     try {
-      var firebaseUser = FirebaseAuth.instance.currentUser;
       await firestoreInstance
           .collection('Notification')
           .doc(notification.userTo)
