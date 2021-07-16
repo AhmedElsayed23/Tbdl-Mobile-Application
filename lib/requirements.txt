@@ -1,0 +1,2 @@
+1 - size of registeration screen
+2 - size of sublocations

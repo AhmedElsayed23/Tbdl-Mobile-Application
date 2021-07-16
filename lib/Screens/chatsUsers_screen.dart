@@ -186,6 +186,12 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "المحدثات",
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+          ),
+        ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Directionality(
@@ -193,16 +199,16 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                    child: Text(
-                      "المحدثات",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
-                    ),
-                  ),
-                ),
+                // SafeArea(
+                //   child: Padding(
+                //     padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                //     child: Text(
+                //       "المحدثات",
+                //       style:
+                //           TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+                //     ),
+                //   ),
+                // ),
                 ListView.builder(
                   itemCount: chatUsers.length,
                   shrinkWrap: true,

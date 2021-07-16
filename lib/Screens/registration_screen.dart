@@ -62,6 +62,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -70,160 +71,168 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
             key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(
-                  height: 48.0,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'من فضلك ادخل الحساب';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    email = value;
-                  },
-                  decoration:
-                      kTextFieldDecoration.copyWith(hintText: 'ادخل الحساب'),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'من فضلك ادخل الاسم';
-                    }
-                    return null;
-                  },
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    name = value;
-                  },
-                  decoration:
-                      kTextFieldDecoration.copyWith(hintText: 'ادخل الاسم'),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'من فضلك ادخل كلمة المرور';
-                    }
-                    return null;
-                  },
-                  obscureText: true,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'ادخل كلمة المرور'),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'من فضلك ادخل رقم الهاتف';
-                    }
-                    return null;
-                  },
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    phone = value;
-                  },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'ادخل رقم الهاتف'),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                DropDownListLocation(false, [''], location),
-                SizedBox(
-                  height: 8.0,
-                ),
-                SingleChildScrollView(
-                  child: Container(
-                    height: 100.0,
-                    child: ListView(
-                      padding: EdgeInsets.all(8.0),
-                      children: categories.keys
-                          .map((element) => CheckboxListTile(
-                                title: Text(element),
-                                value: categories[element],
-                                onChanged: (val) {
-                                  setState(() {
-                                    categories[element] = val;
-                                  });
-                                },
-                              ))
-                          .toList(),
-                    ),
+            child: Center(
+              child: Container(
+                height: queryData.size.height * 0.7,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 48.0,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'من فضلك ادخل الحساب';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          email = value;
+                        },
+                        decoration:
+                            kTextFieldDecoration.copyWith(hintText: 'ادخل الحساب'),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'من فضلك ادخل الاسم';
+                          }
+                          return null;
+                        },
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          name = value;
+                        },
+                        decoration:
+                            kTextFieldDecoration.copyWith(hintText: 'ادخل الاسم'),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'من فضلك ادخل كلمة المرور';
+                          }
+                          return null;
+                        },
+                        obscureText: true,
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          password = value;
+                        },
+                        decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'ادخل كلمة المرور'),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'من فضلك ادخل رقم الهاتف';
+                          }
+                          return null;
+                        },
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          phone = value;
+                        },
+                        decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'ادخل رقم الهاتف'),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      DropDownListLocation(false, [''], location),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      SingleChildScrollView(
+                        child: Container(
+                          height: 100.0,
+                          child: ListView(
+                            padding: EdgeInsets.all(8.0),
+                            children: categories.keys
+                                .map((element) => CheckboxListTile(
+                                      title: Text(element),
+                                      value: categories[element],
+                                      onChanged: (val) {
+                                        setState(() {
+                                          categories[element] = val;
+                                        });
+                                      },
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 24.0,
+                      ),
+                      RoundedButton(
+                        title: 'إنشاء حساب',
+                        colour: Colors.blueAccent,
+                        onPressed: () async {
+                          final isValid = formKey.currentState.validate();
+                          if (!isValid) return;
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          formKey.currentState.save();
+                          try {
+                            await _auth
+                                .createUserWithEmailAndPassword(
+                                    email: email, password: password)
+                                .then((newUser) {
+                              if (newUser != null) {
+                                List<String> categ = [];
+                                categories.forEach((key, value) {
+                                  if (value) categ.add(key);
+                                });
+                                Provider.of<UserController>(context, listen: false)
+                                    .addUser(UserModel(
+                                        banScore: 0,
+                                        favCategory: categ,
+                                        id: _auth.currentUser.uid,
+                                        location: location,
+                                        name: name,
+                                        phone: phone))
+                                    .then((_) {
+                                  List<Item> items = Provider.of<ItemController>(
+                                          context,
+                                          listen: false)
+                                      .items;
+                                  Provider.of<ModelController>(context,
+                                          listen: false)
+                                      .addUserInModel(items, categ);
+                                  Navigator.pushReplacementNamed(
+                                      context, LoginScreen.route);
+                                });
+                              }
+                              setState(() {
+                                showSpinner = false;
+                              });
+                            });
+                          } catch (e) {
+                            if (e.code == 'email-already-in-use') {
+                              showErrorMessage('المستخدم موجود');
+                            }
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                RoundedButton(
-                  title: 'إنشاء حساب',
-                  colour: Colors.blueAccent,
-                  onPressed: () async {
-                    final isValid = formKey.currentState.validate();
-                    if (!isValid) return;
-                    setState(() {
-                      showSpinner = true;
-                    });
-                    formKey.currentState.save();
-                    try {
-                      await _auth
-                          .createUserWithEmailAndPassword(
-                              email: email, password: password)
-                          .then((newUser) {
-                        if (newUser != null) {
-                          List<String> categ = [];
-                          categories.forEach((key, value) {
-                            if (value) categ.add(key);
-                          });
-                          Provider.of<UserController>(context, listen: false)
-                              .addUser(UserModel(
-                                  banScore: 0,
-                                  favCategory: categ,
-                                  id: _auth.currentUser.uid,
-                                  location: location,
-                                  name: name,
-                                  phone: phone))
-                              .then((_) {
-                            List<Item> items = Provider.of<ItemController>(
-                                    context,
-                                    listen: false)
-                                .items;
-                            Provider.of<ModelController>(context, listen: false)
-                                .addUserInModel(items, categ);
-                            Navigator.pushReplacementNamed(
-                                context, LoginScreen.route);
-                          });
-                        }
-                        setState(() {
-                          showSpinner = false;
-                        });
-                      });
-                    } catch (e) {
-                      if (e.code == 'email-already-in-use') {
-                        showErrorMessage('المستخدم موجود');
-                      }
-                    }
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         ),

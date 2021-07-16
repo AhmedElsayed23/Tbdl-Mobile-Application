@@ -199,6 +199,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
     neededsubCategoryType = needsubCatTemp;
   }
 
+  void imageFun(List<File> imgFiles){
+    imagesFiles = imgFiles;
+  }
+
   Widget _buildTitle() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -281,7 +285,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget _buildImage() {
-    return ImageMultiple(imagesFiles, initialValues['images'], updateOrAdd);
+    return ImageMultiple(imageFun, initialValues['images'], updateOrAdd);
   }
 
   Widget _dropListLocation() {
@@ -350,6 +354,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     _formKey.currentState.save();
     FocusManager.instance.primaryFocus.unfocus();
+    print("formmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+    print(imagesFiles.length);
     if (imagesFiles.length == 0 && !updateOrAdd) {
       showErrorMessage(context);
     } else {

@@ -7,9 +7,10 @@ import 'package:path_provider/path_provider.dart';
 // ignore: must_be_immutable
 class ImageMultiple extends StatefulWidget {
   List<File> files = [];
+  Function fun;
   List<String> initial;
   bool updateOrAdd;
-  ImageMultiple(this.files, this.initial, this.updateOrAdd);
+  ImageMultiple(this.fun, this.initial, this.updateOrAdd);
   @override
   _ImageMultipleState createState() => new _ImageMultipleState();
 }
@@ -23,7 +24,10 @@ class _ImageMultipleState extends State<ImageMultiple> {
   }
 
   Future getImageFileFromAssets() async {
+    print("ooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+    print(images.length);
     for (int i = 0; i < images.length; i++) {
+      print("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
       final byteData = await images[i].getByteData();
       final tempFile =
           File("${(await getTemporaryDirectory()).path}/${images[i].name}");
@@ -32,8 +36,10 @@ class _ImageMultipleState extends State<ImageMultiple> {
             .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
       );
       widget.files.add(file);
-      print(file);
+      print("ooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+      print(widget.files.length);
     }
+    widget.fun(widget.files);
   }
 
   Future<void> pickImages() async {
@@ -45,7 +51,7 @@ class _ImageMultipleState extends State<ImageMultiple> {
         enableCamera: true,
         selectedAssets: images,
         materialOptions: MaterialOptions(
-          actionBarTitle: "FlutterCorner.com",
+          actionBarTitle: "اختر الصورة",
         ),
       );
     } on Exception catch (e) {
@@ -55,6 +61,7 @@ class _ImageMultipleState extends State<ImageMultiple> {
     setState(() {
       images = resultList;
     });
+    widget.files = [];
     getImageFileFromAssets();
   }
 
@@ -84,14 +91,17 @@ class _ImageMultipleState extends State<ImageMultiple> {
                   )
                 : widget.updateOrAdd
                     ? ListView.builder(
-                      scrollDirection: Axis.horizontal,
+                        scrollDirection: Axis.horizontal,
                         itemCount: widget.initial.length,
                         itemBuilder: (BuildContext context, int index) {
                           print(widget.initial.length);
                           return Container(
-                            height: 100,
-                            child:FadeInImage.assetNetwork(placeholder: "assets/no-image-icon-6.png", image:widget.initial[index],fit:BoxFit.fill,)
-                          );
+                              height: 100,
+                              child: FadeInImage.assetNetwork(
+                                placeholder: "assets/no-image-icon-6.png",
+                                image: widget.initial[index],
+                                fit: BoxFit.fill,
+                              ));
                         },
                       )
                     : Image.asset("assets/no-image-icon-6.png"),

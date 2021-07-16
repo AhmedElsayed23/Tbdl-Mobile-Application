@@ -11,7 +11,6 @@ import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:provider/provider.dart';
 import 'login_screen.dart';
 import 'registration_screen.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -23,28 +22,8 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   bool flag = true;
-  AnimationController controller;
-  Animation animation;
   Widget home = Container();
 
-  @override
-  void initState() {
-    super.initState();
-    controller =
-        AnimationController(duration: Duration(seconds: 1), vsync: this);
-    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
-        .animate(controller);
-    controller.forward();
-    controller.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   void didChangeDependencies() {
@@ -55,23 +34,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             .getItems(); //////////////////////////
         setState(() {
           home = Scaffold(
-            backgroundColor: animation.value,
+            backgroundColor: Theme.of(context).primaryColor,
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      TypewriterAnimatedTextKit(
-                        text: ['تبدل'],
-                        textStyle: TextStyle(
-                          fontSize: 45.0,
-                          fontWeight: FontWeight.w900,
-                        ),
+                  Center(
+                    child: Text(
+                      'تبدل',
+                      style: TextStyle(
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.w900,
+                        color: Theme.of(context).accentColor,
                       ),
-                    ],
+                    ),
                   ),
                   SizedBox(
                     height: 48.0,
@@ -102,14 +80,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           if (!Provider.of<UserController>(context, listen: false).isbanned) {
             Provider.of<NotificationContoller>(context, listen: false)
                 .getNotifications();
-                print('-------------------------------------------------------------------------');
+            print(
+                '-------------------------------------------------------------------------');
             Provider.of<ChatController>(context, listen: false).getUserConv();
             Provider.of<UserController>(context, listen: false).getUser();
             Provider.of<ItemController>(context, listen: false).getItems();
             Provider.of<ItemOffersController>(context, listen: false)
                 .getAllOffers();
             setState(() {
-              home = TabsScreen(pageIndex: 2,);
+              home = TabsScreen(
+                pageIndex: 2,
+              );
             });
           } else {
             setState(() {
