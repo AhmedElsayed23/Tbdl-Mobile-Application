@@ -35,43 +35,6 @@ class ImageScreen extends StatelessWidget {
     );
   }
 }
-// Container(
-//   color: Colors.black,
-//   child: Center(
-//     child: CarouselSlider(
-//       items: item.images
-//           .map((it) => Zoom(
-//                     width: 2000,
-//                     height: 2000,
-//                     canvasColor: Colors.black,
-//                     backgroundColor: Colors.black,
-//                     colorScrollBars: Colors.white,
-//                     opacityScrollBars: 0.9,
-//                     scrollWeight: 10.0,
-//                     centerOnScale: true,
-//                     enableScroll: true,
-//                     doubleTapZoom: true,
-//                     zoomSensibility: 2.3,
-//                     initZoom: 0.0,
-//                     child: Center(
-//                       child: Image.network(it),
-//                     ),
-//                   )
-//               //PhotoView(imageProvider: NetworkImage(it)),
-//               )
-//           .toList(),
-//       options: CarouselOptions(
-//         height: 500,
-//         scrollPhysics: ScrollPhysics(parent: BouncingScrollPhysics()),
-//         initialPage: 0,
-//         enableInfiniteScroll: false,
-//         aspectRatio: 0.7,
-//         enlargeCenterPage: true,
-//         viewportFraction: 1,
-//       ),
-//     ),
-//   ),
-// ),
 
 Swiper imageSlider(List<String> images, context) {
   int lengthOfImages = images.length;
@@ -80,7 +43,6 @@ Swiper imageSlider(List<String> images, context) {
     autoplay: false,
     itemBuilder: (BuildContext context, int index) {
       return PhotoView(
-        //initialScale: PhotoViewComputedScale.covered,
         imageProvider: NetworkImage(
           images[index],
           scale: 1,

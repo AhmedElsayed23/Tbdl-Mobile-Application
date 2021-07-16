@@ -129,35 +129,6 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                     }
                   },
                 ),
-
-                //   await _auth
-                //       .createUserWithEmailAndPassword(
-                //           email: email, password: password)
-                //       .then((newUser) {
-                //     if (newUser != null) {
-                //       List<String> categ = [];
-                //       categories.forEach((key, value) {
-                //         if (value) categ.add(key);
-                //       });
-                //       Provider.of<UserController>(context, listen: false)
-                //           .addUser(UserModel(
-                //               banScore: 0,
-                //               favCategory: categ,
-                //               id: _auth.currentUser.uid,
-                //               location: location,
-                //               name: name,
-                //               phone: phone))
-                //           .then((_) {
-                //         List<Item> items = Provider.of<ItemController>(
-                //                 context,
-                //                 listen: false)
-                //             .items;
-                //         Provider.of<ModelController>(context, listen: false)
-                //             .addUserInModel(items, categ);
-                //         Navigator.pushReplacementNamed(
-                //             context, LoginScreen.route);
-                //       });
-                //     }
               ],
             ),
           ),

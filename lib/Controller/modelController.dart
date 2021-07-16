@@ -149,13 +149,27 @@ class ModelController with ChangeNotifier {
       itemScore[element.reference.id] = element['score'];
     });
 
-    avg = sum / itemScore.length;
+    if (sum != 0) {
+      avg = sum / itemScore.length;
 
-    for (var key in itemScore.keys) {
-      if (itemScore[key] >= avg) {
-        predictedItems.add(key);
+      for (var key in itemScore.keys) {
+        if (itemScore[key] >= avg) {
+          predictedItems.add(key);
+        }
       }
+      return predictedItems;
+    } else {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Dataset')
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .collection("Items")
+          .get();
+      snapshot.docs.forEach((element) {
+        if (element['score'] > 0) {
+          predictedItems.add(element.reference.id);
+        }
+      });
+      return predictedItems;
     }
-    return predictedItems;
   }
 }

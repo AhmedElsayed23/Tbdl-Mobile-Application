@@ -14,9 +14,7 @@ class BannedScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Icon(
               Icons.block,
               color: Colors.red,
@@ -26,7 +24,7 @@ class BannedScreen extends StatelessWidget {
               'انت محظور من البرنامج حتى',
               style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
             ),
-            Text( 
+            Text(
               os.DateFormat.yMMMd().add_Hm().format(banDate),
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
             ),
