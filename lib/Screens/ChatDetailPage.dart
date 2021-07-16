@@ -61,6 +61,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     if (user.receiverId == FirebaseAuth.instance.currentUser.uid) {
       currentUserIsSender =
           FirebaseAuth.instance.currentUser.uid + '_' + user.senderId;
@@ -85,10 +86,12 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               textDirection: TextDirection.rtl,
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/1200px-User_font_awesome.svg.png"),
-                    maxRadius: 20,
+                  Card(
+                    child: Icon(Icons.person, size: queryData.size.height * 0.045, color: Theme.of(context).primaryColor,),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    color: Theme.of(context).accentColor,
                   ),
                   SizedBox(
                     width: 12,

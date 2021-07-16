@@ -26,6 +26,7 @@ class DrawerItem extends StatefulWidget {
 class _DrawerItemState extends State<DrawerItem> {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     return Theme(
       data: Theme.of(context).copyWith(
         // Set the transparency here
@@ -45,22 +46,27 @@ class _DrawerItemState extends State<DrawerItem> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 80),
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "${widget.name}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "${widget.email}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  Container(
+                    height: queryData.size.height * 0.2,
+                    width: double.infinity,
+                    color: Theme.of(context).accentColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${widget.name}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).primaryColor),
+                        ),
+                        Text(
+                          "${widget.email}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15, color: Theme.of(context).primaryColor),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -68,7 +74,6 @@ class _DrawerItemState extends State<DrawerItem> {
                   ListTile(
                     trailing: Icon(
                       Icons.library_books_outlined,
-                      size: 30,
                       color: Theme.of(context).accentColor,
                     ),
                     title: Text(
@@ -80,7 +85,7 @@ class _DrawerItemState extends State<DrawerItem> {
                     },
                   ),
                   Divider(
-                    height: 10,
+                    height: queryData.size.height * 0.011,
                     thickness: 0.5,
                     indent: 20,
                     color: Colors.black,
@@ -106,7 +111,7 @@ class _DrawerItemState extends State<DrawerItem> {
                     },
                   ),
                   Divider(
-                    height: 10,
+                    height: queryData.size.height * 0.011,
                     thickness: 0.5,
                     indent: 20,
                     endIndent: 15,
@@ -117,7 +122,7 @@ class _DrawerItemState extends State<DrawerItem> {
                       builder: (context, value, child) => Badge(
                           child: child, value: value.chatCount().toString()),
                       child: Icon(
-                        Icons.notifications_none_outlined,
+                        Icons.bolt_outlined,
                         color: Theme.of(context).accentColor,
                       ),
                     ),
@@ -132,7 +137,7 @@ class _DrawerItemState extends State<DrawerItem> {
                     },
                   ),
                   Divider(
-                    height: 10,
+                    height: queryData.size.height * 0.011,
                     thickness: 0.5,
                     indent: 20,
                     endIndent: 15,
@@ -153,7 +158,7 @@ class _DrawerItemState extends State<DrawerItem> {
                     },
                   ),
                   Divider(
-                    height: 10,
+                    height: queryData.size.height * 0.011,
                     thickness: 0.5,
                     indent: 20,
                     endIndent: 15,
@@ -163,7 +168,6 @@ class _DrawerItemState extends State<DrawerItem> {
                     trailing: Icon(
                       Icons.exit_to_app,
                       color: Theme.of(context).accentColor,
-                      size: 30,
                     ),
                     title: Text(
                       "تسجيل خروج",

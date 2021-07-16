@@ -7,13 +7,11 @@ class ConversationList extends StatefulWidget {
   final Map<String, dynamic> temp;
   final String name;
   final String messageText;
-  final String imageUrl;
   final String time;
   final bool isMessageRead;
   ConversationList(
       {@required this.name,
       @required this.messageText,
-      @required this.imageUrl,
       @required this.time,
       @required this.isMessageRead,
       this.temp});
@@ -24,6 +22,7 @@ class ConversationList extends StatefulWidget {
 class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     return GestureDetector(
       onTap: () async {
         await Provider.of<ChatController>(context, listen: false).getDocId(
@@ -39,9 +38,16 @@ class _ConversationListState extends State<ConversationList> {
             Expanded(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(widget.imageUrl),
-                    maxRadius: 30,
+                  Card(
+                    child: Icon(
+                      Icons.person,
+                      size: queryData.size.height * 0.061,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    color: Theme.of(context).accentColor,
                   ),
                   SizedBox(
                     width: 16,
