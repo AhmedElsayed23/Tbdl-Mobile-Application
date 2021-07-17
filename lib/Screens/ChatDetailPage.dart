@@ -221,7 +221,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       } catch (e) {}
                     },
                     child: Text(
-                      'Send',
+                      'أرسل',
                       style: kSendButtonTextStyle,
                     ),
                   ),

@@ -204,7 +204,7 @@ class MyProductItems extends StatelessWidget {
                         color: Colors.red,
                       ),
                       Text(
-                        "العنوان",
+                        myItem.location[0],
                         textDirection: TextDirection.rtl,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

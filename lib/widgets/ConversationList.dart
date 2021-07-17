@@ -70,9 +70,7 @@ class _ConversationListState extends State<ConversationList> {
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.shade600,
-                                fontWeight: widget.isMessageRead
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
+                                fontWeight: FontWeight.normal),
                           ),
                         ],
                       ),
@@ -85,9 +83,7 @@ class _ConversationListState extends State<ConversationList> {
               widget.time,
               style: TextStyle(
                   fontSize: 12,
-                  fontWeight: widget.isMessageRead
-                      ? FontWeight.bold
-                      : FontWeight.normal),
+                  fontWeight: FontWeight.normal),
             ),
           ],
         ),

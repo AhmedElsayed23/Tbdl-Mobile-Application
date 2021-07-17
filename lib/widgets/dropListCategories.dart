@@ -38,7 +38,7 @@ class _DropListCategoriesState extends State<DropListCategories> {
   List<String> gamesProperties = ["النوع"];
   List<String> electricDevicesProperties = ["الماركة"];
   List<String> animalsProperties = ["نوع الحيوان", "السن"];
-  List<String> homeProperties = ["نوع الاثاث"];
+  List<String> homeProperties = ["نوع الأثاث"];
   List<String> clothesProperties = ["نوع الملبس"];
   List<String> othersProperties = ["النوع"];
 

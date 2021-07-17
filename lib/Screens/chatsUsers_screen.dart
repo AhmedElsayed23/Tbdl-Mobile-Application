@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/userController.dart';
+import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/models/ChatUsers.dart';
 import 'package:gp_version_01/widgets/ConversationList.dart';
 import 'package:provider/provider.dart';
@@ -82,6 +83,14 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                                 Provider.of<ChatController>(context,
                                         listen: false)
                                     .deleteConvers(chatUser.docId);
+                                // Navigator.pop(context);
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => TabsScreen(
+                                //             pageIndex: 0,
+                                //           )),
+                                // );
                               },
                               child: Icon(
                                 Icons.delete,
