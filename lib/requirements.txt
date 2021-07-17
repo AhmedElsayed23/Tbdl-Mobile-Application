@@ -5,3 +5,5 @@
 5- registeration progress indicator
 6- search
 7- back from ban screen
+8- report of upcoming offer
+9- back in update
