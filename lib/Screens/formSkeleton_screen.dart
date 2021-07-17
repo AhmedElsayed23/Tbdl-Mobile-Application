@@ -189,6 +189,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
+  void showErrorMessageInCondition(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            content: Text("يجب ان تختار جديد او مستعمل و ان تختار بمقابل او دون مقابل"),
+            title: Text('خطأ'),
+            actions: [
+              // ignore: deprecated_member_use
+              FlatButton(
+                  onPressed: () => Navigator.of(ctx).pop(), child: Text('تخطى'))
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
   void fun(String catTemp, String subCatTemp) {
     categoryType = catTemp;
     subCategoryType = subCatTemp;
@@ -358,6 +379,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     print(imagesFiles.length);
     if (imagesFiles.length == 0 && !updateOrAdd) {
       showErrorMessage(context);
+    }else if((condition==null || isFree==null)&&!updateOrAdd){
+      showErrorMessageInCondition(context);
     } else {
       setState(() {
         showSpinner = true;

@@ -4,6 +4,8 @@ import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 
+import 'descriptionItemOther.dart';
+
 class UserProductDetailsScreen extends StatefulWidget {
   static const String route = "/UserProductDetailsScreen";
   @override
@@ -87,62 +89,120 @@ class _UserProductDetailsScreenState extends State<UserProductDetailsScreen> {
             delegate: SliverChildListDelegate(
               [
                 Container(
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Card(
-                        margin: EdgeInsets.all(7),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        elevation: 3,
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Icon(
-                                Icons.location_on,
-                                color: Colors.red,
-                              ),
-                              Spacer(),
-                              Text('item.location'),
-                            ],
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "المكان",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
                           ),
                         ),
-                      ),
-                      Divider(color: Colors.black45),
-                      Card(
-                        margin: EdgeInsets.all(7),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        Divider(color: Colors.black45),
+                        Card(
+                          margin: EdgeInsets.all(7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 3,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.red,
+                                ),
+                                Spacer(),
+                                Text(item.location[0] +
+                                    ' -> ' +
+                                    item.location[1]),
+                              ],
+                            ),
+                          ),
                         ),
-                        elevation: 1,
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Container(
-                              width: double.infinity,
-                              child: Text(
-                                item.description,
-                                style: TextStyle(fontSize: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "الوصف",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Divider(color: Colors.black45),
+                        Card(
+                          margin: EdgeInsets.all(7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 1,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Container(
+                                width: double.infinity,
+                                child: Text(
+                                  item.description,
+                                  style: TextStyle(fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Divider(color: Colors.black45),
-                      DescriptionItem(item.properties),
-                      SizedBox(
-                        height: 60,
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "الفئة",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Divider(color: Colors.black45),
+                        Card(
+                          margin: EdgeInsets.all(7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 1,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Container(
+                                width: double.infinity,
+                                child: Text(
+                                  item.categoryType,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
+                            "الخصائص",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Divider(color: Colors.black45),
+                        DescriptionItem(item.properties),
+                        DescriptionItemOther(item),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           )

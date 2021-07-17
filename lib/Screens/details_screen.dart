@@ -19,6 +19,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'descriptionItemOther.dart';
+
 class Details extends StatefulWidget {
   static const String route = "/details";
 
@@ -342,6 +344,36 @@ class _DetailsState extends State<Details> {
                         Padding(
                           padding: const EdgeInsets.only(right: 17),
                           child: Text(
+                            "الفئة",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Divider(color: Colors.black45),
+                        Card(
+                          margin: EdgeInsets.all(7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 1,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: Container(
+                                width: double.infinity,
+                                child: Text(
+                                  item.categoryType,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 17),
+                          child: Text(
                             "الخصائص",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -350,6 +382,7 @@ class _DetailsState extends State<Details> {
                         ),
                         Divider(color: Colors.black45),
                         DescriptionItem(item.properties),
+                        DescriptionItemOther(item),
                         Padding(
                           padding: const EdgeInsets.only(right: 12),
                           child: Text(
