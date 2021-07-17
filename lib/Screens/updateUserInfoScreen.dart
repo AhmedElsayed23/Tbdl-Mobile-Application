@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gp_version_01/Accessories/constants.dart';
 import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/home_screen.dart';
+import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/widgets/dropDownListLocation.dart';
 import 'package:gp_version_01/widgets/rounded_button.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -49,6 +50,15 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
         Provider.of<UserController>(context, listen: false).defaultUser;
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          "تعديل البيانات",
+          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
@@ -121,7 +131,12 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                       setState(() {
                         showSpinner = false;
                       });
-                      Navigator.pushReplacementNamed(context, HomeScreen.route);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TabsScreen(
+                                    pageIndex: 2,
+                                  )));
                     } catch (e) {
                       if (e.code == 'email-already-in-use') {
                         showErrorMessage('المستخدم موجود');
