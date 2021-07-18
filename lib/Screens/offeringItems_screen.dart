@@ -25,7 +25,7 @@ class OfferingItemsScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "المنتجات التى تقدم لها عروض",
+            "المنتجات التى قدمت لها عروض",
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
           ),
           shape: RoundedRectangleBorder(

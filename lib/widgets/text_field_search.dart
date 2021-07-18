@@ -69,7 +69,7 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
         textDirection: ui.TextDirection.rtl,
         child: searchTextField = AutoCompleteTextField(
           decoration: new InputDecoration(
-            contentPadding: EdgeInsets.all(20.0),
+            contentPadding: EdgeInsets.only(right:10),
             labelText: searchedName == null ? null : searchedName,
             hintText: "ابحث عن منتجات",
             border: new OutlineInputBorder(

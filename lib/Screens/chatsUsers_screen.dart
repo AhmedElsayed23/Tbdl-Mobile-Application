@@ -83,14 +83,14 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                                 Provider.of<ChatController>(context,
                                         listen: false)
                                     .deleteConvers(chatUser.docId);
-                                // Navigator.pop(context);
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => TabsScreen(
-                                //             pageIndex: 0,
-                                //           )),
-                                // );
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TabsScreen(
+                                            pageIndex: 0,
+                                          )),
+                                );
                               },
                               child: Icon(
                                 Icons.delete,

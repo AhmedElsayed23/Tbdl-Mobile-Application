@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Center(child: CircularProgressIndicator())
             : Scaffold(
                 endDrawer: DrawerItem(
-                  name: user.name, /////////////////////////////////////////////////////////////////
+                  name: user.name,
                   email: _auth.currentUser.email,
                 ),
                 appBar: AppBar(
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  toolbarHeight: queryData.size.height * 0.1,
+                  toolbarHeight: queryData.size.height * 0.15,
                   leading: Icon(Icons.search),
                   bottom: PreferredSize(
                     preferredSize: Size(0, 10),

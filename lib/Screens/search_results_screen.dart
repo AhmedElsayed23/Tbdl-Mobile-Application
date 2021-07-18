@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:gp_version_01/widgets/drawer.dart';
 import 'package:gp_version_01/widgets/text_field_search.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SearchResults extends StatelessWidget {
@@ -33,7 +36,12 @@ class SearchResults extends StatelessWidget {
     List<Item> items = args[1];
     _filterItems(items, searchKeyWord);
     return Scaffold(
-      endDrawer: DrawerItem(),
+      endDrawer: DrawerItem(
+        name: Provider.of<UserController>(context, listen: false)
+            .defaultUser
+            .name,
+        email: FirebaseAuth.instance.currentUser.email,
+      ),
       appBar: AppBar(
         title: TextFieldSearch(items, true),
         shape: RoundedRectangleBorder(

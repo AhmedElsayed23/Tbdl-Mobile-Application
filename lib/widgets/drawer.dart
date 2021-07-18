@@ -77,7 +77,7 @@ class _DrawerItemState extends State<DrawerItem> {
                       color: Theme.of(context).accentColor,
                     ),
                     title: Text(
-                      "المنتجات التى تقدم لها عروض",
+                      "المنتجات التى قدمت لها عروض",
                       textAlign: TextAlign.right,
                     ),
                     onTap: () async {

@@ -495,7 +495,7 @@ class _DetailsState extends State<Details> {
                                         FirebaseAuth.instance.currentUser.uid)
                                 .then((_) => Navigator.pushNamed(
                                     context, ChatDetailPage.route,
-                                    arguments: {'flag': false}));
+                                    arguments: {'flag': false,'comeFrom':true}));
                           });
                         });
                       },

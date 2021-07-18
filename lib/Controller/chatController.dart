@@ -161,6 +161,9 @@ class ChatController with ChangeNotifier {
     try {
       print(
           '#########################################################################################');
+          int index =
+            userConversations.indexWhere((element) => element.docId == docId);
+        userConversations.removeAt(index);
       QuerySnapshot snapshot = await firestoreInstance
           .collection('Chat')
           .doc(docId)
@@ -175,12 +178,9 @@ class ChatController with ChangeNotifier {
             .delete();
       });
 
-      await firestoreInstance.collection("Chat").doc(docId).delete().then((_) {
-        int index =
-            userConversations.indexWhere((element) => element.docId == docId);
-        userConversations.removeAt(index);
+      await firestoreInstance.collection("Chat").doc(docId).delete();
         notifyListeners();
-      });
+
     } catch (e) {
       print(e.toString());
     }
