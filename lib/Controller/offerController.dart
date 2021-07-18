@@ -225,6 +225,10 @@ class ItemOffersController with ChangeNotifier {
   List<String> getOfferingItems(List<Item> userItems){
     List<String> offeringItems = [];
     for(int i=0; i < itemOffers.length; i++){
+      int index = userItems.indexWhere((element) => element.id ==  itemOffers[i].itemId);
+      if(index != -1){
+        continue;
+      }
       List<String> upOffers = itemOffers[i].upcomingOffers;
       for(int j=0; j < upOffers.length; j++){
         for(int k=0; k < userItems.length; k++){

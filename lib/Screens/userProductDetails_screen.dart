@@ -4,7 +4,7 @@ import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/description_item.dart';
 import 'package:gp_version_01/Screens/image_screen.dart';
 
-import 'descriptionItemOther.dart';
+import '../widgets/descriptionItemOther.dart';
 
 class UserProductDetailsScreen extends StatefulWidget {
   static const String route = "/UserProductDetailsScreen";

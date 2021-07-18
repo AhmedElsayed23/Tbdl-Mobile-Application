@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
@@ -97,6 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }));
       Provider.of<ItemOffersController>(context).getAllOffers();
       Provider.of<NotificationContoller>(context).getNotifications();
+      Provider.of<ChatController>(context, listen: false).getUserConv();
+      Provider.of<UserController>(context, listen: false).getUser();
     }
     user = Provider.of<UserController>(context, listen: false).defaultUser;
     isInit = false;

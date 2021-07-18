@@ -22,16 +22,15 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
   String phone;
   UserModel user;
   List<String> location = ['', ''];
-  bool isFirst=true;
+  bool isFirst = true;
   @override
   void didChangeDependencies() {
-    if(isFirst){
-      user =
-        Provider.of<UserController>(context, listen: false).defaultUser;
-        phone=user.phone;
-        name=user.name;
+    if (isFirst) {
+      user = Provider.of<UserController>(context, listen: false).defaultUser;
+      phone = user.phone;
+      name = user.name;
     }
-    isFirst=false;
+    isFirst = false;
     super.didChangeDependencies();
   }
 
@@ -58,107 +57,120 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          "تعديل البيانات",
-          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TabsScreen(
+                      pageIndex: 2,
+                    )));
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            "تعديل البيانات",
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Form(
-            key: formKey,
-            child: Center(
-              child: Container(
-                height: queryData.size.height * 0.7,
-                child: SingleChildScrollView(
-                              child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 48.0,
-                      ),
-                      TextFormField(
-                        initialValue: user.name,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'من فضلك ادخل الاسم';
-                          }
-                          return null;
-                        },
-                        textAlign: TextAlign.center,
-                        onChanged: (value) {
-                          name = value;
-                        },
-                        decoration:
-                            kTextFieldDecoration.copyWith(hintText: 'ادخل الاسم'),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      TextFormField(
-                        initialValue: user.phone,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'من فضلك ادخل رقم الهاتف';
-                          }
-                          return null;
-                        },
-                        textAlign: TextAlign.center,
-                        onChanged: (value) {
-                          phone = value;
-                        },
-                        decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'ادخل رقم الهاتف'),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      DropDownListLocation(true, user.location, location),
-                      SizedBox(
-                        height: 24.0,
-                      ),
-                      RoundedButton(
-                        title: 'تعديل الحساب',
-                        colour: Colors.blueAccent,
-                        onPressed: () async {
-                          final isValid = formKey.currentState.validate();
-                          if (!isValid) return;
-                          setState(() {
-                            showSpinner = true;
-                          });
-                          formKey.currentState.save();
-                          try {
-                            user.name = name;
-                            user.phone = phone;
-                            user.location = location;
-                            Provider.of<UserController>(context, listen: false)
-                                .updateUser(user);
-                            setState(() {
-                              showSpinner = false;
-                            });
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TabsScreen(
-                                          pageIndex: 2,
-                                        )));
-                          } catch (e) {
-                            if (e.code == 'email-already-in-use') {
-                              showErrorMessage('المستخدم موجود');
+        body: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Form(
+              key: formKey,
+              child: Center(
+                child: Container(
+                  height: queryData.size.height * 0.7,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 48.0,
+                        ),
+                        TextFormField(
+                          initialValue: user.name,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'من فضلك ادخل الاسم';
                             }
-                          }
-                        },
-                      ),
-                    ],
+                            return null;
+                          },
+                          textAlign: TextAlign.center,
+                          onChanged: (value) {
+                            name = value;
+                          },
+                          decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'ادخل الاسم'),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        TextFormField(
+                          initialValue: user.phone,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'من فضلك ادخل رقم الهاتف';
+                            }
+                            return null;
+                          },
+                          textAlign: TextAlign.center,
+                          onChanged: (value) {
+                            phone = value;
+                          },
+                          decoration: kTextFieldDecoration.copyWith(
+                              hintText: 'ادخل رقم الهاتف'),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        DropDownListLocation(true, user.location, location),
+                        SizedBox(
+                          height: 24.0,
+                        ),
+                        RoundedButton(
+                          title: 'تعديل الحساب',
+                          colour: Colors.blueAccent,
+                          onPressed: () async {
+                            final isValid = formKey.currentState.validate();
+                            if (!isValid) return;
+                            setState(() {
+                              showSpinner = true;
+                            });
+                            formKey.currentState.save();
+                            try {
+                              user.name = name;
+                              user.phone = phone;
+                              user.location = location;
+                              Provider.of<UserController>(context,
+                                      listen: false)
+                                  .updateUser(user);
+                              setState(() {
+                                showSpinner = false;
+                              });
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TabsScreen(
+                                            pageIndex: 2,
+                                          )));
+                            } catch (e) {
+                              if (e.code == 'email-already-in-use') {
+                                showErrorMessage('المستخدم موجود');
+                              }
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

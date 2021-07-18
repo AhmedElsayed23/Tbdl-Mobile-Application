@@ -58,12 +58,16 @@ class _DrawerItemState extends State<DrawerItem> {
                         Text(
                           "${widget.name}",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30, color: Theme.of(context).primaryColor),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Theme.of(context).primaryColor),
                         ),
                         Text(
                           "${widget.email}",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15, color: Theme.of(context).primaryColor),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),

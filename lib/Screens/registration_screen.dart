@@ -94,8 +94,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onChanged: (value) {
                           email = value;
                         },
-                        decoration:
-                            kTextFieldDecoration.copyWith(hintText: 'ادخل الحساب'),
+                        decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'ادخل الحساب'),
                       ),
                       SizedBox(
                         height: 8.0,
@@ -111,8 +111,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onChanged: (value) {
                           name = value;
                         },
-                        decoration:
-                            kTextFieldDecoration.copyWith(hintText: 'ادخل الاسم'),
+                        decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'ادخل الاسم'),
                       ),
                       SizedBox(
                         height: 8.0,
@@ -184,9 +184,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onPressed: () async {
                           final isValid = formKey.currentState.validate();
                           if (!isValid) return;
-                          setState(() {
-                            showSpinner = true;
-                          });
+
                           formKey.currentState.save();
                           try {
                             await _auth
@@ -194,11 +192,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     email: email, password: password)
                                 .then((newUser) {
                               if (newUser != null) {
+                                setState(() {
+                                  showSpinner = true;
+                                });
                                 List<String> categ = [];
                                 categories.forEach((key, value) {
                                   if (value) categ.add(key);
                                 });
-                                Provider.of<UserController>(context, listen: false)
+                                Provider.of<UserController>(context,
+                                        listen: false)
                                     .addUser(UserModel(
                                         banScore: 0,
                                         favCategory: categ,
@@ -207,10 +209,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         name: name,
                                         phone: phone))
                                     .then((_) {
-                                  List<Item> items = Provider.of<ItemController>(
-                                          context,
-                                          listen: false)
-                                      .items;
+                                  List<Item> items =
+                                      Provider.of<ItemController>(context,
+                                              listen: false)
+                                          .items;
                                   Provider.of<ModelController>(context,
                                           listen: false)
                                       .addUserInModel(items, categ);

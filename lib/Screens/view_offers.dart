@@ -6,7 +6,7 @@ import 'package:gp_version_01/Controller/userController.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/models/itemOffer.dart';
-import 'package:gp_version_01/widgets/myOfferItem.dart';
+import 'package:gp_version_01/widgets/product_Item.dart';
 import 'package:provider/provider.dart';
 
 class ViewOfferScreen extends StatefulWidget {
@@ -63,8 +63,8 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                         arguments: [offersItems[index], false, myItem]);
                   });
                 },
-                child: MyOfferItems(
-                  offer: offersItems[index],
+                child: ProductItem(
+                  item: offersItems[index],
                 ),
               ),
 

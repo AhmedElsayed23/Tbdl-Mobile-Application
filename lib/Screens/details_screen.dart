@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'descriptionItemOther.dart';
+import '../widgets/descriptionItemOther.dart';
 
 class Details extends StatefulWidget {
   static const String route = "/details";

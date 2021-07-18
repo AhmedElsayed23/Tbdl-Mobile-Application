@@ -111,6 +111,13 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                                       .baneIf(100, chatUser.receiverId);
                                 }
                                 Navigator.of(context).pop();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TabsScreen(
+                                            pageIndex: 0,
+                                          )),
+                                );
                               },
                               child: Icon(
                                 Icons.report,

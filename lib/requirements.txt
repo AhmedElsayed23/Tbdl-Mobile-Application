@@ -1,9 +1,10 @@
-1- size of registeration screen
-2- size of sublocations
-3- chat
-4- reload user name in drawer
-5- registeration progress indicator
+1- size of registeration screen ///
+2- size of sublocations //
+3- chat //
+4- reload user name in drawer //
+5- registeration progress indicator //
 6- search
-7- back from ban screen
-8- report of upcoming offer
-9- back in update
+7- back from ban screen//
+8- report of upcoming offer//
+9- back in update//
+10- المنتجات التى تقدم لها عروض//

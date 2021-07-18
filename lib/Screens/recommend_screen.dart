@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/modelController.dart';
+import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:provider/provider.dart';
@@ -44,44 +45,68 @@ class _RecommendState extends State<Recommend> {
     final productList = isHis
         ? Provider.of<ItemController>(context, listen: false).historyItems
         : Provider.of<ItemController>(context, listen: false).recomendedItems;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "مقترح لك",
-          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
-        ),
-        actions: <Widget>[
-          PopupMenuButton(
-            onSelected: (value) {
-              setState(() {
-                if (value == 'all')
-                  isHis = false;
-                else
-                  isHis = true;
-              });
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Center(
-                    child: Text(
-                  'الكل',
-                )),
-                value: 'all',
-              ),
-              PopupMenuItem(
-                child: Center(child: Text('منتجات قد تود تبديل منتجاتك بها')),
-                value: 'his',
-              ),
-            ],
-            icon: Icon(Icons.filter_list_rounded),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TabsScreen(
+                      pageIndex: 2,
+                    )));
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TabsScreen(
+                              pageIndex: 2,
+                            )));
+              },
+            ),
+          title: Text(
+            "مقترح لك",
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
           ),
-        ],
+          actions: <Widget>[
+            PopupMenuButton(
+              onSelected: (value) {
+                setState(() {
+                  if (value == 'all')
+                    isHis = false;
+                  else
+                    isHis = true;
+                });
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Center(
+                      child: Text(
+                    'الكل',
+                  )),
+                  value: 'all',
+                ),
+                PopupMenuItem(
+                  child: Center(child: Text('منتجات قد تود تبديل منتجاتك بها')),
+                  value: 'his',
+                ),
+              ],
+              icon: Icon(Icons.filter_list_rounded),
+            ),
+          ],
+        ),
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Grid(items: productList),
       ),
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Grid(items: productList),
     );
   }
 }
