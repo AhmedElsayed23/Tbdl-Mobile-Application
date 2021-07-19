@@ -46,6 +46,8 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                 .deleteConvers(chat.docId);
           }
           chatUsers.removeWhere((element) => element.messages.isEmpty);
+        chatUsers.sort((a, b) => b.time.compareTo(a.time));
+
         }
         setState(() {});
       });
@@ -203,6 +205,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: null,
           title: Text(
             "المحدثات",
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
@@ -242,7 +245,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
                         },
                         name: chatUsers[index].tempName,
                         messageText: chatUsers[index].lastText,
-                        time: os.DateFormat.yMMMd().format(
+                        time: os.DateFormat.yMMMd().add_Hm().format(
                             DateTime.fromMillisecondsSinceEpoch(
                                 chatUsers[index].time.millisecondsSinceEpoch)),
                         isMessageRead:

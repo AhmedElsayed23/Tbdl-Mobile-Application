@@ -71,6 +71,8 @@ class _ConversationListState extends State<ConversationList> {
                                 fontSize: 13,
                                 color: Colors.grey.shade600,
                                 fontWeight: FontWeight.normal),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -81,9 +83,7 @@ class _ConversationListState extends State<ConversationList> {
             ),
             Text(
               widget.time,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
             ),
           ],
         ),

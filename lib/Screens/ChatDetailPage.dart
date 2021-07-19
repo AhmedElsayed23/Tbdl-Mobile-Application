@@ -37,9 +37,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
       print(args);
       check = args['flag'];
-        if (args['comeFrom'] != null) {
-          comeFrom = args['comeFrom'];
-        }
+      if (args['comeFrom'] != null) {
+        comeFrom = args['comeFrom'];
+      }
       if (check) {
         user = args['obj'];
         name = user.tempName;
@@ -100,6 +100,28 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              if (!comeFrom) {
+                print('objecdddddddddddddt');
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TabsScreen(
+                              pageIndex: 0,
+                            )));
+                return true;
+              } else {
+                print('object');
+                Provider.of<ChatController>(context, listen: false)
+                    .getUserConv();
+                Navigator.pop(context);
+                return true;
+              }
+            },
+          ),
           elevation: 0,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -315,8 +337,9 @@ class MessageBubble extends StatelessWidget {
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            os.DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(
-                time.millisecondsSinceEpoch)),
+            os.DateFormat.yMMMd().add_Hm().format(
+                DateTime.fromMillisecondsSinceEpoch(
+                    time.millisecondsSinceEpoch)),
             style: TextStyle(
               fontSize: 12.0,
               color: Colors.black54,

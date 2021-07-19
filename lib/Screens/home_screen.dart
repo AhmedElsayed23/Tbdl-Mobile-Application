@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gp_version_01/Controller/chatController.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/notificationController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
@@ -88,17 +87,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     if (isInit) {
+      print("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
       setState(() {
         isLoading = true;
       });
-      Provider.of<ItemController>(context)
+      Provider.of<ItemController>(context, listen: false)
           .getItems()
           .then((value) => setState(() {
                 isLoading = false;
               }));
-      Provider.of<ItemOffersController>(context).getAllOffers();
-      Provider.of<NotificationContoller>(context).getNotifications();
-      Provider.of<ChatController>(context, listen: false).getUserConv();
+      Provider.of<ItemOffersController>(context, listen: false).getAllOffers();
+      Provider.of<NotificationContoller>(context, listen: false).getNotifications();
+      //Provider.of<ChatController>(context, listen: false).getUserConv();
       Provider.of<UserController>(context, listen: false).getUser();
     }
     user = Provider.of<UserController>(context, listen: false).defaultUser;
@@ -150,180 +150,248 @@ class _HomeScreenState extends State<HomeScreen> {
                 body: Container(
                   child: TabBarView(
                     children: [
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('اخري')),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('اخري')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('موبايلات')),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('موبايلات')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        children: [
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('ملابس')),
+                            )
+                          ],
+                        ),
+                      ),
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('كتب')),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('عربيات')),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(children: [
                           Expanded(
                             child: Grid(
                                 items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('ملابس')),
+                                    .getCategoryItems('خدمات')),
                           )
-                        ],
+                        ]),
                       ),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('كتب')),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('حيوانات')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('عربيات')),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('ألعاب إلكترونية')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(children: [
-                        Expanded(
-                          child: Grid(
-                              items: Provider.of<ItemController>(context)
-                                  .getCategoryItems('خدمات')),
-                        )
-                      ]),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('حيوانات')),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('أجهزة كهربائية')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('ألعاب إلكترونية')),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Grid(
+                                  items: Provider.of<ItemController>(context)
+                                      .getCategoryItems('أثاث منزل')),
+                            ),
+                          ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('أجهزة كهربائية')),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Expanded(
-                            child: Grid(
-                                items: Provider.of<ItemController>(context)
-                                    .getCategoryItems('أثاث منزل')),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  // ignore: deprecated_member_use
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context,
-                                            ChooseCategoryScreen.route);
-                                      },
-                                      child: Icon(
-                                        Icons.category_outlined,
-                                        color: Colors.blue[400],
-                                        size: queryData.size.height * 0.05,
-                                      )),
-                                  // ignore: deprecated_member_use
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, Favorites.route);
-                                      },
-                                      child: Icon(
-                                        Icons.favorite_border_outlined,
-                                        color: Colors.blue[400],
-                                        size: queryData.size.height * 0.05,
-                                      )),
-                                  // ignore: deprecated_member_use
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, Recommend.route);
-                                      },
-                                      child: Icon(
-                                        Icons.recommend,
-                                        color: Colors.blue[400],
-                                        size: queryData.size.height * 0.05,
-                                      )),
-                                  // ignore: deprecated_member_use
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, MyProducts.route);
-                                      },
-                                      child: Icon(
-                                        Icons.business_center_outlined,
-                                        color: Colors.blue[400],
-                                        size: queryData.size.height * 0.05,
-                                      )),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Text(
-                                    'الفئات',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'المفضلة',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'مقترح',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'منتجاتى',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: Grid(items: items),
-                          ),
-                        ],
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          isInit = true;
+                          didChangeDependencies();
+                        },
+                        color: Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).accentColor,
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    // ignore: deprecated_member_use
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(context,
+                                              ChooseCategoryScreen.route);
+                                        },
+                                        child: Icon(
+                                          Icons.category_outlined,
+                                          color: Colors.blue[400],
+                                          size: queryData.size.height * 0.05,
+                                        )),
+                                    // ignore: deprecated_member_use
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, Favorites.route);
+                                        },
+                                        child: Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.blue[400],
+                                          size: queryData.size.height * 0.05,
+                                        )),
+                                    // ignore: deprecated_member_use
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, Recommend.route);
+                                        },
+                                        child: Icon(
+                                          Icons.recommend,
+                                          color: Colors.blue[400],
+                                          size: queryData.size.height * 0.05,
+                                        )),
+                                    // ignore: deprecated_member_use
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, MyProducts.route);
+                                        },
+                                        child: Icon(
+                                          Icons.business_center_outlined,
+                                          color: Colors.blue[400],
+                                          size: queryData.size.height * 0.05,
+                                        )),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Text(
+                                      'الفئات',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'المفضلة',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'مقترح',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'منتجاتى',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: Grid(items: items),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

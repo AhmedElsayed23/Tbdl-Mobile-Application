@@ -78,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
           ],
           title: Text(
-            "الإشعارات",
+            (temp == 'notify') ? "الإشعارات" : "المراسلات",
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
           ),
           shape: RoundedRectangleBorder(
@@ -125,6 +125,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                           Text(
                             notifications[index].content[2],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(os.DateFormat.yMMMd()
                               .add_Hm()
