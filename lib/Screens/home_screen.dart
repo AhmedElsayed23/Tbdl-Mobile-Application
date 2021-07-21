@@ -97,7 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 isLoading = false;
               }));
       Provider.of<ItemOffersController>(context, listen: false).getAllOffers();
-      Provider.of<NotificationContoller>(context, listen: false).getNotifications();
+      Provider.of<NotificationContoller>(context, listen: false)
+          .getNotifications();
       //Provider.of<ChatController>(context, listen: false).getUserConv();
       Provider.of<UserController>(context, listen: false).getUser();
     }
@@ -111,6 +112,27 @@ class _HomeScreenState extends State<HomeScreen> {
     final _auth = FirebaseAuth.instance;
     Provider.of<ItemController>(context).getUserHomeItems();
     final items = Provider.of<ItemController>(context).userHomeItems;
+    final appbar = AppBar(
+      title: TextFieldSearch(items, false),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
+      toolbarHeight: queryData.size.height * 0.15,
+      leading: Icon(Icons.search),
+      bottom: PreferredSize(
+        preferredSize: Size(0, 10),
+        child: Container(
+          child: TabBar(
+              isScrollable: true,
+              tabs: categories
+                  .map((e) => Text(
+                        e,
+                        style: GoogleFonts.cairo(),
+                      ))
+                  .toList()),
+        ),
+      ),
+    );
     return DefaultTabController(
       initialIndex: categories.length - 1,
       length: categories.length,
@@ -126,27 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   name: user.name,
                   email: _auth.currentUser.email,
                 ),
-                appBar: AppBar(
-                  title: TextFieldSearch(items, false),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  toolbarHeight: queryData.size.height * 0.15,
-                  leading: Icon(Icons.search),
-                  bottom: PreferredSize(
-                    preferredSize: Size(0, 10),
-                    child: Container(
-                      child: TabBar(
-                          isScrollable: true,
-                          tabs: categories
-                              .map((e) => Text(
-                                    e,
-                                    style: GoogleFonts.cairo(),
-                                  ))
-                              .toList()),
-                    ),
-                  ),
-                ),
+                appBar: appbar,
                 body: Container(
                   child: TabBarView(
                     children: [
@@ -366,22 +368,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Text(
                                       'الفئات',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              queryData.size.width * 0.04),
                                     ),
                                     Text(
                                       'المفضلة',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              queryData.size.width * 0.04),
                                     ),
                                     Text(
                                       'مقترح',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              queryData.size.width * 0.04),
                                     ),
                                     Text(
                                       'منتجاتى',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              queryData.size.width * 0.04),
                                     ),
                                   ],
                                 ),

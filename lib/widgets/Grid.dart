@@ -10,10 +10,12 @@ import 'product_Item.dart';
 
 // ignore: must_be_immutable
 class Grid extends StatelessWidget {
+  
   List<Item> items;
   Grid({this.items});
   @override
   Widget build(BuildContext context) {
+    final sizee=MediaQuery.of(context).size.height-MediaQuery.of(context).size.height*0.24;
     return StaggeredGridView.countBuilder(
       crossAxisCount: 4,
       itemCount: items.length,
@@ -37,9 +39,10 @@ class Grid extends StatelessWidget {
       ),
 
       staggeredTileBuilder: (int index) =>
-          StaggeredTile.count(2, MediaQuery.of(context).size.aspectRatio * 8),
-     // mainAxisSpacing: 4.0,
-      //crossAxisSpacing: 4.0,
+          //StaggeredTile.count(2,index.isOdd?2:1 ),
+          new StaggeredTile.fit(2),
+      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4.0,
     );
   }
 }

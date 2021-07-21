@@ -32,91 +32,102 @@ class _ProductItemState extends State<ProductItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+    final sizee=MediaQuery.of(context).size.height-MediaQuery.of(context).size.height*0.24;
+    return SizedBox(
+      height: sizee*0.6,
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                  child: Image.network(
-                    widget.item.images[0],
-                    fit: BoxFit.cover,
-                    height: 225,
-                    width: double.infinity,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0),
-                    ),
-                    color: Colors.black26,
-                    child: IconButton(
-                      icon: check(),
-                      onPressed: () async {
-                        await Provider.of<ItemController>(context,
-                                listen: false)
-                            .modifyFavorite(widget.item.id, isFavorite);
-                      },
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.all(5),
-              child: Column(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: <Widget>[
+              Stack(
                 children: [
-                  Text(
-                    widget.item.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w200,
-                      fontSize: 20.0,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
                     ),
-                    textDirection: TextDirection.rtl,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    child: Image.network(
+                      widget.item.images[0],
+                      fit: BoxFit.cover,
+                      //height: 225,
+                      height: (sizee*0.6)*0.6,
+                      width: double.infinity,
+                    ),
                   ),
-                  Text(
-                    widget.item.description,
-                    style: TextStyle(fontWeight: FontWeight.w300),
-                    textDirection: TextDirection.rtl,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.location_on,
-                        color: Colors.red,
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35.0),
                       ),
-                      Text(
-                        widget.item.location[0],
-                        textDirection: TextDirection.rtl,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      color: Colors.black26,
+                      child: IconButton(
+                        icon: check(),
+                        onPressed: () async {
+                          await Provider.of<ItemController>(context,
+                                  listen: false)
+                              .modifyFavorite(widget.item.id, isFavorite);
+                        },
                       ),
-                    ],
+                    ),
                   )
                 ],
               ),
-            )
-          ],
+              Container(
+                height: ((sizee*0.6)*0.35),
+                padding: EdgeInsets.all(5),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.item.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: (((sizee*0.6)*0.35)*0.11),
+                      ),
+                      textDirection: TextDirection.rtl,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      widget.item.description,
+                      style: TextStyle(fontWeight: FontWeight.w300,
+                      fontSize: (((sizee*0.6)*0.35)*0.1),
+                      ),
+                      textDirection: TextDirection.rtl,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      
+                      children: <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                        ),
+                        Text(
+                          widget.item.location[0],
+                          textDirection: TextDirection.rtl,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style:TextStyle(fontSize: (((sizee*0.6)*0.35)*0.1),fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
