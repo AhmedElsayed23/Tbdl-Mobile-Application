@@ -5,6 +5,7 @@ import 'package:gp_version_01/Controller/offerController.dart';
 import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/models/item.dart';
+import 'package:gp_version_01/widgets/Grid.dart';
 import 'package:gp_version_01/widgets/product_Item.dart';
 import 'package:provider/provider.dart';
 
@@ -29,10 +30,12 @@ class _OfferingItemsScreenState extends State<OfferingItemsScreen> {
     if (check) {
       Provider.of<ItemController>(context, listen: false).getUserItems();
       userItems = Provider.of<ItemController>(context, listen: false).userItems;
-      offeringItemsId = Provider.of<ItemOffersController>(context,listen: false)
-          .getOfferingItems(userItems);
-      offeringItems =
-          Provider.of<ItemController>(context, listen: false).getItemsByIds(offeringItemsId);
+      offeringItemsId =
+          Provider.of<ItemOffersController>(context, listen: false)
+              .getOfferingItems(userItems);
+      offeringItems = Provider.of<ItemController>(context, listen: false)
+          .getItemsByIds(offeringItemsId);
+      setState(() {});
     }
     check = false;
     super.didChangeDependencies();
@@ -52,41 +55,28 @@ class _OfferingItemsScreenState extends State<OfferingItemsScreen> {
         return true;
       },
       child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TabsScreen(
-                              pageIndex: 2,
-                            )));
-              },
-            ),
-            title: Text(
-              "المنتجات التى قدمت لها عروض",
-              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TabsScreen(
+                            pageIndex: 2,
+                          )));
+            },
           ),
-          body: StaggeredGridView.countBuilder(
-            crossAxisCount: 4,
-            itemCount: offeringItems.length,
-            itemBuilder: (BuildContext context, int index) => InkWell(
-              onTap: () =>
-                  Navigator.pushNamed(context, Details.route, arguments: [
-                offeringItems[index],
-                true,
-              ]),
-              child: ProductItem(item: offeringItems[index]),
-            ),
-            staggeredTileBuilder: (int index) => StaggeredTile.count(
-                2, MediaQuery.of(context).size.aspectRatio * 8),
-          )),
+          title: Text(
+            "المنتجات التى قدمت لها عروض",
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+          ),
+        ),
+        body: Grid(
+          items: offeringItems,
+        ),
+      ),
     );
   }
 }
