@@ -26,15 +26,17 @@ class _ProductItemState extends State<ProductItem> {
       return Icon(Icons.favorite_border, color: Colors.white);
     } else {
       isFavorite = false;
+      print("ttttttttttttttttttttttttttttttt");
       return Icon(Icons.favorite, color: Colors.red);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final sizee=MediaQuery.of(context).size.height-MediaQuery.of(context).size.height*0.24;
+    final sizee = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).size.height * 0.24;
     return SizedBox(
-      height: sizee*0.6,
+      height: sizee * 0.6,
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(
@@ -57,7 +59,7 @@ class _ProductItemState extends State<ProductItem> {
                       widget.item.images[0],
                       fit: BoxFit.cover,
                       //height: 225,
-                      height: (sizee*0.6)*0.6,
+                      height: (sizee * 0.6) * 0.6,
                       width: double.infinity,
                     ),
                   ),
@@ -74,7 +76,10 @@ class _ProductItemState extends State<ProductItem> {
                         onPressed: () async {
                           await Provider.of<ItemController>(context,
                                   listen: false)
-                              .modifyFavorite(widget.item.id, isFavorite);
+                              .modifyFavorite(widget.item.id, isFavorite)
+                              .then((value) {
+                            setState(() {});
+                          });
                         },
                       ),
                     ),
@@ -82,7 +87,7 @@ class _ProductItemState extends State<ProductItem> {
                 ],
               ),
               Container(
-                height: ((sizee*0.6)*0.35),
+                height: ((sizee * 0.6) * 0.35),
                 padding: EdgeInsets.all(5),
                 child: Column(
                   children: [
@@ -90,7 +95,7 @@ class _ProductItemState extends State<ProductItem> {
                       widget.item.title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: (((sizee*0.6)*0.35)*0.11),
+                        fontSize: (((sizee * 0.6) * 0.35) * 0.11),
                       ),
                       textDirection: TextDirection.rtl,
                       maxLines: 1,
@@ -98,8 +103,9 @@ class _ProductItemState extends State<ProductItem> {
                     ),
                     Text(
                       widget.item.description,
-                      style: TextStyle(fontWeight: FontWeight.w300,
-                      fontSize: (((sizee*0.6)*0.35)*0.1),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: (((sizee * 0.6) * 0.35) * 0.1),
                       ),
                       textDirection: TextDirection.rtl,
                       maxLines: 2,
@@ -108,7 +114,6 @@ class _ProductItemState extends State<ProductItem> {
                     Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      
                       children: <Widget>[
                         Icon(
                           Icons.location_on,
@@ -119,7 +124,9 @@ class _ProductItemState extends State<ProductItem> {
                           textDirection: TextDirection.rtl,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style:TextStyle(fontSize: (((sizee*0.6)*0.35)*0.1),fontWeight: FontWeight.w300),
+                          style: TextStyle(
+                              fontSize: (((sizee * 0.6) * 0.35) * 0.1),
+                              fontWeight: FontWeight.w300),
                         ),
                       ],
                     )

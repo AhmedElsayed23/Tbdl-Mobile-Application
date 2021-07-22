@@ -10,12 +10,12 @@ import 'product_Item.dart';
 
 // ignore: must_be_immutable
 class Grid extends StatelessWidget {
-  
   List<Item> items;
   Grid({this.items});
   @override
   Widget build(BuildContext context) {
-    final sizee=MediaQuery.of(context).size.height-MediaQuery.of(context).size.height*0.24;
+    final sizee = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).size.height * 0.24;
     return StaggeredGridView.countBuilder(
       crossAxisCount: 4,
       itemCount: items.length,
@@ -37,7 +37,6 @@ class Grid extends StatelessWidget {
         },
         child: ProductItem(item: items[index]),
       ),
-
       staggeredTileBuilder: (int index) =>
           //StaggeredTile.count(2,index.isOdd?2:1 ),
           new StaggeredTile.fit(2),

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 
 class UserModel {
   String name;
@@ -6,6 +7,7 @@ class UserModel {
   List<String> location;
   int banScore;
   List<String> favCategory;
+  String password;
   UserModel({
     this.location,
     this.id,
@@ -13,5 +15,6 @@ class UserModel {
     this.favCategory,
     this.name,
     this.phone,
+    this.password,
   });
 }

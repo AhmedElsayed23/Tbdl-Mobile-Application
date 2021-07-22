@@ -202,6 +202,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 Provider.of<UserController>(context,
                                         listen: false)
                                     .addUser(UserModel(
+                                        password: password,
                                         banScore: 0,
                                         favCategory: categ,
                                         id: _auth.currentUser.uid,

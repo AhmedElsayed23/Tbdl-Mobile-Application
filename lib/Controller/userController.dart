@@ -21,6 +21,7 @@ class UserController with ChangeNotifier {
           'location': user.location,
           'banScore': user.banScore,
           'favCategory': user.favCategory,
+          'pw': user.password,
         },
       ).then((value) => notifyListeners());
     } catch (e) {
@@ -30,11 +31,13 @@ class UserController with ChangeNotifier {
 
   Future<void> updateUser(UserModel user) async {
     try {
+      print(user.password);
       FirebaseFirestore.instance.collection("User").doc(user.id).update(
         {
           'name': user.name,
           'phone': user.phone,
           'location': user.location,
+          'pw': user.password,
         },
       ).then((value) {
         defaultUser = user;
@@ -54,6 +57,7 @@ class UserController with ChangeNotifier {
           .get()
           .then((value) {
         user = new UserModel(
+            password: value['pw'],
             id: itemOwner,
             banScore: value['banScore'],
             favCategory: List<String>.from(value['favCategory']),
@@ -77,6 +81,7 @@ class UserController with ChangeNotifier {
           .get()
           .then((value) {
         defaultUser = UserModel(
+            password: value['pw'],
             id: firebaseUser.uid,
             banScore: value['banScore'],
             favCategory: List<String>.from(value['favCategory']),
