@@ -18,6 +18,7 @@ class TextFieldSearch extends StatefulWidget {
 class _TextFieldSearchState extends State<TextFieldSearch> {
   AutoCompleteTextField searchTextField;
   String searchedName;
+  GlobalKey key = new GlobalKey<AutoCompleteTextFieldState>();
 
   static List categories = [
     "موبايلات",
@@ -55,7 +56,7 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey key = new GlobalKey<AutoCompleteTextFieldState>();
+    
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     if (!widget._inSearchResultsScreen) {
@@ -81,7 +82,7 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
             filled: true,
           ),
           onFocusChanged: (_) {},
-          clearOnSubmit: false,
+          clearOnSubmit: true,
           submitOnSuggestionTap: true,
           suggestionsAmount: 10,
           key: key,
@@ -132,35 +133,4 @@ class _TextFieldSearchState extends State<TextFieldSearch> {
       ),
     );
   }
-//   Column(
-//                     mainAxisSize: MainAxisSize.min,
-//                     children: filteredSearchHistory
-//                         .map(
-//                           (term) => ListTile(
-//                             title: Text(
-//                               term,
-//                               maxLines: 1,
-//                               overflow: TextOverflow.ellipsis,
-//                             ),
-//                             leading: const Icon(Icons.history),
-//                             trailing: IconButton(
-//                               icon: const Icon(Icons.clear),
-//                               onPressed: () {
-//                                 setState(() {
-//                                   deleteSearchTerm(term);
-//                                 });
-//                               },
-//                             ),
-//                             onTap: () {
-//                               setState(() {
-//                                 putSearchTermFirst(term);
-//                                 selectedTerm = term;
-//                               });
-//                               controller.close();
-//                             },
-//                           ),
-//                         )
-//                         .toList(),
-//                   );
-// }
 }

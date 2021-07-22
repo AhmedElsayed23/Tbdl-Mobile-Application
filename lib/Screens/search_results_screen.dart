@@ -43,33 +43,45 @@ class _SearchResultsState extends State<SearchResults> {
     searchKeyWord.toLowerCase();
     List<Item> items = args[1];
     _filterItems(items, searchKeyWord);
-    return Scaffold(
-      endDrawer: DrawerItem(
-        name: Provider.of<UserController>(context, listen: false)
-            .defaultUser
-            .name,
-        email: FirebaseAuth.instance.currentUser.email,
-      ),
-      appBar: AppBar(
-        title: TextFieldSearch(items, true),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TabsScreen(
+                      pageIndex: 2,
+                    )));
+        return true;
+      },
+          child: Scaffold(
+        endDrawer: DrawerItem(
+          name: Provider.of<UserController>(context, listen: false)
+              .defaultUser
+              .name,
+          email: FirebaseAuth.instance.currentUser.email,
         ),
-        toolbarHeight: queryData.size.height * 0.15,
-        leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TabsScreen(
-                              pageIndex: 2,
-                            )));
-              },
-            ),
+        appBar: AppBar(
+          title: TextFieldSearch(items, true),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          toolbarHeight: queryData.size.height * 0.15,
+          leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TabsScreen(
+                                pageIndex: 2,
+                              )));
+                },
+              ),
+        ),
+        body: Grid(items: _filteredItems),
       ),
-      body: Grid(items: _filteredItems),
     );
   }
 }
