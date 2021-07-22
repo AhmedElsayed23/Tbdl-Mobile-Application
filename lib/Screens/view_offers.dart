@@ -68,8 +68,8 @@ class _ViewOfferScreenState extends State<ViewOfferScreen> {
                 ),
               ),
 
-              staggeredTileBuilder: (int index) => StaggeredTile.count(
-                  2, MediaQuery.of(context).size.aspectRatio * 7.5),
+              staggeredTileBuilder: (int index) => StaggeredTile.fit(
+                  2),
               //mainAxisSpacing: 5,
               //crossAxisSpacing: 5,
             ),

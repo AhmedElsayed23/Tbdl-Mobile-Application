@@ -205,8 +205,8 @@ class ItemController with ChangeNotifier {
       item.images = await ItemController()
           .uploadImageToFirebase(item.imageFiles, item.directory);
     }
-    print("////////////////////////////////////////////////////////////");
-    print(item.properties);
+    // print("////////////////////////////////////////////////////////////");
+    // print(item.properties);
     firestoreInstance.collection("Items").doc(item.id).update(
       {
         'title': item.title,
@@ -255,9 +255,9 @@ class ItemController with ChangeNotifier {
 
   List<Item> getItemsByIds(List<String> offersIds) {
     List<Item> tempItems = [];
-    print(offersIds.length);
+    //print(offersIds.length);
     for (int i = 0; i < offersIds.length; i++) {
-      print(items.length);
+      //print(items.length);
       for (var item in items) {
         if (item.id == offersIds[i]) {
           tempItems.add(item);

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gp_version_01/Controller/itemController.dart';
 import 'package:gp_version_01/Controller/offerController.dart';
-import 'package:gp_version_01/Screens/details_screen.dart';
 import 'package:gp_version_01/Screens/tabs_Screen.dart';
 import 'package:gp_version_01/models/item.dart';
 import 'package:gp_version_01/widgets/Grid.dart';
-import 'package:gp_version_01/widgets/product_Item.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -71,6 +68,8 @@ class _OfferingItemsScreenState extends State<OfferingItemsScreen> {
           title: Text(
             "المنتجات التى قدمت لها عروض",
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         body: Grid(

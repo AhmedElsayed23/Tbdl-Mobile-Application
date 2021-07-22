@@ -58,10 +58,10 @@ class _MakeOfferState extends State<MakeOffer> {
           ),
         ),
 
-        staggeredTileBuilder: (int index) => StaggeredTile.count(
-            2, MediaQuery.of(context).size.aspectRatio * 7.5),
-        //mainAxisSpacing: 5,
-        //crossAxisSpacing: 5,
+        staggeredTileBuilder: (int index) => StaggeredTile.fit(
+            2,),
+        mainAxisSpacing: 4,
+        crossAxisSpacing: 4,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(

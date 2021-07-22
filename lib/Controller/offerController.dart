@@ -82,7 +82,6 @@ class ItemOffersController with ChangeNotifier {
       for (var item in upComingItems) {
         if (item.itemOwner == FirebaseAuth.instance.currentUser.uid) {
           check = true;
-          print(check);
         }
       }
       if (check == false) {
