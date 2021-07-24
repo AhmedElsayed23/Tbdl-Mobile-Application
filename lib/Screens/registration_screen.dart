@@ -136,6 +136,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         height: 8.0,
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'من فضلك ادخل رقم الهاتف';
@@ -186,48 +187,58 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           if (!isValid) return;
 
                           formKey.currentState.save();
-                          try {
-                            await _auth
-                                .createUserWithEmailAndPassword(
-                                    email: email, password: password)
-                                .then((newUser) {
-                              if (newUser != null) {
-                                setState(() {
-                                  showSpinner = true;
-                                });
-                                List<String> categ = [];
-                                categories.forEach((key, value) {
-                                  if (value) categ.add(key);
-                                });
-                                Provider.of<UserController>(context,
-                                        listen: false)
-                                    .addUser(UserModel(
-                                        password: password,
-                                        banScore: 0,
-                                        favCategory: categ,
-                                        id: _auth.currentUser.uid,
-                                        location: location,
-                                        name: name,
-                                        phone: phone))
-                                    .then((_) {
-                                  List<Item> items =
-                                      Provider.of<ItemController>(context,
-                                              listen: false)
-                                          .items;
-                                  Provider.of<ModelController>(context,
+                          List<String> categ = [];
+                          categories.forEach((key, value) {
+                            if (value) categ.add(key);
+                          });
+                          if (categ.length == 0) {
+                            showErrorMessage(
+                                "يجب أن تختار فئة واحدة على الاقل");
+                          } else {
+                            try {
+                              await _auth
+                                  .createUserWithEmailAndPassword(
+                                      email: email, password: password)
+                                  .then((newUser) {
+                                if (newUser != null) {
+                                  setState(() {
+                                    showSpinner = true;
+                                  });
+
+                                  Provider.of<UserController>(context,
                                           listen: false)
-                                      .addUserInModel(items, categ);
-                                  Navigator.pushReplacementNamed(
-                                      context, LoginScreen.route);
+                                      .addUser(UserModel(
+                                          password: password,
+                                          banScore: 0,
+                                          favCategory: categ,
+                                          id: _auth.currentUser.uid,
+                                          location: location,
+                                          name: name,
+                                          phone: phone))
+                                      .then((_) {
+                                    List<Item> items =
+                                        Provider.of<ItemController>(context,
+                                                listen: false)
+                                            .items;
+                                    Provider.of<ModelController>(context,
+                                            listen: false)
+                                        .addUserInModel(items, categ);
+                                    Navigator.pushReplacementNamed(
+                                        context, LoginScreen.route);
+                                  });
+                                }
+                                setState(() {
+                                  showSpinner = false;
                                 });
-                              }
-                              setState(() {
-                                showSpinner = false;
                               });
-                            });
-                          } catch (e) {
-                            if (e.code == 'email-already-in-use') {
-                              showErrorMessage('المستخدم موجود');
+                            } catch (e) {
+                              if (e.code == 'email-already-in-use') {
+                                showErrorMessage('المستخدم موجود');
+                              } else if (e.code == 'invalid-email') {
+                                showErrorMessage('الحساب غير صحيح');
+                              } else {
+                                showErrorMessage('هناك خطأ ما');
+                              }
                             }
                           }
                         },

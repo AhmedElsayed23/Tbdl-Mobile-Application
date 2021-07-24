@@ -154,6 +154,7 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                           height: 8.0,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.number,
                           initialValue: user.phone,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -260,6 +261,10 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                             } catch (e) {
                               if (e.code == 'email-already-in-use') {
                                 showErrorMessage('المستخدم موجود');
+                              } else if (e.code == 'invalid-email') {
+                                showErrorMessage('الحساب غير صحيح');
+                              } else {
+                                showErrorMessage('هناك خطأ ما');
                               }
                             }
                           },
