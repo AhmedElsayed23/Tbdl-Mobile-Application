@@ -207,7 +207,7 @@ class _ChatsUsersScreenState extends State<ChatsUsersScreen> {
         appBar: AppBar(
           leading: null,
           title: Text(
-            "المحدثات",
+            "المحادثات",
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
           ),
         ),
