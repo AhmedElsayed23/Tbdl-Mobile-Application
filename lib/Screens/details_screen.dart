@@ -168,7 +168,7 @@ class _DetailsState extends State<Details> {
     item = args[0];
     isOffer = args[1];
     Provider.of<ModelController>(context, listen: false)
-        .updateScore(5, item.id);
+        .updateScore(1, item.id);
     return Scaffold(
         backgroundColor: Colors.white,
         body: CustomScrollView(

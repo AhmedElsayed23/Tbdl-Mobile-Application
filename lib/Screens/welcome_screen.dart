@@ -82,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 .getNotifications();
             print(
                 '-------------------------------------------------------------------------');
-            Provider.of<ChatController>(context, listen: false).getUserConv();
+            //Provider.of<ChatController>(context, listen: false).getUserConv();
             Provider.of<UserController>(context, listen: false).getUser();
             Provider.of<ItemController>(context, listen: false).getItems();
             Provider.of<ItemOffersController>(context, listen: false)

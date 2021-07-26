@@ -121,8 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     listen: false)
                                 .getNotifications();
                                 print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                            Provider.of<ChatController>(context, listen: false)
-                                .getUserConv();
+                            //Provider.of<ChatController>(context, listen: false).getUserConv();
                             Provider.of<UserController>(context, listen: false)
                                 .getUser();
                             Provider.of<ItemOffersController>(context,
