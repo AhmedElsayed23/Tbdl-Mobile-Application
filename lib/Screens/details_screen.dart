@@ -415,98 +415,96 @@ class _DetailsState extends State<Details> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           color: Colors.white,
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: FloatingActionButton.extended(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        heroTag: "left",
-                        backgroundColor: Colors.blue[400],
-                        onPressed: () {
-                          isOffer
-                              ? Navigator.pushNamed(context, MakeOffer.route,
-                                  arguments: item)
-                              : showAlertDialog(context);
-                        },
-                        label: isOffer
-                            ? Text(
-                                "قدم عرض",
-                                style: TextStyle(color: Colors.white),
-                              )
-                            : Text(
-                                "رفض او قبول",
-                                style: TextStyle(color: Colors.white),
-                              )),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                  child: FloatingActionButton(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
+                  Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 120,
+                height: 40,
+                child: FloatingActionButton.extended(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    heroTag: "middle",
-                    backgroundColor: Colors.blue[100],
-                    onPressed: () async {
-                      launch(
-                          ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
+                    heroTag: "left",
+                    backgroundColor: Colors.blue[400],
+                    onPressed: () {
+                      isOffer
+                          ? Navigator.pushNamed(context, MakeOffer.route,
+                              arguments: item)
+                          : showAlertDialog(context);
                     },
-                    child: Icon(
-                      Icons.phone,
-                      color: Colors.blue[400],
-                    ),
-                  ),
+                    label: isOffer
+                        ? Text(
+                            "قدم عرض",
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : Text(
+                            "رفض او قبول",
+                            style: TextStyle(color: Colors.white),
+                          )),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: FloatingActionButton.extended(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      heroTag: 'right',
-                      backgroundColor: Colors.blue[400],
-                      onPressed: () async {
+                heroTag: "middle",
+                backgroundColor: Colors.blue[100],
+                onPressed: () async {
+                  launch(
+                      ('tel://${Provider.of<UserController>(context, listen: false).otherUserPhone}'));
+                },
+                child: Icon(
+                  Icons.phone,
+                  color: Colors.blue[400],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 120,
+                height: 40,
+                child: FloatingActionButton.extended(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  heroTag: 'right',
+                  backgroundColor: Colors.blue[400],
+                  onPressed: () async {
+                    await Provider.of<ChatController>(context, listen: false)
+                        .getUserChat(item.itemOwner)
+                        .then((value) async {
+                      await Provider.of<UserController>(context, listen: false)
+                          .getDetailsOfOtherUser(item.itemOwner)
+                          .then((value) async {
                         await Provider.of<ChatController>(context,
                                 listen: false)
-                            .getUserChat(item.itemOwner)
-                            .then((value) async {
-                          await Provider.of<UserController>(context,
-                                  listen: false)
-                              .getDetailsOfOtherUser(item.itemOwner)
-                              .then((value) async {
-                            await Provider.of<ChatController>(context,
-                                    listen: false)
-                                .getDocId(
-                                    FirebaseAuth.instance.currentUser.uid +
-                                        "_" +
-                                        item.itemOwner,
-                                    item.itemOwner +
-                                        "_" +
-                                        FirebaseAuth.instance.currentUser.uid)
-                                .then((_) => Navigator.pushNamed(
-                                    context, ChatDetailPage.route,
-                                    arguments: {'flag': false,'comeFrom':true}));
-                          });
-                        });
-                      },
-                      label: Text(
-                        "راسله",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                            .getDocId(
+                                FirebaseAuth.instance.currentUser.uid +
+                                    "_" +
+                                    item.itemOwner,
+                                item.itemOwner +
+                                    "_" +
+                                    FirebaseAuth.instance.currentUser.uid)
+                            .then((_) => Navigator.pushNamed(
+                                context, ChatDetailPage.route,
+                                arguments: {'flag': false, 'comeFrom': true}));
+                      });
+                    });
+                  },
+                  label: Text(
+                    "راسله",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-              ]),
+              ),
+            ),
+          ]),
         ));
   }
 }

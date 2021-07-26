@@ -379,7 +379,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     print(imagesFiles.length);
     if (imagesFiles.length == 0 && !updateOrAdd) {
       showErrorMessage(context);
-    }else if((condition==null || isFree==null)&&!updateOrAdd){
+    }else if((condition==null || isFree==null)){
       showErrorMessageInCondition(context);
     } else {
       setState(() {
