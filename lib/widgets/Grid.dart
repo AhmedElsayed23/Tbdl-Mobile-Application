@@ -14,8 +14,6 @@ class Grid extends StatelessWidget {
   Grid({this.items});
   @override
   Widget build(BuildContext context) {
-    final sizee = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).size.height * 0.24;
     return StaggeredGridView.countBuilder(
       crossAxisCount: 4,
       itemCount: items.length,
